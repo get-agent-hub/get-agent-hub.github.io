@@ -49,6 +49,8 @@ The initial npm audit reported five moderate entries in one ESLint → minimatch
 
 ## Deployment
 
-The Site starts private. Sites publication validates and builds the project, pushes the exact source commit through the source workflow, packages the artifact and deploys the saved version. Pass write credentials through stdin only; never put tokens in this repository. Audience and domain configuration are separate from building the guide.
+Deployment is maintainer-managed and deferred. Build with `npm run build` and serve `dist/` on the hosting platform chosen by the maintainers. Do not deploy to GPT/Sites, push to its hosting repository or publish elsewhere without an explicit user request.
+
+The existing `.openai/hosting.json` records a previously created private preview; it does not authorize further publication. CI validates the repository only and has no deployment job. Never store hosting credentials in this repository.
 
 License: MIT. The Agent Hub source download includes its own MIT license.
