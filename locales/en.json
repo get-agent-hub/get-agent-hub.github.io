@@ -1,0 +1,500 @@
+{
+  "commands": [
+    {
+      "id": "status",
+      "name": "status",
+      "group": "Inspect",
+      "badge": "Read only",
+      "title": "Understand the current setup",
+      "description": "Read local configuration to list clients, MCP servers and differences between Hub and client settings. Does not connect to MCP or check service health.",
+      "command": "node dist/cli.js status",
+      "reads": "Hub registry and available client configs.",
+      "writes": "Nothing.",
+      "result": "Inventory and configuration drift. Add --json for scripting.",
+      "detail": "Matching settings do not prove a server works. Use doctor to check MCP connectivity and a separate check for the external service."
+    },
+    {
+      "id": "init",
+      "name": "init",
+      "group": "Prepare",
+      "badge": "Writes files",
+      "title": "Prepare a local Hub",
+      "description": "Create or extend the Hub structure, hub.yaml, .env and .gitignore. Configure client paths and record the original state before a managed write.",
+      "command": "node dist/cli.js init --yes --no-git",
+      "reads": "The existing Hub and detected client paths.",
+      "writes": "Hub files, permissions and the recovery baseline. Does not sync client MCP configs.",
+      "result": "A prepared local structure. --no-git skips local Git setup; plain init asks questions.",
+      "detail": "Without --no-git, init can create local Git history. It commits only hub.yaml and .gitignore, keeping credentials and unrelated staged work out. --remote accepts your chosen URL; it does not introduce automatic cloud synchronization."
+    },
+    {
+      "id": "import",
+      "name": "import",
+      "group": "Collect",
+      "badge": "Preview → write",
+      "title": "Collect existing MCP definitions into Hub",
+      "description": "Read client settings, choose a source for each server and collect definitions in the registry. Move credentials into .env and keep variable references in definitions.",
+      "command": "node dist/cli.js import mcp --dry-run",
+      "reads": "Client MCP configs, Hub registry and variables.",
+      "writes": "With --dry-run: nothing. Without it: registry, .env and private provenance. Client configs stay unchanged.",
+      "result": "A source and change plan with known secrets redacted. After review: node dist/cli.js import mcp.",
+      "detail": "Select mcp:name, choose source priority with --prefer or explicitly allow --overwrite. Existing entries are skipped by default. Writes use a lock, input checks and compensating rollback on failure. Import does not automatically create a Git commit."
+    },
+    {
+      "id": "sync",
+      "name": "sync",
+      "group": "Deliver",
+      "badge": "Preview by default",
+      "title": "Deliver MCP settings from Hub to clients",
+      "description": "Compare the registry with client files and build a plan. After explicit application, clients start MCP servers through the shared Hub launcher.",
+      "command": "node dist/cli.js sync --client codex --dry-run",
+      "reads": "Registry, .env, selected client configs and ownership state.",
+      "writes": "Only with --apply: client MCP configs, a backup and ownership state.",
+      "result": "Additions, removals, conflicts, affected files and an exact apply command containing a revision. Copy it from your own fresh plan.",
+      "detail": "Unrelated entries and settings are preserved. Only previously managed entries without local changes can be removed. Codex tool policies are preserved; application-managed node_repl is skipped. Skills, instructions and memory are not delivered yet. Restart affected clients after applying."
+    },
+    {
+      "id": "replace",
+      "name": "sync --replace",
+      "group": "Conflicts",
+      "badge": "Explicit permission",
+      "title": "Replace a selected conflicting definition",
+      "description": "A normal sync stops when an existing MCP differs from Hub. Explicitly authorize replacement of a named entry for one client, then review the entire plan.",
+      "command": "node dist/cli.js sync --client dsh --replace=docs-search --dry-run",
+      "reads": "Sync inputs and the explicitly allowed replacement names.",
+      "writes": "Preview writes nothing. Apply requires the exact --expect from the reviewed plan.",
+      "result": "The complete plan for the selected client, including the permitted replacement.",
+      "detail": "--replace does not restrict the entire sync to those names: other additions and removals within scope remain in the plan. Exactly one --client is required. Unknown fields, missing env, other conflicts and path protections can still block application."
+    },
+    {
+      "id": "doctor",
+      "name": "doctor",
+      "group": "Check",
+      "badge": "Starts real MCP",
+      "title": "Check initialization and tool discovery",
+      "description": "Start a real MCP server, initialize the connection and read every page of tools/list. Does not call tools. Save the result locally.",
+      "command": "node dist/cli.js doctor --timeout 20",
+      "reads": "Definitions, .env and the selected client scope.",
+      "writes": "state/doctor.json; starts processes or connects to an MCP endpoint.",
+      "result": "Protocol status, tool count and a redacted error classification. Check one server name or add --client and --json.",
+      "detail": "Two concurrent probes; timeout is 0.1–120 seconds, default 20. Ctrl+C or Cancel stops checks. Servers with no tools can still initialize successfully. API credentials and business operations are not verified unless initialization itself checks them. Registry or .env changes make cached results stale."
+    },
+    {
+      "id": "health",
+      "name": "Backend readiness",
+      "group": "Check",
+      "badge": "Optional",
+      "title": "Separate MCP connectivity from backend health",
+      "description": "An MCP process can work while n8n or another backend is switched off. Optional readiness checks show a warning separately from MCP protocol status.",
+      "command": "node dist/cli.js doctor docs-search",
+      "reads": "Optional health: { name, url } in the server definition.",
+      "writes": "Doctor report; makes an unauthenticated HTTP GET.",
+      "result": "200: ready. 5xx or unreachable: warning. 401/403/404 or a redirect: unknown.",
+      "detail": "Up to three seconds, no redirects or API credentials; query and fragment are removed from the readiness URL. There is an isolated n8n preset using N8N_API_URL. Hub does not restart a cluster, repair npm cache or automatically disable MCP."
+    },
+    {
+      "id": "restore",
+      "name": "restore",
+      "group": "Recover",
+      "badge": "Preview by default",
+      "title": "Undo one sync",
+      "description": "Restore configs from the backup of a particular sync. Use this to reverse a specific recent operation.",
+      "command": "node dist/cli.js restore <backup-id> --dry-run",
+      "template": true,
+      "reads": "The selected backup, current client files and ownership state.",
+      "writes": "Only with the exact apply command from the preview.",
+      "result": "A plan to restore files from one sync. <backup-id> is a placeholder: use the real ID from the sync result.",
+      "detail": "If files or ownership state changed after the backup, restoration is blocked. A previous backup may no longer apply after a later sync. Restart affected clients after applying."
+    },
+    {
+      "id": "reset",
+      "name": "reset",
+      "group": "Recover",
+      "badge": "Preview by default",
+      "title": "Return to the first recorded state",
+      "description": "Restore Hub and recorded client configs to their recovery baseline. Archive the current state first so newer data is retained.",
+      "command": "node dist/cli.js reset --dry-run",
+      "reads": "The external baseline, current Hub and recorded client paths.",
+      "writes": "Only with --apply --expect from a fresh plan: archive current state and restore the original.",
+      "result": "A full-return plan. If Hub originally did not exist, return its path to absence. Otherwise restore the existing-Hub checkpoint.",
+      "detail": "Reset refuses without a baseline. Dry runs never create one. External edits block restoration; --archive-changes --dry-run offers to retain current files before restoring originals in full. This is not a merge. Repointed symlinks remain blocked. --recover-lock only handles a provably dead lock. Reset does not uninstall the CLI, clear npm cache or undo external service operations."
+    },
+    {
+      "id": "mcp",
+      "name": "mcp ls / run",
+      "group": "Launch",
+      "badge": "Shared launcher",
+      "title": "Inspect the registry and start an MCP server",
+      "description": "mcp ls lists definitions. mcp run reads a definition and credentials from Hub, then starts that server. After sync, the client normally calls this launcher.",
+      "command": "node dist/cli.js mcp ls --json",
+      "reads": "mcp/servers.yaml; also .env when starting a server.",
+      "writes": "Listing writes nothing. mcp run starts a process or transport bridge.",
+      "result": "A common launch path: client config stores Node, Hub CLI, an MCP name and AGENT_HUB_HOME instead of token copies.",
+      "detail": "STDIO starts directly; HTTP/SSE uses mcp-remote@0.15.2. Proxy environment variables are forwarded when server.proxy is enabled. Keep Hub accessible at its configured location. mcp add/rm are stubs."
+    },
+    {
+      "id": "ui",
+      "name": "ui",
+      "group": "Interface",
+      "badge": "Local server",
+      "title": "Use the local interface",
+      "description": "Inspect files, MCP servers, differences and plans. Run import, sync and doctor against real local data.",
+      "command": "node dist/cli.js ui --no-open",
+      "reads": "Local Hub, client configs and the current repository.",
+      "writes": "Pages read data; Apply and Doctor perform their corresponding real operations.",
+      "result": "http://127.0.0.1:3082 by default. --port 0 chooses a free port; omit --no-open to open the browser automatically.",
+      "detail": "Loopback binding, Host/Origin checks and a write token protect the interface. Raw .env is not served. UI previews are single-use, expire after five minutes and reject changed inputs. Skills and Markdown support inspection; Sessions and several CLI commands still represent planned behavior."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "clean",
+      "label": "First sync",
+      "command": "sync --client codex --dry-run",
+      "title": "Plan ready. No files changed yet.",
+      "lines": [
+        "READ  hub/mcp/servers.yaml",
+        "READ  codex/config.toml",
+        "+ ADD docs-search → Hub launcher",
+        "+ ADD task-board  → Hub launcher",
+        "PLAN  2 additions · 0 conflicts · 0 writes"
+      ],
+      "explanation": "Two fictional MCP servers are missing from Codex. A real preview prints an apply command with the current revision. Applying creates a backup and edits config.toml. Restart Codex afterwards."
+    },
+    {
+      "id": "conflict",
+      "label": "A conflict",
+      "command": "sync --client dsh --dry-run",
+      "title": "Choose which definition to keep.",
+      "lines": [
+        "READ  dsh/profile/cordis.patch.yml",
+        "! CONFLICT docs-search: existing command differs",
+        "BLOCK apply: replacement was not authorized",
+        "WRITE 0 files"
+      ],
+      "explanation": "Hub does not silently overwrite a different definition. Inspect the existing command. To use Hub's version, create a fresh preview with --client dsh --replace=docs-search and review the entire plan."
+    },
+    {
+      "id": "offline",
+      "label": "Backend offline",
+      "command": "doctor docs-search",
+      "title": "MCP works. The external backend is unavailable.",
+      "lines": [
+        "MCP   initialize OK",
+        "MCP   tools/list OK · 6 demo tools",
+        "HTTP  backend readiness: connection refused",
+        "WARN  backend unavailable",
+        "KEEP  MCP configuration unchanged"
+      ],
+      "explanation": "These are separate checks. Doctor does not call tools, so a successful handshake does not prove that a search or workflow will work. Check the backend separately. Hub does not restart the cluster."
+    },
+    {
+      "id": "stale",
+      "label": "Stale plan",
+      "command": "sync --apply --expect <reviewed-revision>",
+      "title": "Inputs changed. Application stopped.",
+      "lines": [
+        "CHECK current config against reviewed revision",
+        "! CHANGE client file edited after preview",
+        "BLOCK stale plan",
+        "WRITE 0 files",
+        "NEXT  run a fresh dry-run"
+      ],
+      "explanation": "The revision binds application to the inputs you reviewed. If Hub or a client file changes, get a fresh plan. Do not invent a revision or reuse an old confirmation."
+    },
+    {
+      "id": "reset",
+      "label": "Return to baseline",
+      "command": "reset --dry-run",
+      "title": "Back to baseline, starting with a preview.",
+      "lines": [
+        "READ  hub.recovery/baseline",
+        "PLAN  archive current Hub and changed client files",
+        "PLAN  restore original client configurations",
+        "PLAN  return Hub to first recorded state",
+        "WRITE 0 files"
+      ],
+      "explanation": "This example assumes a baseline exists and no external edits conflict. A real reset refuses without a baseline. Archives and baselines can contain credentials; they stay outside Hub and are not encrypted."
+    }
+  ],
+  "language": "en",
+  "meta": {
+    "title": "Agent Hub — one home for your AI agents",
+    "description": "Understand how Agent Hub manages MCP settings across Claude Code, Codex CLI and DeepSeek Harness. Explore the workflow, dry runs, every command and recovery."
+  },
+  "nav": {
+    "skip": "Skip to content",
+    "home": "Agent Hub — home",
+    "label": "Main navigation",
+    "how": "How it works",
+    "demo": "Dry run",
+    "features": "Features",
+    "recovery": "Recovery",
+    "start": "Get started"
+  },
+  "hero": {
+    "eyebrow": "Local. Transparent. Under your control.",
+    "title1": "Your agents.",
+    "title2": "Shared tools.",
+    "accent": "One Hub.",
+    "lead": "Bring MCP settings for Claude Code, Codex CLI and DeepSeek Harness into one place. See what will change. Apply when the plan makes sense.",
+    "primary": "Understand the workflow",
+    "secondary": "Try a dry run",
+    "step1": "01 / understand",
+    "step2": "02 / review",
+    "step3": "03 / apply",
+    "diagramLabel": "Claude Code, Codex CLI and DeepSeek Harness connect to one local Agent Hub",
+    "diagramCaption": "YOUR LOCAL SETUP",
+    "profile": "selected DSH profile",
+    "registry": "one local MCP registry",
+    "definitions": "definitions",
+    "secrets": "secret references",
+    "recovery": "recovery",
+    "note": "See the changes before anything is written.",
+    "figure": "FIG. 01",
+    "local": "LOCAL"
+  },
+  "band": {
+    "eyebrow": "CURRENT FOCUS",
+    "focus": "MCP configuration",
+    "scope": "What works today"
+  },
+  "overview": {
+    "eyebrow": "01 / THE BIG PICTURE",
+    "title1": "Configure once.",
+    "title2": "Understand every step.",
+    "intro": "Each agent has its own config. Hub collects definitions in a shared registry and helps deliver them back consistently. You decide when to write changes.",
+    "steps": [
+      {
+        "title": "Collect →",
+        "body": "Import: clients → Hub. Read existing MCP settings. Definitions go into the registry; credentials go into a local .env file.",
+        "note": "Client configs stay as they are during import."
+      },
+      {
+        "title": "Compare →",
+        "body": "Dry run: a plan only. See additions, removals, conflicts and the exact files that would be affected.",
+        "note": "Sync defaults to this preview mode."
+      },
+      {
+        "title": "Apply ↗",
+        "body": "Sync: Hub → clients. An explicit apply command writes changes and a backup. Clients then start MCP through the Hub launcher.",
+        "note": "Restart affected clients after applying."
+      }
+    ],
+    "glossaryTitle": "New to MCP? Start here.",
+    "glossary": "MCP is a protocol that lets an AI client connect to external tools and data, such as documentation search or a task board. An MCP server provides those capabilities; Claude, Codex or DSH uses them. Hub manages connection settings and startup. It does not replace models, conversations or external services."
+  },
+  "lab": {
+    "eyebrow": "02 / PREVIEW BEFORE APPLYING",
+    "title1": "No hidden steps.",
+    "accent": "See what happens.",
+    "intro": "Switch between common situations to see how Hub explains the outcome.",
+    "disclaimer": "Interactive illustration. All data is fictional. This site does not run commands or access your computer.",
+    "label": "Demonstration scenarios",
+    "terminalTitle": "agent-hub / demo",
+    "simulated": "SIMULATED",
+    "terminalNote": "Simulation · no real files affected"
+  },
+  "start": {
+    "eyebrow": "03 / FIRST RUN",
+    "title1": "Start by looking.",
+    "title2": "Then follow the plan.",
+    "intro": "The project is currently distributed as source code. You need Node.js ≥22.13 and npm. macOS and Linux are the target platforms; Windows is experimental.",
+    "download": "Download source · ZIP",
+    "release": "Source snapshot ad31113. No public npm release yet.",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Unpack and build",
+        "intro": "Open a terminal in the extracted agent-hub directory.",
+        "code": "npm ci\nnpm run build\nnode dist/cli.js status",
+        "note": "Dependency installation and build write inside the project directory. Status reads your settings."
+      },
+      {
+        "number": "2",
+        "title": "Create the Hub and preview import",
+        "intro": "",
+        "code": "node dist/cli.js init --yes --no-git\nnode dist/cli.js import mcp --dry-run",
+        "note": "Init writes the Hub structure and recovery baseline. Import with --dry-run only shows a plan."
+      },
+      {
+        "number": "3",
+        "title": "Collect definitions and review delivery",
+        "intro": "",
+        "code": "node dist/cli.js import mcp\nnode dist/cli.js sync --client codex --dry-run",
+        "note": "Import without --dry-run writes to Hub. To apply sync, copy the exact command from your own fresh plan, then restart the client. Other client IDs are claude-code and dsh."
+      },
+      {
+        "number": "↗",
+        "title": "Prefer an interface?",
+        "intro": "",
+        "code": "node dist/cli.js ui --no-open",
+        "note": "Open the printed local address; the default is 127.0.0.1:3082. Apply and Doctor in the local UI perform real operations."
+      }
+    ]
+  },
+  "commandsSection": {
+    "eyebrow": "04 / EVERY CAPABILITY",
+    "title1": "What the command does.",
+    "title2": "What you get back.",
+    "intro": "Choose an operation to see its direction, side effects, output and technical details.",
+    "label": "Agent Hub commands",
+    "noScript": "Command switching requires JavaScript. The workflow, getting started, scope and recovery remain readable below. The source download also includes the full CLI README."
+  },
+  "ui": {
+    "copy": "Copy",
+    "copyLabel": "Copy command: {name}",
+    "copied": "Command copied",
+    "copyFallback": "Select the command and copy it manually",
+    "reads": "READS",
+    "writes": "WRITES / STARTS",
+    "result": "What you get",
+    "details": "Technical details and limitations"
+  },
+  "files": {
+    "eyebrow": "05 / ON YOUR DISK",
+    "title1": "Your settings.",
+    "accent": "Ordinary files.",
+    "intro": "Hub lives in ~/.agent-hub. Set AGENT_HUB_HOME to use another directory. Client directories and the DSH profile can also be configured.",
+    "secret": "The registry keeps a reference such as ${DOCS_API_TOKEN}. Its value lives in the local .env file and is resolved when MCP starts.",
+    "detailTitle": "What does startup look like after sync?",
+    "detail": "The client stores a Node → Hub CLI → mcp run name invocation and AGENT_HUB_HOME instead of copied tokens. The launcher reads the registry and .env. STDIO servers start directly; HTTP/SSE uses a transport bridge. Hub and its CLI must remain available at the configured paths.",
+    "caption": "LOCAL FILESYSTEM",
+    "settings": "clients, paths and settings",
+    "registry": "shared MCP definitions",
+    "env": "credentials · mode 0600",
+    "state": "ownership, backups, doctor",
+    "content": "content and inspection",
+    "outside": "baseline and archives · outside Hub",
+    "warning": "Recovery may contain credentials. Access permissions are restricted; files are not encrypted. Do not upload this directory to Git or a website."
+  },
+  "recovery": {
+    "eyebrow": "06 / THE WAY BACK",
+    "title1": "You can go back.",
+    "title2": "Choose the destination.",
+    "intro": "Both commands show a plan first. Applying requires an explicit action and a freshness check.",
+    "restoreLabel": "ONE STEP BACK",
+    "restoreTitle": "restore",
+    "restoreIntro": "Undo a specific sync using its backup ID.",
+    "restorePoints": [
+      "Restore the files from one sync.",
+      "Later edits can block an older backup.",
+      "Restart affected clients after applying."
+    ],
+    "resetLabel": "FIRST RECORDED STATE",
+    "resetTitle": "reset",
+    "resetIntro": "Return Hub and recorded client configs to their baseline.",
+    "resetPoints": [
+      "Archive the current state before restoring on apply.",
+      "If Hub originally did not exist, return its path to absence.",
+      "If Hub already existed, restore that checkpoint."
+    ],
+    "noteTitle": "“Before the first run” requires an original state that was actually recorded.",
+    "note": "A baseline is captured before the first managed write. If Hub existed before recovery was introduced, its unknown past cannot be reconstructed. Reset refuses to proceed without a baseline; a dry run never creates one retroactively.",
+    "detailTitle": "External edits, locks and interrupted resets",
+    "details": [
+      "Manual changes to a client file or its mode block reset. Preview with --archive-changes offers to archive the current file, then restore the original file in full. This is not a merge. A repointed symlink remains a blocker.",
+      "Hub uses an external operation lock and recovery journal for interrupted writes. --recover-lock only handles a lock with a provably dead process; live or unknown owners remain protected. I/O failures trigger a compensating rollback attempt. If that also fails, use the retained archives for manual recovery.",
+      "Do not run reset alongside active clients or other Hub versions. There is no universal power-loss transaction guarantee, and full preservation of ACLs, xattrs, hardlink identity or arbitrary special files is not promised. Reset does not uninstall the CLI, clear npm cache or undo external API operations."
+    ]
+  },
+  "scope": {
+    "eyebrow": "07 / CURRENT SCOPE",
+    "title1": "Clear about today.",
+    "title2": "Honest about tomorrow.",
+    "intro": "Agent Hub is evolving. This page describes a specific source snapshot rather than a wishlist.",
+    "caption": "Agent Hub capability status",
+    "headers": ["Area", "Today", "Implementation boundary"],
+    "rows": [
+      {
+        "name": "MCP",
+        "state": "Available",
+        "kind": "available",
+        "detail": "Import, shared launcher, sync, diagnostics, backup and recovery."
+      },
+      {
+        "name": "Skills",
+        "state": "Inspection",
+        "kind": "partial",
+        "detail": "Discovery, client matrix and SKILL.md viewing. No automatic delivery."
+      },
+      {
+        "name": "Instructions / Memory",
+        "state": "Inspection",
+        "kind": "partial",
+        "detail": "Read existing Markdown. No editing or client sync."
+      },
+      {
+        "name": "Repos & tasks",
+        "state": "Inspection",
+        "kind": "partial",
+        "detail": "Read AGENTS.md, PROJECT.md and NOW.md for the current repository. No scanning or task execution."
+      },
+      {
+        "name": "Sessions",
+        "state": "Planned",
+        "kind": "planned",
+        "detail": "No session index, search or history transfer yet."
+      },
+      {
+        "name": "Additional CLI",
+        "state": "Stubs",
+        "kind": "planned",
+        "detail": "init-repo, mcp add/rm and skill ls/add/rm are not implemented yet."
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "08 / A FEW MORE ANSWERS",
+    "title1": "Make the details",
+    "title2": "make sense.",
+    "intro": "Plain explanations for beginners. Boundaries and failure behavior for experienced users.",
+    "items": [
+      {
+        "question": "Does this replace Claude, Codex or DSH?",
+        "answer": "No. Keep using your existing clients. Hub manages their MCP settings and helps expose differences. It does not supply a model, subscription or conversation transfer."
+      },
+      {
+        "question": "Is this website the local interface?",
+        "answer": "This website is a guide with a fictional demonstration. It does not read your files. The ui command starts a separate local application with real data and operations on your computer."
+      },
+      {
+        "question": "What happens to my manual settings?",
+        "answer": "Sync preserves unrelated MCP entries, other settings and Codex tool policies. Conflicting definitions need a decision. Deleting an entry from the registry only removes an unchanged client entry that Hub previously owned. Review the entire plan."
+      },
+      {
+        "question": "Why can doctor pass while a tool still fails?",
+        "answer": "A successful MCP handshake means initialization and tool discovery worked. Doctor does not call tools/call. A backend, operation-specific authorization or data can still be unavailable. Optional readiness checks separate some of these cases but do not replace functional API checks."
+      },
+      {
+        "question": "What stops an old plan from being applied?",
+        "answer": "The revision in --expect checks inputs before writing. A changed file requires a new preview. In the local UI, plans are also single-use and expire after five minutes. Locks and atomic replacement of individual files reduce races; they are not a transaction across your entire computer."
+      },
+      {
+        "question": "Do credentials have to go to the cloud?",
+        "answer": "Hub primarily works locally: the registry and .env stay on your machine. Configured MCP processes and endpoints contact their services according to your configuration. Private backups and recovery may contain unencrypted credentials; do not publish them. The local UI does not serve raw .env files and protects write operations."
+      },
+      {
+        "question": "Can I choose custom directories and profiles?",
+        "answer": "Yes. Hub: AGENT_HUB_HOME. Claude: CLAUDE_CONFIG_DIR or AGENT_HUB_CLAUDE_CONFIG. Codex: CODEX_HOME. DSH: DSH_HOME and AGENT_HUB_DSH_PROFILE, or a profile in hub.yaml. Shared skills: AGENT_HUB_SHARED_SKILLS. Run status and a fresh preview after changing paths."
+      },
+      {
+        "question": "Is there automatic sync or a cloud account?",
+        "answer": "Operations are explicitly started through the CLI or local UI. This snapshot has no scheduler, background cloud sync, vault or cloud session history."
+      }
+    ]
+  },
+  "closing": {
+    "eyebrow": "THE NEXT STEP IS JUST A LOOK",
+    "title1": "Clarity first.",
+    "accent": "Changes second.",
+    "action": "Go to the first run"
+  },
+  "footer": {
+    "revision": "English field guide · source ad31113",
+    "disclaimer": "Fictional demo data · no local file access",
+    "download": "Project source"
+  },
+  "brand": {
+    "guide": "FIELD GUIDE"
+  }
+}
