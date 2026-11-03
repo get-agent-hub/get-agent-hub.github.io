@@ -55,6 +55,16 @@ export function validateTechnicalValues(reference, candidate) {
     if (step.code !== candidate.start.steps[index].code)
       throw new Error(`Do not translate code: start.steps[${index}]`);
   });
+  for (const [page, markdown] of Object.entries(reference.docs.content)) {
+    const code = (value) => value.match(/```[\s\S]*?```|`[^`\n]+`/g) ?? [];
+    if (
+      JSON.stringify(code(markdown)) !==
+      JSON.stringify(code(candidate.docs.content[page]))
+    )
+      throw new Error(
+        `Do not translate documentation code: docs.content.${page}`,
+      );
+  }
   reference.scope.rows.forEach((row, index) => {
     if (row.kind !== candidate.scope.rows[index].kind)
       throw new Error(`Do not translate status keys: scope.rows[${index}]`);

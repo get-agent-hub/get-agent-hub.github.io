@@ -7,7 +7,7 @@ export const escapeHtml = (value) =>
       ],
   );
 
-export function render(template, locale) {
+export function render(template, locale, extraSlots = {}) {
   const text = escapeHtml;
   const list = (values) =>
     values.map((value) => `<li>${text(value)}</li>`).join('');
@@ -52,6 +52,7 @@ export function render(template, locale) {
           `<details><summary>${text(item.question)}</summary><p>${text(item.answer)}</p></details>`,
       )
       .join(''),
+    ...extraSlots,
   };
   return template.replace(
     /\{\{\{([\w]+)\}\}\}|\{\{([\w.]+)\}\}/g,

@@ -1,4 +1,5 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { buildDocs } from './docs.mjs';
 import { readLocales } from './locales.mjs';
 import { render } from './render.mjs';
 
@@ -25,8 +26,9 @@ await cp(
   { recursive: true },
 );
 await writeFile(new URL('../dist/index.html', import.meta.url), html);
+const docs = await buildDocs(locale);
 await writeFile(
   new URL('../dist/locale.js', import.meta.url),
   `export default ${JSON.stringify(locale)};\n`,
 );
-console.log('Static site ready in dist/');
+console.log(`Static site ready in dist/ (${docs.length} documentation pages)`);

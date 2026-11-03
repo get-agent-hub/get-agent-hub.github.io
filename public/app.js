@@ -111,5 +111,5 @@ for (const command of commands) {
   document.querySelector('#command-nav').append(button);
 }
 
-showScenario('clean');
-showCommand('status');
+showScenario('quick');
+showCommand('quick');

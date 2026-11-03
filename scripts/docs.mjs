@@ -1,0 +1,137 @@
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { markdownToHtml } from './markdown.mjs';
+import { escapeHtml, render } from './render.mjs';
+
+export const docsGroups = [
+  {
+    id: 'getStarted',
+    pages: [
+      { slug: 'overview', file: 'overview.md', label: 'overview' },
+      { slug: 'quickstart', file: 'QUICKSTART.md', label: 'quickstart' },
+      { slug: 'design', file: 'DESIGN.md', label: 'design' },
+    ],
+  },
+  {
+    id: 'guides',
+    pages: [
+      {
+        slug: 'working-guide',
+        file: 'WORKING_GUIDE.md',
+        label: 'workingGuide',
+      },
+      { slug: 'content', file: 'CONTENT.md', label: 'content' },
+      { slug: 'memory', file: 'MEMORY.md', label: 'memory' },
+      { slug: 'automation', file: 'AUTOMATION.md', label: 'automation' },
+      { slug: 'ui', file: 'UI.md', label: 'ui' },
+    ],
+  },
+  {
+    id: 'operations',
+    pages: [
+      { slug: 'recovery', file: 'RECOVERY.md', label: 'recovery' },
+      { slug: 'migrations', file: 'MIGRATIONS.md', label: 'migrations' },
+      { slug: 'edge-cases', file: 'EDGE_CASES.md', label: 'edgeCases' },
+      { slug: 'qa', file: 'QA.md', label: 'qa' },
+    ],
+  },
+  {
+    id: 'project',
+    pages: [
+      { slug: 'code-review', file: 'CODE_REVIEW.md', label: 'codeReview' },
+      { slug: 'research', file: 'RESEARCH.md', label: 'research' },
+      {
+        slug: 'usecases-and-demand',
+        file: 'usecases-and-demand.md',
+        label: 'usecases',
+      },
+    ],
+  },
+];
+
+export const docsPages = docsGroups.flatMap((group) =>
+  group.pages.map((page) => ({ ...page, group: group.id })),
+);
+
+const fileToSlug = new Map(docsPages.map((page) => [page.file, page.slug]));
+
+const pageUrl = (base, slug) =>
+  slug === 'overview' ? `${base}docs/` : `${base}docs/${slug}/`;
+
+const resolveLink = (base) => (label, href) => {
+  const text = escapeHtml(label);
+  if (/^https?:\/\//i.test(href))
+    return `<a href="${escapeHtml(href)}" target="_blank" rel="noreferrer">${text}</a>`;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(href)) return text;
+  const [file, anchor] = href.split('#');
+  const slug = fileToSlug.get(file.split('/').pop());
+  if (file && !slug) return text;
+  const target = file ? pageUrl(base, slug) : '';
+  const fragment = anchor ? `#${anchor}` : '';
+  return `<a href="${target}${fragment}">${text}</a>`;
+};
+
+const buildNav = (locale, base, current) =>
+  docsGroups
+    .map((group) => {
+      const links = group.pages
+        .map((page) => {
+          const label = escapeHtml(locale.docs.pages[page.label]);
+          const currentAttr =
+            page.slug === current ? ' aria-current="page" class="active"' : '';
+          return `<a href="${pageUrl(base, page.slug)}"${currentAttr}>${label}</a>`;
+        })
+        .join('');
+      return `<div class="docs-nav-group"><p>${escapeHtml(locale.docs.groups[group.id])}</p>${links}</div>`;
+    })
+    .join('');
+
+const buildToc = (headings) =>
+  headings
+    .filter((heading) => heading.level === 2)
+    .map(
+      (heading) =>
+        `<a href="#${heading.id}">${escapeHtml(heading.text.replace(/`/g, ''))}</a>`,
+    )
+    .join('');
+
+const buildPager = (locale, base, current) => {
+  const index = docsPages.findIndex((page) => page.slug === current);
+  const link = (page, key, className) =>
+    page
+      ? `<a class="${className}" href="${pageUrl(base, page.slug)}"><span>${escapeHtml(locale.docs[key])}</span>${escapeHtml(locale.docs.pages[page.label])}</a>`
+      : '<span></span>';
+  return (
+    link(docsPages[index - 1], 'previous', 'pager-prev') +
+    link(docsPages[index + 1], 'next', 'pager-next')
+  );
+};
+
+export async function buildDocs(locale) {
+  const template = await readFile(
+    new URL('../src/docs.html', import.meta.url),
+    'utf8',
+  );
+  const written = [];
+  for (const page of docsPages) {
+    const base = page.slug === 'overview' ? '../' : '../../';
+    const markdown = locale.docs.content[page.label];
+    const { html, headings } = markdownToHtml(markdown, resolveLink(base));
+    const output = render(template, locale, {
+      base,
+      pageTitle: escapeHtml(locale.docs.pages[page.label]),
+      docsNav: buildNav(locale, base, page.slug),
+      docsContent: html,
+      docsToc: buildToc(headings),
+      docsPager: buildPager(locale, base, page.slug),
+    });
+    const directory = new URL(
+      page.slug === 'overview' ? '../dist/docs/' : `../dist/docs/${page.slug}/`,
+      import.meta.url,
+    );
+    await mkdir(directory, { recursive: true });
+    const target = new URL('index.html', directory);
+    await writeFile(target, output);
+    written.push(page.slug);
+  }
+  return written;
+}

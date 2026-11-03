@@ -74,3 +74,16 @@ test('English source and rendered page have no untranslated placeholders', async
   assert.ok(!/\p{Script=Cyrillic}/u.test(JSON.stringify(english)));
   assert.equal(english.language, 'en');
 });
+
+test('documentation translations preserve executable code while prose can be translated', () => {
+  const translated = structuredClone(english);
+  translated.docs.content.quickstart =
+    translated.docs.content.quickstart.replace(
+      'npm ci',
+      'npm install something-else',
+    );
+  assert.throws(
+    () => validateTechnicalValues(english, translated),
+    /documentation code/,
+  );
+});

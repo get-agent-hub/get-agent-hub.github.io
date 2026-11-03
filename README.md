@@ -24,18 +24,23 @@ Runs Prettier, ESLint, content and localization tests, static link and source ar
 - `locales/en.json`: all English presentation copy, metadata, accessibility labels, commands and fictional scenarios.
 - `site.config.json`: active locale. English is the only included locale; no language switcher is shown.
 - `src/index.html`: semantic page structure with translation keys, not page copy.
+- `src/docs.html`: documentation page layout rendered once per entry in `docs/`.
+- `docs/`: reviewable English Markdown snapshots. Operational pages mirror upstream; research pages are historical English editorial notes. Run `npm run docs:sync` after refreshing snapshots.
+- `locales/en.json` → `docs.content`: the documentation bodies rendered by the build. Translation PRs translate these alongside the site copy; code blocks and inline code are protected.
 - `public/content.js`: source revision and locale-backed command/scenario access.
 - `public/app.js`: accessible controls and command copying. Content enters the DOM through textContent.
 - `public/styles.css`: responsive layout, focus styles and reduced-motion support.
 - `public/downloads/`: a Git source archive of the reviewed Agent Hub commit.
-- `scripts/`: locale validation, escaped HTML rendering, build and loopback preview.
+- `scripts/`: locale validation, escaped HTML rendering, Markdown conversion, documentation build and loopback preview.
 - `tests/`: content, translation, rendering and HTTP checks. Browser QA is a separate step.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language does not require component changes. Missing or extra keys, blank required translations and changed CLI syntax fail the build. Only the selected locale is bundled; there are no automatic browser-language changes or silent translation fallbacks.
 
 ## Keeping the guide accurate
 
-Current Agent Hub source: `239a8940e9ae0561b1650e04e4170a47ff5524d5`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+End-user examples use the globally installed `ahub` executable after `npm install --global .` from the built source directory. No public registry installation is advertised. The primary first-run route is **Quick setup & sync**, documented in `docs/QUICKSTART.md` and linked from the documentation sidebar. Landing quick start, the command explorer and a fictional first-run scenario describe the same staged workflow. Individual area commands remain available.
+
+Current Agent Hub source: `e83651dc192dbc5fa6409bcb58ff3d402441078d`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
 When updating the snapshot, create a `git archive --format=zip --prefix=agent-hub/` of the chosen commit. Update the download filename in the template, `source` in content.js, the revision copy in the locale and this README. Package only tracked source. Never bundle a user's Hub, .env, recovery files, logs or .tmp. Use generic paths and fictional server names in examples.
 
@@ -45,7 +50,7 @@ The site uses no analytics, cookies, accounts, remote APIs or external fonts. Wi
 
 ## Latest local verification
 
-The 239a894 guide refresh covers scoped memory, existing-note discovery/onboarding, project automation, conflict resolution and the limits of SQLite/graph/history support. The matching source ZIP contains the implemented memory modules and working-trial documentation. All 9 site checks pass, including localization, source provenance, asset links and HTTP behavior. Local browser QA exercised the memory section, three fictional memory scenarios and the onboarding command panel at a desktop viewport. No new narrow-viewport baseline is claimed. No hosting source synchronization or deployment was performed.
+The guide now makes Quick setup & sync the first-run route, with a matching command entry, fictional preview and a dedicated Quick start page. The documentation renders 15 English pages from locale-owned Markdown bodies. All 15 site checks pass, covering translation shape/code safeguards, source provenance, static assets, navigation, cross-page anchors and HTTP behavior. Browser QA inspected the Quick start layout and the main guide locally. Main-repository validation covers 180 tests plus an isolated global-install check, including fresh setup, unchanged repeats, conflicts, partial failure and original-state recovery. Native model usefulness still needs the maintainer's working trial. No hosting source synchronization or deployment was performed.
 
 ## Tooling audit
 

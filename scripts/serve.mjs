@@ -32,7 +32,17 @@ export async function handleRequest(request, response) {
     return;
   }
   try {
-    const body = await readFile(path);
+    let body;
+    try {
+      body = await readFile(path);
+    } catch {
+      path = resolve(path, 'index.html');
+      if (!path.startsWith(root.endsWith(sep) ? root : root + sep)) {
+        response.writeHead(403).end('Forbidden');
+        return;
+      }
+      body = await readFile(path);
+    }
     response.writeHead(200, {
       'Content-Type': mime[extname(path)] ?? 'application/octet-stream',
       'X-Content-Type-Options': 'nosniff',

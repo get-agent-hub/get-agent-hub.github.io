@@ -15,6 +15,7 @@ test('every working command has an explanation of reads, writes, output and limi
   assert.deepEqual(
     commands.map(({ id }) => id),
     [
+      'quick',
       'status',
       'init',
       'import',
@@ -73,6 +74,7 @@ test('demonstrations cover common failures and never provide a real apply revisi
   assert.deepEqual(
     scenarios.map(({ id }) => id),
     [
+      'quick',
       'clean',
       'conflict',
       'offline',
@@ -108,11 +110,11 @@ test('all internal navigation, static assets and source download resolve', async
     if (target === '#') continue;
     if (target.startsWith('#'))
       assert.ok(ids.includes(target.slice(1)), `missing anchor ${target}`);
-    else if (!target.includes(':'))
-      assert.ok(
-        (await stat(new URL(`../dist/${target}`, import.meta.url))).isFile(),
-        target,
-      );
+    else if (!target.includes(':')) {
+      let asset = new URL(`../dist/${target}`, import.meta.url);
+      if (target.endsWith('/')) asset = new URL('index.html', asset);
+      assert.ok((await stat(asset)).isFile(), target);
+    }
   }
   const archive = await readFile(
     new URL(`../dist/${source.archive}`, import.meta.url),
@@ -123,6 +125,10 @@ test('all internal navigation, static assets and source download resolve', async
     'git archive records the exact source commit',
   );
   for (const file of [
+    'docs/QUICKSTART.md',
+    'src/core/quick.ts',
+    'scripts/check-global-install.mjs',
+    'src/core/recovery-baseline-store.ts',
     'docs/MEMORY.md',
     'docs/AUTOMATION.md',
     'docs/WORKING_GUIDE.md',
@@ -152,6 +158,12 @@ test('preview serves assets with correct MIME and rejects unsupported methods an
   const html = await fetch(origin);
   assert.equal(html.status, 200);
   assert.ok((await html.text()).includes(`<html lang="${locale.language}">`));
+  const docs = await fetch(`${origin}/docs/`);
+  assert.equal(docs.status, 200);
+  assert.ok((await docs.text()).includes('docs-sidebar'));
+  const docsPage = await fetch(`${origin}/docs/memory/`);
+  assert.equal(docsPage.status, 200);
+  assert.ok((await docsPage.text()).includes('id="scopes-and-storage"'));
   assert.match(
     (await fetch(`${origin}/app.js`)).headers.get('content-type'),
     /javascript/,
@@ -160,4 +172,22 @@ test('preview serves assets with correct MIME and rejects unsupported methods an
   assert.equal((await fetch(origin, { method: 'POST' })).status, 405);
   assert.equal((await fetch(`${origin}/%E0%A4%A`)).status, 400);
   assert.equal((await fetch(`${origin}/..%2Fpackage.json`)).status, 403);
+});
+
+test('first-run and command examples use the globally installed ahub CLI', () => {
+  assert.ok(locale.start.steps[0].code.includes('npm install --global .'));
+  for (const command of commands)
+    assert.match(command.command, /^ahub /, command.id);
+  assert.ok(
+    locale.start.steps.some(
+      (step) => step.code === 'cd /path/to/project\nahub ui',
+    ),
+  );
+  assert.equal(
+    locale.docs.content.quickstart.includes('node dist/cli.js'),
+    false,
+  );
+  assert.ok(
+    locale.docs.content.quickstart.includes('npm uninstall --global agent-hub'),
+  );
 });

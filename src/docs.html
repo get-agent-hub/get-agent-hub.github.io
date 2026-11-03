@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="{{language}}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f6f2" />
+    <meta name="description" content="{{docs.metaDescription}}" />
+    <title>{{{pageTitle}}} · {{docs.titleSuffix}}</title>
+    <link rel="icon" href="{{{base}}}favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="{{{base}}}styles.css" />
+  </head>
+  <body class="docs-body">
+    <a class="skip" href="#main">{{nav.skip}}</a>
+    <header class="header">
+      <a href="{{{base}}}" class="brand" aria-label="{{nav.home}}"
+        ><span class="brand-icon" aria-hidden="true">a<span>h</span></span
+        >agent hub<span class="brand-tag">{{brand.guide}}</span></a
+      >
+      <nav aria-label="{{nav.label}}">
+        <a href="{{{base}}}">{{docs.guideLink}}</a
+        ><a href="{{{base}}}docs/" aria-current="page">{{nav.docs}}</a>
+      </nav>
+      <a class="nav-cta" href="{{{base}}}#start"
+        >{{nav.start}} <span aria-hidden="true">↗</span></a
+      >
+    </header>
+    <main id="main" class="docs-layout wrap">
+      <aside class="docs-sidebar">
+        <nav aria-label="{{docs.sidebarLabel}}">{{{docsNav}}}</nav>
+      </aside>
+      <article class="docs-content">
+        <p class="eyebrow">{{docs.eyebrow}}</p>
+        {{{docsContent}}}
+        <nav class="docs-pager" aria-label="{{docs.pagerLabel}}">
+          {{{docsPager}}}
+        </nav>
+      </article>
+      <aside class="docs-toc">
+        <p>{{docs.tocTitle}}</p>
+        <nav aria-label="{{docs.tocLabel}}">{{{docsToc}}}</nav>
+      </aside>
+    </main>
+    <footer class="footer wrap">
+      <a class="brand" href="{{{base}}}"
+        >agent hub<span class="brand-tag">{{brand.guide}}</span></a
+      >
+      <p>{{footer.revision}}<br />{{footer.disclaimer}}</p>
+      <a href="{{{base}}}">{{docs.guideLink}} ↗</a>
+    </footer>
+  </body>
+</html>
