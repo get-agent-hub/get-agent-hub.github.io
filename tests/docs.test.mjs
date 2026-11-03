@@ -115,7 +115,10 @@ test('documentation is English, locale-owned and linked to the short first-run r
     );
   }
   const quick = await readFile(pagePath('quickstart'), 'utf8');
-  assert.ok(quick.includes('quick --workspace /path/to/project'));
+  assert.ok(
+    quick.includes('ahub quick') &&
+      quick.includes('project connect /path/to/project'),
+  );
   assert.ok(quick.includes('staged workflow'));
   assert.ok(quick.includes('first baseline'));
   const landing = await readFile(

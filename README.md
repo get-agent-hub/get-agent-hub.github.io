@@ -38,9 +38,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language do
 
 ## Keeping the guide accurate
 
-End-user examples use the globally installed `ahub` executable after `npm install --global .` from the built source directory. No public registry installation is advertised. The primary first-run route is **Quick setup & sync**, documented in `docs/QUICKSTART.md` and linked from the documentation sidebar. Landing quick start, the command explorer and a fictional first-run scenario describe the same staged workflow. Individual area commands remain available.
+End-user examples use the globally installed `ahub` executable after `npm install --global .` from the built source directory. No public registry installation is advertised. The primary first-run route is **shared Hub setup and optional project connection**, documented in `docs/QUICKSTART.md` and linked from the documentation sidebar. Landing quick start, the command explorer and a fictional first-run scenario describe the same staged workflow. Individual area commands remain available.
 
-Current Agent Hub source: `e83651dc192dbc5fa6409bcb58ff3d402441078d`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+Current Agent Hub source: `d66ea3ec033b53a6bf0e08694e5f8634f7594a4d`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
 When updating the snapshot, create a `git archive --format=zip --prefix=agent-hub/` of the chosen commit. Update the download filename in the template, `source` in content.js, the revision copy in the locale and this README. Package only tracked source. Never bundle a user's Hub, .env, recovery files, logs or .tmp. Use generic paths and fictional server names in examples.
 
@@ -50,7 +50,7 @@ The site uses no analytics, cookies, accounts, remote APIs or external fonts. Wi
 
 ## Latest local verification
 
-The guide now makes Quick setup & sync the first-run route, with a matching command entry, fictional preview and a dedicated Quick start page. The documentation renders 15 English pages from locale-owned Markdown bodies. All 15 site checks pass, covering translation shape/code safeguards, source provenance, static assets, navigation, cross-page anchors and HTTP behavior. Browser QA inspected the Quick start layout and the main guide locally. Main-repository validation covers 180 tests plus an isolated global-install check, including fresh setup, unchanged repeats, conflicts, partial failure and original-state recovery. Native model usefulness still needs the maintainer's working trial. No hosting source synchronization or deployment was performed.
+The guide now makes shared Hub setup and optional project connection the first-run route, with a matching command entry, fictional preview and a dedicated Quick start page. The documentation renders 15 English pages from locale-owned Markdown bodies. All 16 site checks pass, covering translation shape/code safeguards, source provenance, static assets, navigation, cross-page anchors and HTTP behavior. Browser QA inspected the Quick start layout and the main guide locally. Main-repository validation covers shared/project scope isolation tests plus an isolated global-install check, including fresh setup, unchanged repeats, conflicts, partial failure and original-state recovery. Native model usefulness still needs the maintainer's working trial. No hosting source synchronization or deployment was performed.
 
 ## Tooling audit
 

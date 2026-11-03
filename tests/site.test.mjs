@@ -16,6 +16,7 @@ test('every working command has an explanation of reads, writes, output and limi
     commands.map(({ id }) => id),
     [
       'quick',
+      'project-connect',
       'status',
       'init',
       'import',
@@ -178,11 +179,7 @@ test('first-run and command examples use the globally installed ahub CLI', () =>
   assert.ok(locale.start.steps[0].code.includes('npm install --global .'));
   for (const command of commands)
     assert.match(command.command, /^ahub /, command.id);
-  assert.ok(
-    locale.start.steps.some(
-      (step) => step.code === 'cd /path/to/project\nahub ui',
-    ),
-  );
+  assert.ok(locale.start.steps.some((step) => step.code === 'ahub ui'));
   assert.equal(
     locale.docs.content.quickstart.includes('node dist/cli.js'),
     false,
@@ -190,4 +187,23 @@ test('first-run and command examples use the globally installed ahub CLI', () =>
   assert.ok(
     locale.docs.content.quickstart.includes('npm uninstall --global agent-hub'),
   );
+});
+
+test('shared Hub and optional project setup have distinct commands and explanations', () => {
+  assert.equal(
+    commands.find((entry) => entry.id === 'quick').command,
+    'ahub quick',
+  );
+  assert.equal(
+    commands.find((entry) => entry.id === 'project-connect').command,
+    'ahub project connect /path/to/project',
+  );
+  assert.equal(locale.start.steps[1].code, 'ahub quick');
+  assert.match(locale.start.steps[1].note, /does not set up project/);
+  assert.ok(
+    locale.start.steps.some(
+      (step) => step.code === 'ahub project connect /path/to/project',
+    ),
+  );
+  assert.match(locale.docs.content.quickstart, /not the Hub directory/);
 });
