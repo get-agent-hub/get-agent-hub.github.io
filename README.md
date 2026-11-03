@@ -35,11 +35,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language do
 
 ## Keeping the guide accurate
 
-Current Agent Hub source: `ad311136236e0a7872c266d6323902a178d7d2be`. Check the CLI, README and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+Current Agent Hub source: `dbeff7f95fcba85ebbad0f2f3251bb221462ce99`. Check the CLI, README and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
 When updating the snapshot, create a `git archive --format=zip --prefix=agent-hub/` of the chosen commit. Update the download filename in the template, `source` in content.js, the revision copy in the locale and this README. Package only tracked source. Never bundle a user's Hub, .env, recovery files, logs or .tmp. Use generic paths and fictional server names in examples.
 
-Key boundaries: import without --dry-run writes; doctor starts real MCP; sync delivers MCP only; reset returns to the first recorded state, not an unknown past. No public npm release or GitHub URL is advertised. All interactive terminal results are fictional.
+Key boundaries: import without --dry-run writes; doctor starts real MCP; plain sync delivers MCP; explicit areas deliver skills and shared context; init-repo preserves existing notes; reset returns to the first recorded state, not an unknown past. No public npm release or GitHub URL is advertised. All interactive terminal results are fictional.
 
 The site uses no analytics, cookies, accounts, remote APIs or external fonts. With JavaScript disabled, the main guide remains readable; demo and command switching require JavaScript. The download includes the full Agent Hub CLI README.
 

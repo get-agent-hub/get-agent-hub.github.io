@@ -50,7 +50,7 @@
       "reads": "Registry, .env, selected client configs and ownership state.",
       "writes": "Only with --apply: client MCP configs, a backup and ownership state.",
       "result": "Additions, removals, conflicts, affected files and an exact apply command containing a revision. Copy it from your own fresh plan.",
-      "detail": "Unrelated entries and settings are preserved. Only previously managed entries without local changes can be removed. Codex tool policies are preserved; application-managed node_repl is skipped. Skills, instructions and memory are not delivered yet. Restart affected clients after applying."
+      "detail": "Unrelated entries and settings are preserved. Only previously managed entries without local changes can be removed. Codex tool policies are preserved; application-managed node_repl is skipped. Plain sync is MCP-only. Select --area skills or --area context for the other guarded plans. Restart affected clients after applying."
     },
     {
       "id": "replace",
@@ -64,6 +64,45 @@
       "writes": "Preview writes nothing. Apply requires the exact --expect from the reviewed plan.",
       "result": "The complete plan for the selected client, including the permitted replacement.",
       "detail": "--replace does not restrict the entire sync to those names: other additions and removals within scope remain in the plan. Exactly one --client is required. Unknown fields, missing env, other conflicts and path protections can still block application."
+    },
+    {
+      "id": "skills",
+      "name": "skill / import skills",
+      "group": "Skills",
+      "badge": "Preview by default",
+      "title": "Collect complete skills and link clients to Hub",
+      "description": "List, add or remove Hub skills; import existing client bundles; then deliver them with sync --area skills. Scripts, references and binary assets travel together without being executed.",
+      "command": "node dist/cli.js sync --area skills --dry-run",
+      "reads": "Hub bundles, selected client skill roots and ownership records.",
+      "writes": "Only with --apply --expect: Hub copies or client links, private backups and ownership state.",
+      "result": "A plan showing complete bundle copies, canonical links, equivalent-link migrations and conflicts. Import leaves client sources unchanged; delivery can replace an identical directory or link with a backed-up Hub link.",
+      "detail": "Use skill ls, skill add /local/path, skill rm name, or import skills. Different client copies need --prefer; replacing a Hub copy needs --overwrite. Exact differing client replacements require --client and --replace=name. Shared paths list all affected clients; disabled clients stay protected. Reserved Claude namespaces are skipped. Codex needs YAML name/description. Remote installation and client visibility settings remain outside this operation."
+    },
+    {
+      "id": "context",
+      "name": "sync --area context",
+      "group": "Shared context",
+      "badge": "Owned blocks",
+      "title": "Deliver common rules and a shared memory index",
+      "description": "Use instructions/AGENTS.md for common rules and memory/MEMORY.md for the shared index. Claude imports these files; Codex and DSH receive their text in an owned instruction block.",
+      "command": "node dist/cli.js sync --area context --dry-run",
+      "reads": "Shared rules/index, global client instruction files and block ownership.",
+      "writes": "Only with the reviewed apply command: owned blocks in user CLAUDE.md or AGENTS.md, with backups.",
+      "result": "Common context with personal text preserved. Fact files stay in Hub and are read on demand. Native automatic memory, conversations and hooks remain separate.",
+      "detail": "Edits inside the owned block, malformed markers, instruction target symlinks and Codex AGENTS.override.md require review. Text outside the block is preserved. Generated instruction files have a conservative 32 KiB budget. Empty sources remove only owned text. If both source files are absent, preview has nothing to deliver."
+    },
+    {
+      "id": "init-repo",
+      "name": "init-repo",
+      "group": "Project handoff",
+      "badge": "Preview by default",
+      "title": "Give the next agent a project handoff",
+      "description": "Prepare normal repository files: AGENTS.md for the workflow, PROJECT.md for durable facts and NOW.md for the current task. Add an explicit Claude import so agents share the same project context.",
+      "command": "node dist/cli.js init-repo --dry-run",
+      "reads": "The target Git repository, existing notes and optional Hub templates.",
+      "writes": "Only with the reviewed apply command: missing notes and owned instruction content, plus backup/ownership records. It never stages or commits Git work.",
+      "result": "A repeatable repository setup that preserves existing project rules and notes. Fill in verified facts and actual progress, then switch agents in the same repository.",
+      "detail": "Run inside an existing Git repository with an initialized Hub, or supply the target directory. Existing PROJECT.md and NOW.md are never regenerated. Optional templates live under templates/repo/. Init-repo does not infer architecture, execute project tests, launch agents or update notes automatically."
     },
     {
       "id": "doctor",
@@ -97,13 +136,13 @@
       "group": "Recover",
       "badge": "Preview by default",
       "title": "Undo one sync",
-      "description": "Restore configs from the backup of a particular sync. Use this to reverse a specific recent operation.",
+      "description": "Restore the recorded changes of a particular MCP sync or content operation. Use its sync-… or content-… backup ID.",
       "command": "node dist/cli.js restore <backup-id> --dry-run",
       "template": true,
       "reads": "The selected backup, current client files and ownership state.",
       "writes": "Only with the exact apply command from the preview.",
       "result": "A plan to restore files from one sync. <backup-id> is a placeholder: use the real ID from the sync result.",
-      "detail": "If files or ownership state changed after the backup, restoration is blocked. A previous backup may no longer apply after a later sync. Restart affected clients after applying."
+      "detail": "Later file, directory, binding or ownership changes can block rollback. Content restore also retains a backup. Restart affected clients after applying."
     },
     {
       "id": "reset",
@@ -111,7 +150,7 @@
       "group": "Recover",
       "badge": "Preview by default",
       "title": "Return to the first recorded state",
-      "description": "Restore Hub and recorded client configs to their recovery baseline. Archive the current state first so newer data is retained.",
+      "description": "Restore Hub and recorded client/project files, skill directories and links to their recovery baseline. Archive the current state first so newer data is retained.",
       "command": "node dist/cli.js reset --dry-run",
       "reads": "The external baseline, current Hub and recorded client paths.",
       "writes": "Only with --apply --expect from a fresh plan: archive current state and restore the original.",
@@ -219,7 +258,7 @@
   "language": "en",
   "meta": {
     "title": "Agent Hub — one home for your AI agents",
-    "description": "Understand how Agent Hub manages MCP settings across Claude Code, Codex CLI and DeepSeek Harness. Explore the workflow, dry runs, every command and recovery."
+    "description": "Understand Agent Hub: one local home for MCP settings, skills, shared instructions and project handoff. Preview changes, apply with backups and recover recorded originals."
   },
   "nav": {
     "skip": "Skip to content",
@@ -236,7 +275,7 @@
     "title1": "Your agents.",
     "title2": "Shared tools.",
     "accent": "One Hub.",
-    "lead": "Bring MCP settings for Claude Code, Codex CLI and DeepSeek Harness into one place. See what will change. Apply when the plan makes sense.",
+    "lead": "Bring MCP settings, skills and shared context for Claude Code, Codex CLI and DeepSeek Harness into one place. See what will change. Apply when the plan makes sense.",
     "primary": "Understand the workflow",
     "secondary": "Try a dry run",
     "step1": "01 / understand",
@@ -255,28 +294,28 @@
   },
   "band": {
     "eyebrow": "CURRENT FOCUS",
-    "focus": "MCP configuration",
+    "focus": "Tools + shared context",
     "scope": "What works today"
   },
   "overview": {
     "eyebrow": "01 / THE BIG PICTURE",
     "title1": "Configure once.",
     "title2": "Understand every step.",
-    "intro": "Each agent has its own config. Hub collects definitions in a shared registry and helps deliver them back consistently. You decide when to write changes.",
+    "intro": "Each agent has its own files. Hub keeps common tool definitions, skill bundles and context together, then builds an explicit delivery plan. You decide when to write changes.",
     "steps": [
       {
         "title": "Collect →",
-        "body": "Import: clients → Hub. Read existing MCP settings. Definitions go into the registry; credentials go into a local .env file.",
+        "body": "Import: clients → Hub. Collect existing MCP definitions or complete skill bundles. MCP credentials go into a local .env file.",
         "note": "Client configs stay as they are during import."
       },
       {
         "title": "Compare →",
-        "body": "Dry run: a plan only. See additions, removals, conflicts and the exact files that would be affected.",
-        "note": "Sync defaults to this preview mode."
+        "body": "Dry run: a plan only. Choose MCP, skills or shared context and review additions, replacements, conflicts and affected paths.",
+        "note": "Plain sync selects MCP; --area skills or --area context selects another area."
       },
       {
         "title": "Apply ↗",
-        "body": "Sync: Hub → clients. An explicit apply command writes changes and a backup. Clients then start MCP through the Hub launcher.",
+        "body": "Apply: Hub → clients. An explicit revision-guarded command writes changes and a backup. MCP uses the launcher; skills use links; context uses owned instruction blocks.",
         "note": "Restart affected clients after applying."
       }
     ],
@@ -300,7 +339,7 @@
     "title2": "Then follow the plan.",
     "intro": "The project is currently distributed as source code. You need Node.js ≥22.13 and npm. macOS and Linux are the target platforms; Windows is experimental.",
     "download": "Download source · ZIP",
-    "release": "Source snapshot ad31113. No public npm release yet.",
+    "release": "Source snapshot dbeff7f. No public npm release yet.",
     "steps": [
       {
         "number": "1",
@@ -322,6 +361,20 @@
         "intro": "",
         "code": "node dist/cli.js import mcp\nnode dist/cli.js sync --client codex --dry-run",
         "note": "Import without --dry-run writes to Hub. To apply sync, copy the exact command from your own fresh plan, then restart the client. Other client IDs are claude-code and dsh."
+      },
+      {
+        "number": "4",
+        "title": "Review skills and shared context",
+        "intro": "Choose the area you want to manage. These commands only preview.",
+        "code": "node dist/cli.js import skills --dry-run\nnode dist/cli.js sync --area skills --dry-run\nnode dist/cli.js sync --area context --dry-run",
+        "note": "Differing skill copies need an explicit source choice. Common rules live in instructions/AGENTS.md; the shared memory index is memory/MEMORY.md. Apply only the exact command printed by a fresh plan."
+      },
+      {
+        "number": "5",
+        "title": "Prepare a project handoff",
+        "intro": "By default, this targets the current Git repository.",
+        "code": "node dist/cli.js init-repo --dry-run",
+        "note": "Review creation of AGENTS.md, PROJECT.md, NOW.md and the Claude import. Existing notes are preserved. To target another repository, supply its path or run the CLI by its absolute path from that project."
       },
       {
         "number": "↗",
@@ -363,7 +416,7 @@
     "registry": "shared MCP definitions",
     "env": "credentials · mode 0600",
     "state": "ownership, backups, doctor",
-    "content": "content and inspection",
+    "content": "shared bundles and memory facts",
     "outside": "baseline and archives · outside Hub",
     "warning": "Recovery may contain credentials. Access permissions are restricted; files are not encrypted. Do not upload this directory to Git or a website."
   },
@@ -413,21 +466,21 @@
       },
       {
         "name": "Skills",
-        "state": "Inspection",
-        "kind": "partial",
-        "detail": "Discovery, client matrix and SKILL.md viewing. No automatic delivery."
+        "state": "Available",
+        "kind": "available",
+        "detail": "List/add/remove, client import and canonical link delivery with backups. Discovery and SKILL.md inspection remain available."
       },
       {
         "name": "Instructions / Memory",
-        "state": "Inspection",
-        "kind": "partial",
-        "detail": "Read existing Markdown. No editing or client sync."
+        "state": "Available",
+        "kind": "available",
+        "detail": "Deliver common rules and the memory index through owned blocks. No in-app editing or native auto-memory migration."
       },
       {
         "name": "Repos & tasks",
-        "state": "Inspection",
-        "kind": "partial",
-        "detail": "Read AGENTS.md, PROJECT.md and NOW.md for the current repository. No scanning or task execution."
+        "state": "Available",
+        "kind": "available",
+        "detail": "Inspect the current project and run guarded init-repo setup. Existing task notes are preserved; no agent launching."
       },
       {
         "name": "Sessions",
@@ -439,7 +492,7 @@
         "name": "Additional CLI",
         "state": "Stubs",
         "kind": "planned",
-        "detail": "init-repo, mcp add/rm and skill ls/add/rm are not implemented yet."
+        "detail": "mcp add/rm are still explicit stubs."
       }
     ]
   },
@@ -459,7 +512,7 @@
       },
       {
         "question": "What happens to my manual settings?",
-        "answer": "Sync preserves unrelated MCP entries, other settings and Codex tool policies. Conflicting definitions need a decision. Deleting an entry from the registry only removes an unchanged client entry that Hub previously owned. Review the entire plan."
+        "answer": "Sync preserves unrelated MCP entries, other settings and Codex tool policies. Conflicting definitions need a decision. Deleting an entry from the registry only removes an unchanged client entry that Hub previously owned. Review the entire plan. Skills preserve unrelated entries and back up equivalent-copy migrations. Shared context updates only its owned block; project setup preserves existing notes."
       },
       {
         "question": "Why can doctor pass while a tool still fails?",
@@ -490,7 +543,7 @@
     "action": "Go to the first run"
   },
   "footer": {
-    "revision": "English field guide · source ad31113",
+    "revision": "English field guide · source dbeff7f",
     "disclaimer": "Fictional demo data · no local file access",
     "download": "Project source"
   },

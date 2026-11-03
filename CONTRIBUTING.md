@@ -20,7 +20,7 @@ Every JSON locale is validated against English, even when it is not active. Miss
 
 ## Content changes
 
-Update the English file first. Keep other contributed locales in sync with its structure. Never claim that planned skills delivery, session indexing or stub commands are implemented. Never add real credentials, personal machine paths or real user inventories to examples.
+Update the English file first. Keep other contributed locales in sync with its structure. Never claim that planned session indexing, background checkpoints or MCP registry stub commands are implemented. Never add real credentials, personal machine paths or real user inventories to examples.
 
 ## Checks
 
