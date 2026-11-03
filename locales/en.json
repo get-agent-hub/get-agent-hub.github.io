@@ -105,6 +105,90 @@
       "detail": "Run inside an existing Git repository with an initialized Hub, or supply the target directory. Existing PROJECT.md and NOW.md are never regenerated. Optional templates live under templates/repo/. Init-repo does not infer architecture, execute project tests, launch agents or update notes automatically."
     },
     {
+      "id": "memory-project",
+      "name": "memory project",
+      "group": "Memory scope",
+      "badge": "Explicit checkout binding",
+      "title": "Choose which project owns the knowledge",
+      "description": "Register a Git checkout under a stable local project ID. Different projects stay separate; intentionally registered additional checkouts can share one collection.",
+      "command": "node dist/cli.js memory project register example /path/to/project --dry-run",
+      "template": true,
+      "reads": "Git checkout identity, hub.yaml and the local project registry.",
+      "writes": "Only after reviewed apply: the private checkout binding, backup and recovery metadata. Does not write into the project repository.",
+      "result": "A scope decision before any client notes are imported. Repeat registration of an unchanged binding is a no-op.",
+      "detail": "Folder names and remote URLs alone are not project identity. Replacing a checkout blocks access until an explicit reviewed --rebind. A checkout already assigned to another project is not silently reassigned."
+    },
+    {
+      "id": "memory-records",
+      "name": "memory records",
+      "group": "Knowledge",
+      "badge": "One scoped store",
+      "title": "Read and maintain durable facts",
+      "description": "Use shared or project Markdown records through CLI, local UI or the same Memory MCP service. Selected-text import copies a local note and keeps its original.",
+      "command": "node dist/cli.js memory search \"API retries\" --workspace /path/to/project --json",
+      "template": true,
+      "reads": "Only the selected project collection, or explicitly chosen shared knowledge.",
+      "writes": "Reads write nothing. Explicit record mutations preview first; apply updates the fact, owned index and recovery metadata together.",
+      "result": "Search results or a full record with its revision. Updates/deletions require that revision and an exact reviewed plan.",
+      "detail": "Use memory import ID --title ... --file ... for selected text. Shared scope is explicit; project knowledge is not promoted automatically. Another client sees Hub writes on its next read, not by silently replacing its current conversation context. Search uses text, not embeddings."
+    },
+    {
+      "id": "memory-onboard",
+      "name": "memory discover / onboard",
+      "group": "Existing memory",
+      "badge": "Sources → Hub",
+      "title": "Bring existing native notes into the project",
+      "description": "Discover source directories and their project evidence, select existing Markdown knowledge and preview its initial import. --follow optionally attaches sources for later imports.",
+      "command": "node dist/cli.js memory onboard --workspace /path/to/project --follow --dry-run",
+      "template": true,
+      "reads": "Selected native Markdown, bounded project metadata, current Hub records and source bindings. Discovery output excludes note bodies and conversation text.",
+      "writes": "Discovery/preview write nothing. Apply saves facts, bindings, index and optional project follow-up policy with recovery; native originals remain intact.",
+      "result": "A source-scoped import plan. Mixed MEMORY.md retains inline facts and code while pure local navigation is omitted. Repeat unchanged imports do not duplicate facts.",
+      "detail": "Run memory discover first. Only project-matched sources are selected by default; repeat --source ID for explicit unresolved choices. Known foreign projects and unsupported formats are rejected. Native SQLite databases are reported without importing their contents. --follow enables the policy, not hook installation; existing handlers can activate for it."
+    },
+    {
+      "id": "memory-serve",
+      "name": "memory serve",
+      "group": "Cross-client access",
+      "badge": "MCP stdio",
+      "title": "Let clients read the same current records",
+      "description": "Start a Memory MCP server fixed to one registered workspace. Configure it in each client with absolute paths and the same Hub directory.",
+      "command": "node dist/cli.js memory serve --workspace /path/to/project",
+      "template": true,
+      "reads": "The fixed project and, only with --include-shared, explicitly scoped shared records.",
+      "writes": "The default three tools are read-only. --allow-write exposes reviewed mutations; --allow-auto separately exposes token-authorized checkpoints under an enabled policy.",
+      "result": "memory_list, memory_search and memory_get. Optional preview/apply or checkpoint tools are listed only when enabled.",
+      "detail": "Shared writes additionally require --include-shared --allow-write --allow-shared-write. Server requests cannot choose arbitrary workspace paths. This scopes Hub tools, not an agent with independent filesystem access. Starting a server does not install it into client settings or activate hooks."
+    },
+    {
+      "id": "memory-auto",
+      "name": "memory auto enable / status / watch / disable",
+      "group": "Automation",
+      "badge": "Enabled per project/client",
+      "title": "Import native changes and checkpoint active learning",
+      "description": "Install reviewed lifecycle callbacks for the chosen client, then use its active model to select evidenced durable knowledge at task completion. A watcher can import native file changes between sessions.",
+      "command": "node dist/cli.js memory auto enable --workspace /path/to/project --client dsh --dry-run",
+      "template": true,
+      "reads": "The project policy, selected native sources, record revisions and bounded session capability metadata. Extraction uses context already available to the active agent.",
+      "writes": "Setup applies hooks/profile and policy with backups. Once enabled, native imports and checkpoints write through the Hub transaction service without a new Hub preview for each fact.",
+      "result": "SessionStart supplies an index; Stop requests one checkpoint or empty acknowledgement. Status shows source issues, conflicts and pending checkpoints.",
+      "detail": "DSH uses a bundled native Cordis adapter. Claude/Codex use client lifecycle hooks; native trust and tool permissions still apply. Tokens are session/project-bound, one-use and expire. Disable stops captures but preserves knowledge. Watch is foreground, not an OS service. A pending checkpoint is not proof that the model saved anything."
+    },
+    {
+      "id": "memory-conflict",
+      "name": "memory auto conflict",
+      "group": "Memory conflicts",
+      "badge": "Review both versions",
+      "title": "Resolve divergence without silent data loss",
+      "description": "Inspect the current Hub record and the queued incoming native or semantic version, then choose which value to retain. Explicit Hub deletion can also be retained.",
+      "command": "node dist/cli.js memory auto conflict resolve auto-<source-id> --workspace /path/to/project --take hub --dry-run",
+      "template": true,
+      "reads": "The selected project conflict, current record revision, source binding and immutable incoming history.",
+      "writes": "Preview writes nothing. Exact apply updates the selected value/binding, clears its pending conflict and retains recovery/history. Native source files are unchanged.",
+      "result": "An acknowledged source version or the exact accepted incoming fact. Changed queue/record inputs invalidate a reviewed preview.",
+      "detail": "Use conflict get ID to compare bodies and --version HASH to inspect incoming history even after resolution. Keeping Hub acknowledges only that source version; a later source change can conflict again. Duplicate sources keep read-only links to one canonical fact. Manual edits and deletions are never silently replaced."
+    },
+    {
       "id": "doctor",
       "name": "doctor",
       "group": "Check",
@@ -176,12 +260,12 @@
       "group": "Interface",
       "badge": "Local server",
       "title": "Use the local interface",
-      "description": "Inspect files, MCP servers, differences and plans. Run import, sync and doctor against real local data.",
+      "description": "Inspect local sources and plans; manage scoped memory, discover existing notes, review native imports and resolve conflicts. Import, sync and doctor use the same local services as CLI.",
       "command": "node dist/cli.js ui --no-open",
       "reads": "Local Hub, client configs and the current repository.",
       "writes": "Pages read data; Apply and Doctor perform their corresponding real operations.",
       "result": "http://127.0.0.1:3082 by default. --port 0 chooses a free port; omit --no-open to open the browser automatically.",
-      "detail": "Loopback binding, Host/Origin checks and a write token protect the interface. Raw .env is not served. UI previews are single-use, expire after five minutes and reject changed inputs. Skills and Markdown support inspection; Sessions and several CLI commands still represent planned behavior."
+      "detail": "Loopback binding, Host/Origin checks and a write token protect the interface. Raw .env is not served. UI previews are single-use, expire after five minutes and reject changed inputs. Skills and Markdown support inspection; Sessions and several CLI commands still represent planned behavior. Memory and repository actions bind to the UI startup workspace. Source selection and follow-up policy use protected, expiring preview/apply operations."
     }
   ],
   "scenarios": [
@@ -253,12 +337,57 @@
         "WRITE 0 files"
       ],
       "explanation": "This example assumes a baseline exists and no external edits conflict. A real reset refuses without a baseline. Archives and baselines can contain credentials; they stay outside Hub and are not encrypted."
+    },
+    {
+      "id": "memory-import",
+      "label": "Existing memory",
+      "command": "memory onboard --workspace /demo/project --follow --dry-run",
+      "title": "Existing knowledge, with a reviewed destination.",
+      "lines": [
+        "DISCOVER Claude project notes → /demo/project",
+        "PLAN     retain inline MEMORY.md facts",
+        "PLAN     omit pure local index navigation",
+        "NOTICE   native SQLite store: unsupported",
+        "PLAN     enable follow-up source policy",
+        "WRITE    0 files"
+      ],
+      "explanation": "Fictional preview: existing Markdown can enter Hub without changing its source. Project association and selected paths must be reviewed. --follow attaches later native imports; installing lifecycle hooks is a separate action. Unsupported stores are reported rather than silently flattened."
+    },
+    {
+      "id": "checkpoint",
+      "label": "Automatic learning",
+      "command": "memory auto status --workspace /demo/project",
+      "title": "One checkpoint, one shared fact.",
+      "lines": [
+        "START read/import native project sources",
+        "STOP  request one evidenced checkpoint",
+        "AGENT submit a durable project decision",
+        "HUB   save fact + index + source binding",
+        "READ  second client retrieves current value",
+        "NEXT  no repeated extraction continuation"
+      ],
+      "explanation": "Fictional successful lifecycle after policy and hooks are enabled. The active agent can submit an empty array instead. It uses its current context and permissions; the website does not call a model. A missing acknowledgement remains visible as a pending checkpoint."
+    },
+    {
+      "id": "memory-conflict",
+      "label": "Memory conflict",
+      "command": "memory auto sync --workspace /demo/project --dry-run",
+      "title": "Two sources diverged. Your correction stays.",
+      "lines": [
+        "READ     one canonical fact, two source bindings",
+        "DETECT   incoming source differs from Hub correction",
+        "PRESERVE current Hub value or deletion",
+        "PLAN     queue incoming version for review",
+        "NEXT     compare both values; choose Hub or incoming",
+        "WRITE    0 files"
+      ],
+      "explanation": "Fictional native-sync preview. A real applied sync can stage a conflict under its enabled policy. An unchanged duplicate stays linked to the canonical fact; a divergent source does not silently create an obsolete copy. Resolve with a fresh reviewed plan; original native notes remain unchanged."
     }
   ],
   "language": "en",
   "meta": {
     "title": "Agent Hub — one home for your AI agents",
-    "description": "Understand Agent Hub: one local home for MCP settings, skills, shared instructions and project handoff. Preview changes, apply with backups and recover recorded originals."
+    "description": "One local Hub for AI coding agents: MCP settings, skills, shared instructions and scoped memory. Discover existing notes, review imports and enable recoverable project learning."
   },
   "nav": {
     "skip": "Skip to content",
@@ -268,14 +397,15 @@
     "demo": "Dry run",
     "features": "Features",
     "recovery": "Recovery",
-    "start": "Get started"
+    "start": "Get started",
+    "memory": "Memory"
   },
   "hero": {
     "eyebrow": "Local. Transparent. Under your control.",
     "title1": "Your agents.",
     "title2": "Shared tools.",
     "accent": "One Hub.",
-    "lead": "Bring MCP settings, skills and shared context for Claude Code, Codex CLI and DeepSeek Harness into one place. See what will change. Apply when the plan makes sense.",
+    "lead": "Bring MCP settings, skills, shared instructions and project knowledge for Claude Code, Codex CLI and DeepSeek Harness into one local Hub. Review delivery changes and choose which projects can learn automatically.",
     "primary": "Understand the workflow",
     "secondary": "Try a dry run",
     "step1": "01 / understand",
@@ -284,46 +414,46 @@
     "diagramLabel": "Claude Code, Codex CLI and DeepSeek Harness connect to one local Agent Hub",
     "diagramCaption": "YOUR LOCAL SETUP",
     "profile": "selected DSH profile",
-    "registry": "one local MCP registry",
+    "registry": "tools, context and scoped knowledge",
     "definitions": "definitions",
     "secrets": "secret references",
     "recovery": "recovery",
-    "note": "See the changes before anything is written.",
+    "note": "Delivery uses reviewed plans. Memory automation needs an enabled project policy.",
     "figure": "FIG. 01",
     "local": "LOCAL"
   },
   "band": {
     "eyebrow": "CURRENT FOCUS",
-    "focus": "Tools + shared context",
+    "focus": "Tools + context + memory",
     "scope": "What works today"
   },
   "overview": {
     "eyebrow": "01 / THE BIG PICTURE",
     "title1": "Configure once.",
     "title2": "Understand every step.",
-    "intro": "Each agent has its own files. Hub keeps common tool definitions, skill bundles and context together, then builds an explicit delivery plan. You decide when to write changes.",
+    "intro": "Each client has its own files. Hub collects shared tool definitions and skills, delivers common instructions and keeps one scoped knowledge store. Reviewed delivery and enabled memory automation have different triggers.",
     "steps": [
       {
         "title": "Collect →",
-        "body": "Import: clients → Hub. Collect existing MCP definitions or complete skill bundles. MCP credentials go into a local .env file.",
+        "body": "Import: clients → Hub. Collect MCP definitions, complete skill bundles or selected existing Markdown knowledge. MCP credentials stay in a local .env file.",
         "note": "Client configs stay as they are during import."
       },
       {
         "title": "Compare →",
-        "body": "Dry run: a plan only. Choose MCP, skills or shared context and review additions, replacements, conflicts and affected paths.",
-        "note": "Plain sync selects MCP; --area skills or --area context selects another area."
+        "body": "Preview: inspect additions, replacements, conflicts, project scope and affected paths before applying a delivery or memory-onboarding plan.",
+        "note": "Plain sync selects MCP. Skills, shared context and memory onboarding have separate commands."
       },
       {
         "title": "Apply ↗",
         "body": "Apply: Hub → clients. An explicit revision-guarded command writes changes and a backup. MCP uses the launcher; skills use links; context uses owned instruction blocks.",
-        "note": "Restart affected clients after applying."
+        "note": "Enable lifecycle hooks separately for automatic project learning. Reload affected client configuration."
       }
     ],
     "glossaryTitle": "New to MCP? Start here.",
     "glossary": "MCP is a protocol that lets an AI client connect to external tools and data, such as documentation search or a task board. An MCP server provides those capabilities; Claude, Codex or DSH uses them. Hub manages connection settings and startup. It does not replace models, conversations or external services."
   },
   "lab": {
-    "eyebrow": "02 / PREVIEW BEFORE APPLYING",
+    "eyebrow": "03 / PREVIEW BEFORE APPLYING",
     "title1": "No hidden steps.",
     "accent": "See what happens.",
     "intro": "Switch between common situations to see how Hub explains the outcome.",
@@ -334,12 +464,12 @@
     "terminalNote": "Simulation · no real files affected"
   },
   "start": {
-    "eyebrow": "03 / FIRST RUN",
+    "eyebrow": "04 / FIRST RUN",
     "title1": "Start by looking.",
     "title2": "Then follow the plan.",
     "intro": "The project is currently distributed as source code. You need Node.js ≥22.13 and npm. macOS and Linux are the target platforms; Windows is experimental.",
     "download": "Download source · ZIP",
-    "release": "Source snapshot dbeff7f. No public npm release yet.",
+    "release": "Source snapshot e71a518. No public npm release yet.",
     "steps": [
       {
         "number": "1",
@@ -377,6 +507,20 @@
         "note": "Review creation of AGENTS.md, PROJECT.md, NOW.md and the Claude import. Existing notes are preserved. To target another repository, supply its path or run the CLI by its absolute path from that project."
       },
       {
+        "number": "6",
+        "title": "Discover existing memory for a project",
+        "intro": "Replace the example checkout with your Git project. Registration is a separate reviewed step.",
+        "code": "node dist/cli.js memory project register example /path/to/project --dry-run\nnode dist/cli.js memory discover --workspace /path/to/project\nnode dist/cli.js memory onboard --workspace /path/to/project --follow --dry-run",
+        "note": "Apply registration before onboarding. Review source scope and the emitted import plan. --follow enables the native-sync policy; it does not install hooks. The source archive includes docs/WORKING_GUIDE.md with the full two-client trial and isolated failure laboratory."
+      },
+      {
+        "number": "7",
+        "title": "Choose automatic learning",
+        "intro": "Enable each client deliberately, then reload its hooks/profile.",
+        "code": "node dist/cli.js memory auto enable --workspace /path/to/project --client dsh --dry-run\nnode dist/cli.js memory auto status --workspace /path/to/project",
+        "note": "Apply the printed setup command before expecting automation. Without a native directory or onboarded sources, semantic checkpoints still work. MCP access requires a separately configured memory serve process bound to this project; --allow-auto exposes its checkpoint tool."
+      },
+      {
         "number": "↗",
         "title": "Prefer an interface?",
         "intro": "",
@@ -386,7 +530,7 @@
     ]
   },
   "commandsSection": {
-    "eyebrow": "04 / EVERY CAPABILITY",
+    "eyebrow": "05 / EVERY CAPABILITY",
     "title1": "What the command does.",
     "title2": "What you get back.",
     "intro": "Choose an operation to see its direction, side effects, output and technical details.",
@@ -404,32 +548,32 @@
     "details": "Technical details and limitations"
   },
   "files": {
-    "eyebrow": "05 / ON YOUR DISK",
+    "eyebrow": "06 / ON YOUR DISK",
     "title1": "Your settings.",
     "accent": "Ordinary files.",
     "intro": "Hub lives in ~/.agent-hub. Set AGENT_HUB_HOME to use another directory. Client directories and the DSH profile can also be configured.",
     "secret": "The registry keeps a reference such as ${DOCS_API_TOKEN}. Its value lives in the local .env file and is resolved when MCP starts.",
     "detailTitle": "What does startup look like after sync?",
-    "detail": "The client stores a Node → Hub CLI → mcp run name invocation and AGENT_HUB_HOME instead of copied tokens. The launcher reads the registry and .env. STDIO servers start directly; HTTP/SSE uses a transport bridge. Hub and its CLI must remain available at the configured paths.",
+    "detail": "The client stores a Node → Hub CLI → mcp run name invocation and AGENT_HUB_HOME instead of copied tokens. The launcher reads the registry and .env. STDIO servers start directly; HTTP/SSE uses a transport bridge. Hub and its CLI must remain available at the configured paths. Memory uses a separate project-bound memory serve process over the same local record service. Native note changes enter Hub at a lifecycle event, a manual import or a watcher scan.",
     "caption": "LOCAL FILESYSTEM",
     "settings": "clients, paths and settings",
     "registry": "shared MCP definitions",
     "env": "credentials · mode 0600",
     "state": "ownership, backups, doctor",
-    "content": "shared bundles and memory facts",
+    "content": "skill bundles, scoped facts and native source bindings",
     "outside": "baseline and archives · outside Hub",
     "warning": "Recovery may contain credentials. Access permissions are restricted; files are not encrypted. Do not upload this directory to Git or a website."
   },
   "recovery": {
-    "eyebrow": "06 / THE WAY BACK",
+    "eyebrow": "07 / THE WAY BACK",
     "title1": "You can go back.",
     "title2": "Choose the destination.",
     "intro": "Both commands show a plan first. Applying requires an explicit action and a freshness check.",
     "restoreLabel": "ONE STEP BACK",
     "restoreTitle": "restore",
-    "restoreIntro": "Undo a specific sync using its backup ID.",
+    "restoreIntro": "Undo a specific managed sync, content or memory operation using its backup ID.",
     "restorePoints": [
-      "Restore the files from one sync.",
+      "Restore the matching files, memory index and source bindings for that operation.",
       "Later edits can block an older backup.",
       "Restart affected clients after applying."
     ],
@@ -447,11 +591,12 @@
     "details": [
       "Manual changes to a client file or its mode block reset. Preview with --archive-changes offers to archive the current file, then restore the original file in full. This is not a merge. A repointed symlink remains a blocker.",
       "Hub uses an external operation lock and recovery journal for interrupted writes. --recover-lock only handles a lock with a provably dead process; live or unknown owners remain protected. I/O failures trigger a compensating rollback attempt. If that also fails, use the retained archives for manual recovery.",
-      "Do not run reset alongside active clients or other Hub versions. There is no universal power-loss transaction guarantee, and full preservation of ACLs, xattrs, hardlink identity or arbitrary special files is not promised. Reset does not uninstall the CLI, clear npm cache or undo external API operations."
+      "Do not run reset alongside active clients or other Hub versions. There is no universal power-loss transaction guarantee, and full preservation of ACLs, xattrs, hardlink identity or arbitrary special files is not promised. Reset does not uninstall the CLI, clear npm cache or undo external API operations.",
+      "Managed memory rollback and full reset revoke outstanding checkpoint capabilities. Restored old tokens cannot be replayed; a fresh user prompt can obtain a new checkpoint. Native source notes are not rewritten by memory import."
     ]
   },
   "scope": {
-    "eyebrow": "07 / CURRENT SCOPE",
+    "eyebrow": "08 / CURRENT SCOPE",
     "title1": "Clear about today.",
     "title2": "Honest about tomorrow.",
     "intro": "Agent Hub is evolving. This page describes a specific source snapshot rather than a wishlist.",
@@ -471,10 +616,34 @@
         "detail": "List/add/remove, client import and canonical link delivery with backups. Discovery and SKILL.md inspection remain available."
       },
       {
-        "name": "Instructions / Memory",
+        "name": "Shared instructions",
         "state": "Available",
         "kind": "available",
-        "detail": "Deliver common rules and the memory index through owned blocks. No in-app editing or native auto-memory migration."
+        "detail": "Deliver common rules and the shared index through owned blocks, preserving personal text."
+      },
+      {
+        "name": "Scoped memory",
+        "state": "Available",
+        "kind": "available",
+        "detail": "Shared/project Markdown records through CLI, local UI and a project-bound Memory MCP server; guarded writes and recovery."
+      },
+      {
+        "name": "Existing-memory import",
+        "state": "Available",
+        "kind": "available",
+        "detail": "Discover Markdown sources, review project association and import selected knowledge, including inline MEMORY.md content. SQLite is reported but unsupported."
+      },
+      {
+        "name": "Project automation",
+        "state": "Available",
+        "kind": "available",
+        "detail": "Enabled lifecycle hooks, source conflict protection, one semantic checkpoint per user turn and an optional foreground watcher. No installed background service."
+      },
+      {
+        "name": "External graph memory",
+        "state": "Planned",
+        "kind": "planned",
+        "detail": "No structured graph interchange or live graph mirroring. Archived conversation ingestion is also unimplemented."
       },
       {
         "name": "Repos & tasks",
@@ -497,7 +666,7 @@
     ]
   },
   "faq": {
-    "eyebrow": "08 / A FEW MORE ANSWERS",
+    "eyebrow": "09 / A FEW MORE ANSWERS",
     "title1": "Make the details",
     "title2": "make sense.",
     "intro": "Plain explanations for beginners. Boundaries and failure behavior for experienced users.",
@@ -532,7 +701,23 @@
       },
       {
         "question": "Is there automatic sync or a cloud account?",
-        "answer": "Operations are explicitly started through the CLI or local UI. This snapshot has no scheduler, background cloud sync, vault or cloud session history."
+        "answer": "Memory can run automatically after project setup: native imports at SessionStart/Stop and one semantic checkpoint through the active agent. A foreground watcher can scan between sessions. MCP, skills and instruction delivery still use explicit reviewed plans. There is no installed OS service or background cloud sync."
+      },
+      {
+        "question": "Does existing client memory import into Hub?",
+        "answer": "Yes, for selected Markdown sources. memory discover lists paths, format and project evidence; memory onboard previews importing existing notes. MEMORY.md inline facts are retained, pure local navigation is omitted, and originals stay unchanged. Ambiguous scope needs an explicit source choice. Native SQLite and graph stores do not have import adapters yet."
+      },
+      {
+        "question": "What if Claude and DSH change the same fact?",
+        "answer": "Hub retains source bindings and compares record revisions. An unchanged owned record can update; a divergent duplicate source or a manually edited/deleted Hub record becomes a queued conflict. Inspect both versions, preview keeping Hub or taking the queued incoming value, then apply the exact plan. Incoming history remains available."
+      },
+      {
+        "question": "Do I need another model or memory database?",
+        "answer": "No extra model is started for this feature. Markdown records in Hub are the authoritative store and its Memory MCP server exposes the same service. A Stop hook asks the agent already serving your conversation to select evidenced durable knowledge; that can add a model continuation and still follows native tool permissions. It does not reconstruct context the agent has already lost."
+      },
+      {
+        "question": "Why is following a source different from enabling hooks?",
+        "answer": "Following attaches a source to the enabled project native-sync policy. It does not install client callbacks. Existing installed handlers can activate for that policy; otherwise review memory auto enable for each client, or run a foreground watcher for file imports. Connecting an MCP server alone does not install lifecycle hooks or guarantee that an agent uses memory."
       }
     ]
   },
@@ -543,11 +728,45 @@
     "action": "Go to the first run"
   },
   "footer": {
-    "revision": "English field guide · source dbeff7f",
+    "revision": "English field guide · source e71a518",
     "disclaimer": "Fictional demo data · no local file access",
     "download": "Project source"
   },
   "brand": {
     "guide": "FIELD GUIDE"
+  },
+  "memory": {
+    "eyebrow": "02 / MEMORY ACROSS CLIENTS",
+    "title1": "Knowledge survives",
+    "title2": "the client switch.",
+    "intro": "Claude, Codex and DSH can read the same project facts from Hub through MCP or CLI. Shared knowledge is a separate, explicitly enabled scope. Native notes remain at their original paths.",
+    "steps": [
+      {
+        "title": "Find what already exists",
+        "body": "Discover client memory directories and their project evidence. Review the selected import; MEMORY.md inline facts are included, while pure local navigation links are omitted. Unresolved sources need an explicit project choice."
+      },
+      {
+        "title": "Read one current collection",
+        "body": "Clients query the same Hub records. A write through Hub is visible on the next read by another client. An existing conversation does not silently refresh knowledge already in its context."
+      },
+      {
+        "title": "Learn at the end of a task",
+        "body": "An enabled lifecycle hook asks the active agent for one evidenced checkpoint, or an empty acknowledgement. It uses the current agent and can add a model continuation; saving still follows client permissions."
+      }
+    ],
+    "automaticTitle": "What happens automatically?",
+    "automatic": [
+      "With installed hooks and an enabled project policy, SessionStart imports native changes and supplies a bounded project index.",
+      "Stop imports native changes again, then requests one semantic checkpoint. A one-use session token prevents repeat extraction loops.",
+      "An optional foreground watcher imports native file changes between sessions. It is not an installed OS service."
+    ],
+    "reviewTitle": "What still needs a reviewed operation?",
+    "review": [
+      "MCP, skills and shared instruction delivery each use their own sync preview and exact apply revision.",
+      "memory onboard --follow attaches existing sources to the project policy. Hook installation is a separate memory auto enable operation; already installed handlers can activate for that policy.",
+      "Manual memory writes and conflict resolution use preview/apply. Incompatible source or Hub edits stay visible as conflicts."
+    ],
+    "boundaryTitle": "Supported sources and clear limits",
+    "boundary": "Markdown source discovery and import are available. Native SQLite stores are reported but not imported, and external graph-memory interchange and archived-conversation ingestion remain unimplemented. Hub does not mirror records back into every native store. Model-selected facts need a real working trial; protocol tests do not establish their usefulness."
   }
 }

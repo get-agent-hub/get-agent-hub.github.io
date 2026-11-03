@@ -23,6 +23,12 @@ test('every working command has an explanation of reads, writes, output and limi
       'skills',
       'context',
       'init-repo',
+      'memory-project',
+      'memory-records',
+      'memory-onboard',
+      'memory-serve',
+      'memory-auto',
+      'memory-conflict',
       'doctor',
       'health',
       'restore',
@@ -66,7 +72,16 @@ test('every working command has an explanation of reads, writes, output and limi
 test('demonstrations cover common failures and never provide a real apply revision', () => {
   assert.deepEqual(
     scenarios.map(({ id }) => id),
-    ['clean', 'conflict', 'offline', 'stale', 'reset'],
+    [
+      'clean',
+      'conflict',
+      'offline',
+      'stale',
+      'reset',
+      'memory-import',
+      'checkpoint',
+      'memory-conflict',
+    ],
   );
   for (const scenario of scenarios)
     assert.equal(getScenario(scenario.id), scenario);
@@ -107,6 +122,24 @@ test('all internal navigation, static assets and source download resolve', async
     archive.includes(Buffer.from(source.revision)),
     'git archive records the exact source commit',
   );
+  for (const file of [
+    'docs/MEMORY.md',
+    'docs/AUTOMATION.md',
+    'docs/WORKING_GUIDE.md',
+    'src/core/memory-discovery.ts',
+    'src/core/memory-onboarding.ts',
+    'src/integrations/dsh-memory.ts',
+  ])
+    assert.ok(
+      archive.includes(Buffer.from('agent-hub/' + file)),
+      `source download lacks ${file}`,
+    );
+  assert.ok(
+    locale.start.release.includes(source.revision.slice(0, 7)),
+    'download and advertised source must match',
+  );
+  assert.ok(html.includes('id="memory"'));
+  assert.ok(html.includes(escapeHtml(locale.memory.boundary)));
   assert.ok(html.includes(escapeHtml(locale.lab.disclaimer)));
   assert.ok(html.includes(escapeHtml(locale.start.release)));
 });

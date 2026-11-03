@@ -697,6 +697,8 @@ pre code {
   border-block: 1px solid var(--line);
 }
 #command-nav {
+  max-height: 720px;
+  overflow-y: auto;
   padding: 24px 25px 24px 0;
   border-right: 1px solid var(--line);
   display: flex;
@@ -705,8 +707,9 @@ pre code {
 }
 #command-nav button {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
   width: 100%;
   background: transparent;
   border: 1px solid transparent;
@@ -714,6 +717,7 @@ pre code {
   padding: 11px 12px;
   text-align: left;
   font: 12px var(--mono);
+  overflow-wrap: anywhere;
 }
 #command-nav button span {
   font: 8px var(--sans);
@@ -1340,6 +1344,8 @@ tbody td:nth-child(2) {
     grid-template-columns: 1fr;
   }
   #command-nav {
+    max-height: none;
+    overflow: visible;
     border-right: 0;
     border-bottom: 1px solid var(--line);
     padding: 18px 0;

@@ -18,6 +18,14 @@ export function render(template, locale) {
           `<article><span class="step-number">0${index + 1}</span><h3>${text(step.title)}</h3><p>${text(step.body)}</p><small>${text(step.note)}</small></article>`,
       )
       .join(''),
+    memorySteps: locale.memory.steps
+      .map(
+        (step, index) =>
+          `<article><span class="step-number">0${index + 1}</span><h3>${text(step.title)}</h3><p>${text(step.body)}</p></article>`,
+      )
+      .join(''),
+    memoryAutomatic: list(locale.memory.automatic),
+    memoryReview: list(locale.memory.review),
     quickstart: locale.start.steps
       .map(
         (step) =>

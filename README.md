@@ -35,13 +35,17 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language do
 
 ## Keeping the guide accurate
 
-Current Agent Hub source: `dbeff7f95fcba85ebbad0f2f3251bb221462ce99`. Check the CLI, README and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+Current Agent Hub source: `e71a518bbb93f7a214d692ac59f6b0578dc807e4`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
 When updating the snapshot, create a `git archive --format=zip --prefix=agent-hub/` of the chosen commit. Update the download filename in the template, `source` in content.js, the revision copy in the locale and this README. Package only tracked source. Never bundle a user's Hub, .env, recovery files, logs or .tmp. Use generic paths and fictional server names in examples.
 
-Key boundaries: import without --dry-run writes; doctor starts real MCP; plain sync delivers MCP; explicit areas deliver skills and shared context; init-repo preserves existing notes; reset returns to the first recorded state, not an unknown past. No public npm release or GitHub URL is advertised. All interactive terminal results are fictional.
+Key boundaries: import without --dry-run writes; doctor starts real MCP; plain sync delivers MCP; explicit areas deliver skills and shared context; init-repo preserves existing notes; reset returns to the first recorded state, not an unknown past. Memory discovery/onboarding supports Markdown sources and inline MEMORY.md knowledge; native SQLite is reported but unsupported. Memory automation needs an enabled project policy and lifecycle hooks or a foreground watcher for file imports. No public npm release or GitHub URL is advertised. All interactive terminal results are fictional.
 
 The site uses no analytics, cookies, accounts, remote APIs or external fonts. With JavaScript disabled, the main guide remains readable; demo and command switching require JavaScript. The download includes the full Agent Hub CLI README.
+
+## Latest local verification
+
+The e71a518 guide refresh covers scoped memory, existing-note discovery/onboarding, project automation, conflict resolution and the limits of SQLite/graph/history support. The matching source ZIP contains the implemented memory modules and working-trial documentation. All 9 site checks pass, including localization, source provenance, asset links and HTTP behavior. Local browser QA exercised the memory section, three fictional memory scenarios and the onboarding command panel at a desktop viewport. No new narrow-viewport baseline is claimed. No hosting source synchronization or deployment was performed.
 
 ## Tooling audit
 
