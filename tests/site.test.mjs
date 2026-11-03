@@ -17,6 +17,7 @@ test('every working command has an explanation of reads, writes, output and limi
     [
       'quick',
       'project-connect',
+      'project-disconnect',
       'status',
       'init',
       'import',
@@ -34,6 +35,7 @@ test('every working command has an explanation of reads, writes, output and limi
       'doctor',
       'health',
       'restore',
+      'undo',
       'reset',
       'mcp',
       'ui',
@@ -55,7 +57,7 @@ test('every working command has an explanation of reads, writes, output and limi
   }
   assert.match(
     english.commands.find(({ id }) => id === 'import').writes,
-    /Without it/,
+    /Preview writes nothing/,
   );
   assert.match(
     english.commands.find(({ id }) => id === 'doctor').writes,
@@ -176,7 +178,7 @@ test('preview serves assets with correct MIME and rejects unsupported methods an
 });
 
 test('first-run and command examples use the globally installed ahub CLI', () => {
-  assert.ok(locale.start.steps[0].code.includes('npm install --global .'));
+  assert.ok(locale.start.steps[0].code.includes('npm run install:global'));
   for (const command of commands)
     assert.match(command.command, /^ahub /, command.id);
   assert.ok(locale.start.steps.some((step) => step.code === 'ahub ui'));
