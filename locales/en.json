@@ -469,7 +469,7 @@
     "title2": "Then follow the plan.",
     "intro": "The project is currently distributed as source code. You need Node.js ≥22.13 and npm. macOS and Linux are the target platforms; Windows is experimental.",
     "download": "Download source · ZIP",
-    "release": "Source snapshot e71a518. No public npm release yet.",
+    "release": "Source snapshot 239a894. No public npm release yet.",
     "steps": [
       {
         "number": "1",
@@ -728,7 +728,7 @@
     "action": "Go to the first run"
   },
   "footer": {
-    "revision": "English field guide · source e71a518",
+    "revision": "English field guide · source 239a894",
     "disclaimer": "Fictional demo data · no local file access",
     "download": "Project source"
   },

@@ -1,8 +1,8 @@
 import locale from './locale.js';
 
 export const source = {
-  revision: 'e71a518bbb93f7a214d692ac59f6b0578dc807e4',
-  archive: 'downloads/agent-hub-source-e71a518.zip',
+  revision: '239a8940e9ae0561b1650e04e4170a47ff5524d5',
+  archive: 'downloads/agent-hub-source-239a894.zip',
   minimumNode: '22.13',
 };
 
