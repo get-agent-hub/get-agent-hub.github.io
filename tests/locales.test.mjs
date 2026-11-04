@@ -7,6 +7,7 @@ import {
   validateTechnicalValues,
 } from '../scripts/locales.mjs';
 import { escapeHtml, render } from '../scripts/render.mjs';
+import { source } from '../public/source.js';
 
 const english = JSON.parse(
   await readFile(new URL('../locales/en.json', import.meta.url), 'utf8'),
@@ -101,7 +102,9 @@ test('Russian landing and every documentation route are localized with stable li
   assert.ok(landing.includes('<html lang="ru">'));
   assert.ok(landing.includes(russian.hero.title1));
   assert.ok(landing.includes('href="docs/"'));
-  assert.ok(landing.includes('href="../downloads/'));
+  assert.ok(landing.includes(`href="${source.repository}"`));
+  assert.ok(landing.includes(`href="${source.releases}"`));
+  assert.ok(!landing.includes('href="../downloads/'));
   assert.ok(!landing.includes('Technical documentation is currently'));
   assert.ok(landing.includes('aria-current="true">Русский'));
   for (const page of docsPages) {
