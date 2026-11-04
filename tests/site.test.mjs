@@ -102,7 +102,7 @@ test('demonstrations cover common failures and never provide a real apply revisi
   );
 });
 
-test('all internal navigation, static assets and source download resolve', async () => {
+test('internal navigation and assets resolve, with source and releases hosted on GitHub', async () => {
   const html = await readFile(
     new URL('../dist/index.html', import.meta.url),
     'utf8',
@@ -119,36 +119,13 @@ test('all internal navigation, static assets and source download resolve', async
       assert.ok((await stat(asset)).isFile(), target);
     }
   }
-  const archive = await readFile(
-    new URL(`../dist/${source.archive}`, import.meta.url),
-  );
-  assert.equal(archive.readUInt32LE(0), 0x04034b50, 'valid ZIP header');
-  assert.ok(
-    archive.includes(Buffer.from(source.revision)),
-    'git archive records the exact source commit',
-  );
-  for (const file of [
-    'docs/QUICKSTART.md',
-    'docs/CLI.md',
-    'src/commands/catalog.ts',
-    'src/core/quick.ts',
-    'scripts/check-global-install.mjs',
-    'src/core/recovery-baseline-store.ts',
-    'docs/MEMORY.md',
-    'docs/AUTOMATION.md',
-    'docs/WORKING_GUIDE.md',
-    'src/core/memory-discovery.ts',
-    'src/core/memory-onboarding.ts',
-    'src/integrations/dsh-memory.ts',
-  ])
-    assert.ok(
-      archive.includes(Buffer.from('agent-hub/' + file)),
-      `source download lacks ${file}`,
-    );
-  assert.ok(
-    locale.start.release.includes(source.revision.slice(0, 7)),
-    'download and advertised source must match',
-  );
+  assert.match(source.revision, /^[a-f0-9]{40}$/);
+  assert.equal(source.releases, `${source.repository}/releases`);
+  assert.ok(html.includes(`href="${source.repository}"`));
+  assert.ok(html.includes(`href="${source.releases}"`));
+  assert.doesNotMatch(html, /downloads\/|source-.*\.zip/);
+  assert.ok(locale.start.release.includes(source.version));
+  assert.ok(locale.start.release.includes(source.revision.slice(0, 7)));
   assert.ok(html.includes('id="memory"'));
   assert.ok(html.includes(escapeHtml(locale.memory.boundary)));
   assert.ok(html.includes(escapeHtml(locale.lab.disclaimer)));

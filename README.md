@@ -1,6 +1,6 @@
 # Agent Hub · Field Guide
 
-An English landing page and interactive guide for new and experienced Agent Hub users. This is a separate static repository with no runtime dependencies or backend. The demo never executes commands or reads a visitor's local files.
+An English/Russian landing page and interactive guide for new and experienced Agent Hub users. This is a separate static repository with no runtime dependencies or backend. The demo never executes commands or reads a visitor's local files.
 
 ## Development
 
@@ -17,7 +17,7 @@ Preview: http://127.0.0.1:3084. Choose another port with `PORT=4000 npm run dev`
 npm run check
 ```
 
-Runs Prettier, ESLint, content and localization tests, static link and source archive checks, HTTP preview tests and the static build. Serve `dist/` on any static host. `.openai/hosting.json` associates this checkout with its private Site and contains no credentials. GitHub Actions CI is included for use if you connect a GitHub remote.
+Runs Prettier, ESLint, content and localization tests, static link and GitHub source metadata checks, HTTP preview tests and the static build. Serve `dist/` on any static host. Local `.openai/` preview bindings are ignored and are not part of the public source. GitHub Actions validates the site and scans full Git history with pinned Gitleaks when a GitHub remote is connected.
 
 ## Source map
 
@@ -27,10 +27,10 @@ Runs Prettier, ESLint, content and localization tests, static link and source ar
 - `src/docs.html`: documentation page layout rendered once per entry in `docs/`.
 - `docs/`: reviewable English Markdown snapshots. Operational pages mirror upstream; research pages are historical English editorial notes. Run `npm run docs:sync` after refreshing snapshots.
 - `locales/en.json` → `docs.content`: the documentation bodies rendered by the build. Translation PRs translate these alongside the site copy; code blocks and inline code are protected.
-- `public/content.js`: source revision and locale-backed command/scenario access.
+- `public/source.js`: reviewed core version/revision and canonical GitHub repository/Releases links.
+- `public/content.js`: locale-backed command/scenario access.
 - `public/app.js`: accessible controls and command copying. Content enters the DOM through textContent.
 - `public/styles.css`: responsive layout, focus styles and reduced-motion support.
-- `public/downloads/`: a Git source archive of the reviewed Agent Hub commit.
 - `scripts/`: locale validation, escaped HTML rendering, Markdown conversion, documentation build and loopback preview.
 - `tests/`: content, translation, rendering and HTTP checks. Browser QA is a separate step.
 
@@ -40,17 +40,17 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language do
 
 End-user examples use the globally installed `ahub` executable after `npm run install:global` from the source directory. No public registry installation is advertised. The primary first-run route is **shared Hub setup and optional project connection**, documented in `docs/QUICKSTART.md` and linked from the documentation sidebar. Landing quick start, the command explorer and a fictional first-run scenario describe the same staged workflow. Individual area commands remain available.
 
-Current Agent Hub source: `5438c15a62896fc83d6b191c57effd1ff3a1fb37`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+Current Agent Hub source: `d49b29d07ae16bf55ed879c94cba0e8dd39d20fe`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
-When updating the snapshot, create a `git archive --format=zip --prefix=agent-hub/` of the chosen commit. Update the download filename in the template, `source` in content.js, the revision copy in the locale and this README. Package only tracked source. Never bundle a user's Hub, .env, recovery files, logs or .tmp. Use generic paths and fictional server names in examples.
+When updating the guide, refresh the English operational snapshots and both locale bodies from the reviewed core commit. Update the version/revision in `public/source.js`, the locale release/footer copy and this README. Source code, installable packages and checksums are downloaded from GitHub; the website does not bundle a ZIP. Never include a user's Hub, .env, recovery files, logs, .tmp or private hosting bindings in public source. Use generic paths and fictional server names in examples.
 
-Key boundaries: import previews by default and requires exact reviewed application; doctor starts real MCP; plain sync delivers MCP; explicit areas deliver skills and shared context; init-repo preserves existing notes; reset returns to the first recorded state, not an unknown past. Memory discovery/onboarding supports Markdown sources and inline MEMORY.md knowledge; native SQLite is reported but unsupported. Memory automation needs an enabled project policy and lifecycle hooks or a foreground watcher for file imports. No public npm release or GitHub URL is advertised. All interactive terminal results are fictional.
+Key boundaries: import previews by default and requires exact reviewed application; doctor starts real MCP; plain sync delivers MCP; explicit areas deliver skills and shared context; init-repo preserves existing notes; reset returns to the first recorded state, not an unknown past. Memory discovery/onboarding supports Markdown sources and inline MEMORY.md knowledge; native SQLite is reported but unsupported. Memory automation needs an enabled project policy and lifecycle hooks or a foreground watcher for file imports. No public npm registry installation is advertised. Canonical source and release links point to GitHub; publication is maintainer-managed. All interactive terminal results are fictional.
 
-The site uses no analytics, cookies, accounts, remote APIs or external fonts. With JavaScript disabled, the main guide remains readable; demo and command switching require JavaScript. The download includes the full Agent Hub CLI README.
+The site uses no analytics, cookies, accounts, remote APIs or external fonts. With JavaScript disabled, the main guide remains readable; demo and command switching require JavaScript. The repository and release downloads on GitHub include the Agent Hub CLI README.
 
 ## Latest local verification
 
-The guide documents shared Hub setup, optional project connection, evidence-based readiness, exact item directions, disconnection and per-workflow undo. The documentation renders 16 pages in each of English and Russian from locale-owned Markdown bodies. Automated site checks cover translation shape/code safeguards, source provenance, static assets, navigation, cross-page anchors and HTTP behavior. Main-repository verification passed 199 tests on Node 22.13.0 plus package and standalone global-install checks using temporary profiles. A fresh visual browser pass and the maintainer's real-client usefulness trial remain manual checks. No hosting synchronization or deployment was performed.
+The guide documents shared Hub setup, optional project connection, evidence-based readiness, exact item directions, disconnection and per-workflow undo. The documentation renders 17 pages in each of English and Russian from locale-owned Markdown bodies. Automated site checks cover translation shape/code safeguards, source metadata consistency, static assets, navigation, cross-page anchors and HTTP behavior. The sanitized core candidate passed its 205-test quality gate on Node 22.13.0. Package and actual installer checks use isolated profiles; the release verification report records the final candidate results. A fresh visual browser pass and the maintainer's real-client usefulness trial remain manual checks. No hosting synchronization or deployment was performed.
 
 ## Tooling audit
 
@@ -60,6 +60,6 @@ The initial npm audit reported five moderate entries in one ESLint → minimatch
 
 Deployment is maintainer-managed and deferred. Build with `npm run build` and serve `dist/` on the hosting platform chosen by the maintainers. Do not deploy to GPT/Sites, push to its hosting repository or publish elsewhere without an explicit user request.
 
-The existing `.openai/hosting.json` records a previously created private preview; it does not authorize further publication. CI validates the repository only and has no deployment job. Never store hosting credentials in this repository.
+Any local `.openai/hosting.json` belongs to a previous private preview and stays outside the public source; it does not authorize publication. CI validates the repository only and has no deployment job. Never store hosting credentials in this repository.
 
 License: MIT. The Agent Hub source download includes its own MIT license.

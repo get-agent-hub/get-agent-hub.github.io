@@ -2,6 +2,7 @@ import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { buildDocs } from './docs.mjs';
 import { readLocales } from './locales.mjs';
 import { escapeHtml, render } from './render.mjs';
+import { source } from '../public/source.js';
 
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url), 'utf8'),
@@ -34,6 +35,7 @@ for (const tag of active) {
     for (const file of [
       'app.js',
       'content.js',
+      'source.js',
       'styles.css',
       'favicon.svg',
       'languages.js',
@@ -45,7 +47,8 @@ for (const tag of active) {
   }
   const html = render(template, locale, {
     docsBase: 'docs/',
-    downloadsBase: `${base}downloads/`,
+    sourceRepository: source.repository,
+    sourceReleases: source.releases,
     languageSwitcher: switcher(locale, base),
     languageAlternates: active
       .map(

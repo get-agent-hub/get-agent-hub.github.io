@@ -1,10 +1,5 @@
 import locale from './locale.js';
-
-export const source = {
-  revision: '5438c15a62896fc83d6b191c57effd1ff3a1fb37',
-  archive: 'downloads/agent-hub-source-5438c15.zip',
-  minimumNode: '22.13',
-};
+export { source } from './source.js';
 
 export const commands = locale.commands;
 export const scenarios = locale.scenarios;

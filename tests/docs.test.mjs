@@ -13,7 +13,7 @@ const pagePath = (slug, prefix = '') =>
   );
 
 test('every documentation page builds with sidebar, content, pager and no placeholders', async () => {
-  assert.equal(docsPages.length, 16);
+  assert.equal(docsPages.length, 17);
   assert.equal(
     new Set(docsPages.map(({ slug }) => slug)).size,
     docsPages.length,

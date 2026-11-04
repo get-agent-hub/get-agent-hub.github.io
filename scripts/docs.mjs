@@ -29,6 +29,7 @@ export const docsGroups = [
   {
     id: 'operations',
     pages: [
+      { slug: 'release', file: 'RELEASE.md', label: 'release' },
       { slug: 'recovery', file: 'RECOVERY.md', label: 'recovery' },
       { slug: 'migrations', file: 'MIGRATIONS.md', label: 'migrations' },
       { slug: 'edge-cases', file: 'EDGE_CASES.md', label: 'edgeCases' },

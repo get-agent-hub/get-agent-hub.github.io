@@ -187,13 +187,13 @@
           <p class="eyebrow">{{start.eyebrow}}</p>
           <h2>{{start.title1}}<br />{{start.title2}}</h2>
           <p>{{start.intro}}</p>
-          <a
-            class="text-link"
-            href="{{{downloadsBase}}}agent-hub-source-5438c15.zip"
-            download
+          <a class="text-link" href="{{{sourceRepository}}}"
             >{{start.download}} <span aria-hidden="true">↗</span></a
           >
           <p class="small">{{start.release}}</p>
+          <a class="text-link" href="{{{sourceReleases}}}"
+            >{{start.releases}}</a
+          >
         </div>
         <div class="quickstart">{{{quickstart}}}</div>
         <a class="button dark" href="{{{docsBase}}}quickstart/"
@@ -363,9 +363,7 @@
       >
       <p>{{footer.revision}}<br />{{footer.disclaimer}}</p>
       <a href="{{{docsBase}}}">{{nav.docs}} ↗</a>
-      <a href="{{{downloadsBase}}}agent-hub-source-5438c15.zip" download
-        >{{footer.download}} ↗</a
-      >
+      <a href="{{{sourceRepository}}}">{{footer.download}} ↗</a>
     </footer>
     <div id="copy-status" class="copy-status" role="status"></div>
   </body>
