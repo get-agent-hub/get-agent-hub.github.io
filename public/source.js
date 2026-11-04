@@ -1,7 +1,7 @@
 export const source = {
   version: '0.1.0-beta.1',
-  revision: 'd49b29d07ae16bf55ed879c94cba0e8dd39d20fe',
-  repository: 'https://github.com/redzumi/agent-hub',
-  releases: 'https://github.com/redzumi/agent-hub/releases',
+  revision: 'fd25781c7f910d5ef1d0d6c246fd07957bf88979',
+  repository: 'https://github.com/get-agent-hub/agent-hub',
+  releases: 'https://github.com/get-agent-hub/agent-hub/releases',
   minimumNode: '22.13',
 };

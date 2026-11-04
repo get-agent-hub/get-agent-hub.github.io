@@ -10,6 +10,9 @@ const mime = {
   '.js': 'text/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
   '.zip': 'application/zip',
+  '.png': 'image/png',
+  '.xml': 'application/xml; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8',
 };
 
 export async function handleRequest(request, response) {
@@ -50,7 +53,11 @@ export async function handleRequest(request, response) {
     });
     response.end(request.method === 'HEAD' ? undefined : body);
   } catch {
-    response.writeHead(404).end('Not found');
+    const body = await readFile(resolve(root, '404.html')).catch(
+      () => 'Not found',
+    );
+    response.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+    response.end(request.method === 'HEAD' ? undefined : body);
   }
 }
 

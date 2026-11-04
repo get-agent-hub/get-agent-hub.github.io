@@ -40,7 +40,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language do
 
 End-user examples use the globally installed `ahub` executable after `npm run install:global` from the source directory. No public registry installation is advertised. The primary first-run route is **shared Hub setup and optional project connection**, documented in `docs/QUICKSTART.md` and linked from the documentation sidebar. Landing quick start, the command explorer and a fictional first-run scenario describe the same staged workflow. Individual area commands remain available.
 
-Current Agent Hub source: `d49b29d07ae16bf55ed879c94cba0e8dd39d20fe`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+Current Agent Hub source: `fd25781c7f910d5ef1d0d6c246fd07957bf88979`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
 When updating the guide, refresh the English operational snapshots and both locale bodies from the reviewed core commit. Update the version/revision in `public/source.js`, the locale release/footer copy and this README. Source code, installable packages and checksums are downloaded from GitHub; the website does not bundle a ZIP. Never include a user's Hub, .env, recovery files, logs, .tmp or private hosting bindings in public source. Use generic paths and fictional server names in examples.
 
@@ -58,8 +58,8 @@ The initial npm audit reported five moderate entries in one ESLint → minimatch
 
 ## Deployment
 
-Deployment is maintainer-managed and deferred. Build with `npm run build` and serve `dist/` on the hosting platform chosen by the maintainers. Do not deploy to GPT/Sites, push to its hosting repository or publish elsewhere without an explicit user request.
+The selected host is GitHub Pages in `get-agent-hub/get-agent-hub.github.io`, with production origin `https://getahub.dev`. The Publish website workflow validates the exact source and full Git history, then deploys `dist/` only. Repository variable `PAGES_ENABLED=true` enables publication after Pages has been configured. Main-branch pushes and manual runs use the same gates; pull requests do not deploy. See [DEPLOYMENT.md](DEPLOYMENT.md) for first setup, DNS, HTTPS, verification and rollback.
 
-Any local `.openai/hosting.json` belongs to a previous private preview and stays outside the public source; it does not authorize publication. CI validates the repository only and has no deployment job. Never store hosting credentials in this repository.
+Any local `.openai/hosting.json` belongs to a previous private preview and stays outside the public source. This project does not publish to GPT/Sites. Never store hosting credentials in this repository.
 
 License: MIT. The Agent Hub source download includes its own MIT license.

@@ -162,7 +162,24 @@ test('preview serves assets with correct MIME and rejects unsupported methods an
     (await fetch(`${origin}/app.js`)).headers.get('content-type'),
     /javascript/,
   );
-  assert.equal((await fetch(`${origin}/absent`)).status, 404);
+  const absent = await fetch(`${origin}/nested/absent`);
+  assert.equal(absent.status, 404);
+  assert.ok((await absent.text()).includes('Page not found'));
+  const absentHead = await fetch(`${origin}/nested/absent`, { method: 'HEAD' });
+  assert.equal(absentHead.status, 404);
+  assert.equal(await absentHead.text(), '');
+  assert.match(
+    (await fetch(`${origin}/sitemap.xml`)).headers.get('content-type'),
+    /xml/,
+  );
+  assert.match(
+    (await fetch(`${origin}/robots.txt`)).headers.get('content-type'),
+    /text\/plain/,
+  );
+  assert.match(
+    (await fetch(`${origin}/social-card.png`)).headers.get('content-type'),
+    /image\/png/,
+  );
   assert.equal((await fetch(origin, { method: 'POST' })).status, 405);
   assert.equal((await fetch(`${origin}/%E0%A4%A`)).status, 400);
   assert.equal((await fetch(`${origin}/..%2Fpackage.json`)).status, 403);

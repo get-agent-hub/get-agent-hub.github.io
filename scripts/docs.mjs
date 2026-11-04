@@ -113,6 +113,7 @@ export async function buildDocs(
   languageSwitcher = () => '',
   outputRoot = new URL('../dist/', import.meta.url),
   reference = locale,
+  metadata = () => '',
 ) {
   const template = await readFile(
     new URL('../src/docs.html', import.meta.url),
@@ -131,6 +132,10 @@ export async function buildDocs(
       base,
       languageSwitcher: languageSwitcher(base, page.slug),
       pageTitle: escapeHtml(locale.docs.pages[page.label]),
+      pageMetadata: metadata(
+        page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
+        `${locale.docs.pages[page.label]} · ${locale.brand.name}`,
+      ),
       docsNav: buildNav(locale, base, page.slug),
       docsContent: html,
       docsToc: buildToc(headings),

@@ -1761,3 +1761,11 @@ html[lang='ru'] .hero h1 {
     flex-shrink: 0;
   }
 }
+:where(.not-found) {
+  max-width: 860px;
+  padding-block: 64px;
+}
+
+.not-found section {
+  margin-block: 40px;
+}

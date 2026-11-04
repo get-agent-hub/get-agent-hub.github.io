@@ -1,13 +1,15 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { buildDocs } from './docs.mjs';
+import { buildDocs, docsPages } from './docs.mjs';
 import { readLocales } from './locales.mjs';
 import { escapeHtml, render } from './render.mjs';
 import { source } from '../public/source.js';
+import { pageMetadata, siteOrigin, sitemap } from './seo.mjs';
 
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url), 'utf8'),
 );
 const locales = await readLocales();
+const origin = siteOrigin(config.url);
 const active = config.locales ?? [config.locale];
 if (!active.includes(config.locale) || new Set(active).size !== active.length)
   throw new Error('Choose one default locale and unique active locales.');
@@ -50,12 +52,14 @@ for (const tag of active) {
     sourceRepository: source.repository,
     sourceReleases: source.releases,
     languageSwitcher: switcher(locale, base),
-    languageAlternates: active
-      .map(
-        (language) =>
-          `<link rel="alternate" hreflang="${language}" href="${base}${directory(language) || './'}" />`,
-      )
-      .join(''),
+    pageMetadata: pageMetadata({
+      origin,
+      locale,
+      defaultLanguage: config.locale,
+      languages: active,
+      title: locale.meta.title,
+      description: locale.meta.description,
+    }),
   });
   await writeFile(new URL('index.html', output), html);
   // Each route loads only its selected locale; documentation is rendered statically.
@@ -73,8 +77,49 @@ for (const tag of active) {
       ),
     output,
     reference,
+    (path, title) =>
+      pageMetadata({
+        origin,
+        locale,
+        defaultLanguage: config.locale,
+        languages: active,
+        path,
+        title,
+        description: locale.docs.metaDescription,
+      }),
   );
 }
+const notFoundTemplate = await readFile(
+  new URL('../src/404.html', import.meta.url),
+  'utf8',
+);
+await writeFile(
+  new URL('404.html', target),
+  render(notFoundTemplate, locales.get(config.locale), {
+    notFoundTranslations: active
+      .map((tag) => {
+        const locale = locales.get(tag);
+        const home = `/${directory(tag)}`;
+        return `<section lang="${escapeHtml(tag)}"><h1>${escapeHtml(locale.notFound.title)}</h1><p>${escapeHtml(locale.notFound.description)}</p><p><a class="button dark" href="${home}">${escapeHtml(locale.notFound.home)}</a> <a class="text-link" href="${home}docs/">${escapeHtml(locale.notFound.docs)}</a></p></section>`;
+      })
+      .join('\n'),
+  }),
+);
+const paths = [
+  '',
+  ...docsPages.map((page) =>
+    page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
+  ),
+];
+await writeFile(
+  new URL('sitemap.xml', target),
+  sitemap(origin, active, config.locale, paths),
+);
+await writeFile(
+  new URL('robots.txt', target),
+  `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`,
+);
+await writeFile(new URL('.nojekyll', target), '');
 console.log(
   `Static site ready in dist/ (${active.join(', ')}; translated documentation for every active locale)`,
 );
