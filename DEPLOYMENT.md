@@ -4,9 +4,9 @@ The public site repository is `get-agent-hub/get-agent-hub.github.io`. The sourc
 
 ## Publishing flow
 
-The Publish website workflow runs on pushes to main and manual workflow dispatches. It installs locked dependencies, runs the complete site checks, builds dist/ and uploads that exact directory as a Pages artifact. A separate full-history Gitleaks scan must also pass. The deployment job needs both jobs and uses the github-pages environment with narrowly scoped Pages/OIDC permissions.
+The Publish website workflow runs on pushes to master and manual workflow dispatches. It installs locked dependencies, runs the complete site checks, builds dist/ and uploads that exact directory as a Pages artifact. A separate full-history Gitleaks scan must also pass. The deployment job needs both jobs and uses the github-pages environment with narrowly scoped Pages/OIDC permissions.
 
-Deployment is enabled only when the repository variable PAGES_ENABLED is the literal string true. Until Pages is configured, pushes can validate the source without trying to publish. First setup uses Settings → Pages → Source: GitHub Actions, then enables that variable and manually runs Publish website. Later pushes to main follow the same checks and publish automatically. Pull-request checks do not publish.
+Deployment is enabled only when the repository variable PAGES_ENABLED is the literal string true. Until Pages is configured, pushes can validate the source without trying to publish. First setup uses Settings → Pages → Source: GitHub Actions, then enables that variable and manually runs Publish website. Later pushes to master follow the same checks and publish automatically. Pull-request checks do not publish.
 
 Deploy the contents of dist/ only. Do not publish the repository root, local preview metadata, build logs, credentials or dependencies. The local preview server is a development tool; no server process is needed in production.
 
@@ -40,4 +40,4 @@ Official reference: https://docs.github.com/en/pages/configuring-a-custom-domain
 
 ## Rollback and pause
 
-Revert a faulty site commit on main and push the revert; the same checks and deployment gates apply. Set PAGES_ENABLED to false to stop future deployments while retaining builds and the currently published site. Do not remove a custom-domain binding while its DNS still points at GitHub without arranging the domain change first.
+Revert a faulty site commit on master and push the revert; the same checks and deployment gates apply. Set PAGES_ENABLED to false to stop future deployments while retaining builds and the currently published site. Do not remove a custom-domain binding while its DNS still points at GitHub without arranging the domain change first.

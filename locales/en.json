@@ -589,7 +589,7 @@
     "title2": "A working Hub.",
     "intro": "Install the CLI once, then run ahub quick from any folder. No Git project or workspace is required for the shared Hub. Project memory is a separate optional step. Requires Node.js ≥22.13, npm and a configured client; macOS/Linux are the target platforms.",
     "download": "Get source on GitHub",
-    "release": "Beta candidate 0.1.0-beta.1 · source fd25781. No public npm release yet.",
+    "release": "Beta candidate 0.1.0-beta.1 · source 871894b. No public npm release yet.",
     "steps": [
       {
         "number": "1",
@@ -852,7 +852,7 @@
     "action": "Go to the first run"
   },
   "footer": {
-    "revision": "English field guide · beta 0.1.0-beta.1 · source fd25781",
+    "revision": "English field guide · beta 0.1.0-beta.1 · source 871894b",
     "disclaimer": "Fictional demo data · no local file access",
     "download": "Source on GitHub"
   },
