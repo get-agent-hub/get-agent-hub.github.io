@@ -1690,3 +1690,74 @@ tbody td:nth-child(2) {
     grid-template-columns: 1fr;
   }
 }
+
+.language-switcher {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+.language-switcher a {
+  padding: 5px 7px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+.language-switcher a[aria-current] {
+  border-color: currentColor;
+}
+.command-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0;
+  font-size: 14px;
+}
+.command-filter select {
+  font: inherit;
+  color: inherit;
+  padding: 9px 12px;
+  max-width: 100%;
+  background: var(--paper, #f7f6f2);
+  border: 1px solid currentColor;
+  border-radius: 5px;
+}
+.command-intro-note {
+  max-width: 70ch;
+}
+html[lang='ru'] .hero h1 {
+  font-size: clamp(30px, 4vw, 64px);
+  overflow-wrap: anywhere;
+}
+
+.header {
+  height: auto;
+  min-height: 88px;
+  flex-wrap: wrap;
+  padding-block: 14px;
+}
+.header .language-switcher {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.header > nav:not(.language-switcher) {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+@media (max-width: 760px) {
+  .header {
+    min-height: 70px;
+    gap: 10px;
+  }
+  .header .language-switcher {
+    font-size: 11px;
+    margin-left: auto;
+  }
+  .header .language-switcher a {
+    padding: 4px;
+  }
+  .header .nav-cta {
+    flex-shrink: 0;
+  }
+}

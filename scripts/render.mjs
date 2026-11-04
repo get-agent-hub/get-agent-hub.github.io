@@ -12,6 +12,13 @@ export function render(template, locale, extraSlots = {}) {
   const list = (values) =>
     values.map((value) => `<li>${text(value)}</li>`).join('');
   const slots = {
+    everydaySummary: locale.commands
+      .filter((command) => command.level === 'everyday')
+      .map(
+        (command) =>
+          `<li><code>ahub ${text(command.name)}</code> — ${text(command.description)}</li>`,
+      )
+      .join(''),
     flow: locale.overview.steps
       .map(
         (step, index) =>

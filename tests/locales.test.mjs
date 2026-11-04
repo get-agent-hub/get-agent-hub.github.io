@@ -15,6 +15,7 @@ const english = JSON.parse(
 test('all contributed locales have complete keys and preserve executable syntax', async () => {
   const locales = await readLocales();
   assert.ok(locales.has('en'));
+  assert.ok(locales.has('ru'));
   for (const locale of locales.values()) {
     validateLocale(english, locale);
     validateTechnicalValues(english, locale);
@@ -84,6 +85,75 @@ test('documentation translations preserve executable code while prose can be tra
     );
   assert.throws(
     () => validateTechnicalValues(english, translated),
+    /documentation code/,
+  );
+});
+
+test('Russian landing and every documentation route are localized with stable links and code', async () => {
+  const { docsPages } = await import('../scripts/docs.mjs');
+  const { markdownToHtml } = await import('../scripts/markdown.mjs');
+  const locales = await readLocales();
+  const russian = locales.get('ru');
+  const landing = await readFile(
+    new URL('../dist/ru/index.html', import.meta.url),
+    'utf8',
+  );
+  assert.ok(landing.includes('<html lang="ru">'));
+  assert.ok(landing.includes(russian.hero.title1));
+  assert.ok(landing.includes('href="docs/"'));
+  assert.ok(landing.includes('href="../downloads/'));
+  assert.ok(!landing.includes('Technical documentation is currently'));
+  assert.ok(landing.includes('aria-current="true">Русский'));
+  for (const page of docsPages) {
+    const prose = russian.docs.content[page.label];
+    assert.match(prose, /[А-Яа-яЁё]/, page.slug);
+    assert.notEqual(prose, english.docs.content[page.label], page.slug);
+    const local = page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`;
+    const html = await readFile(
+      new URL(`../dist/ru/${local}index.html`, import.meta.url),
+      'utf8',
+    );
+    assert.ok(html.includes('<html lang="ru">'), page.slug);
+    assert.ok(
+      html.includes('<article class="docs-content" lang="ru">'),
+      page.slug,
+    );
+    const before = markdownToHtml(
+      english.docs.content[page.label],
+      (label) => label,
+    ).headings;
+    const after = markdownToHtml(
+      prose,
+      (label) => label,
+      english.docs.content[page.label],
+    ).headings;
+    assert.deepEqual(
+      after.map((heading) => heading.id),
+      before.map((heading) => heading.id),
+      page.slug,
+    );
+    assert.ok(
+      html.includes(`/${local}" lang="en"`),
+      `${page.slug}: language switch must preserve page`,
+    );
+  }
+});
+
+test('translated heading structure and indented executable code cannot drift', () => {
+  const changed = structuredClone(english);
+  changed.docs.content.quickstart += '\n## Extra heading\n';
+  assert.throws(
+    () => validateTechnicalValues(english, changed),
+    /heading structure/,
+  );
+  const changedCode = structuredClone(english);
+  changedCode.docs.content.workingGuide =
+    changedCode.docs.content.workingGuide.replace(
+      'export AHUB_SOURCE',
+      'export DIFFERENT_SOURCE',
+    );
+  assert.throws(
+    () => validateTechnicalValues(english, changedCode),
     /documentation code/,
   );
 });

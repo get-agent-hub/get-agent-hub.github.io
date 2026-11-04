@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f7f6f2" />
     <meta name="description" content="{{meta.description}}" />
+    {{{languageAlternates}}}
     <title>{{meta.title}}</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="app.js"></script>
+    <script type="module" src="languages.js"></script>
   </head>
   <body>
     <a class="skip" href="#main">{{nav.skip}}</a>
@@ -22,8 +24,9 @@
         ><a href="#memory">{{nav.memory}}</a
         ><a href="#commands">{{nav.features}}</a
         ><a href="#recovery">{{nav.recovery}}</a
-        ><a href="docs/">{{nav.docs}}</a>
+        ><a href="{{{docsBase}}}">{{nav.docs}}</a>
       </nav>
+      {{{languageSwitcher}}}
       <a class="nav-cta" href="#start"
         >{{nav.start}} <span aria-hidden="true">↗</span></a
       >
@@ -186,14 +189,16 @@
           <p>{{start.intro}}</p>
           <a
             class="text-link"
-            href="downloads/agent-hub-source-1fdcb4b.zip"
+            href="{{{downloadsBase}}}agent-hub-source-5438c15.zip"
             download
             >{{start.download}} <span aria-hidden="true">↗</span></a
           >
           <p class="small">{{start.release}}</p>
         </div>
         <div class="quickstart">{{{quickstart}}}</div>
-        <a class="button dark" href="docs/quickstart/">{{start.fullGuide}}</a>
+        <a class="button dark" href="{{{docsBase}}}quickstart/"
+          >{{start.fullGuide}}</a
+        >
       </section>
       <section id="commands" class="section wrap commands-section">
         <div class="horizontal-heading">
@@ -203,6 +208,21 @@
           </div>
           <p>{{commandsSection.intro}}</p>
         </div>
+        <p class="command-intro-note">{{ui.ordinaryPath}}</p>
+        <label class="command-filter" for="command-level"
+          >{{commandsSection.filterLabel}}
+          <select id="command-level">
+            <option value="everyday">
+              {{commandsSection.levels.everyday}}
+            </option>
+            <option value="advanced">
+              {{commandsSection.levels.advanced}}
+            </option>
+            <option value="integration">
+              {{commandsSection.levels.integration}}
+            </option>
+          </select>
+        </label>
         <div class="command-explorer">
           <nav id="command-nav" aria-label="{{commandsSection.label}}"></nav>
           <article
@@ -211,7 +231,12 @@
             aria-atomic="true"
           ></article>
         </div>
-        <noscript><p>{{commandsSection.noScript}}</p></noscript>
+        <noscript
+          ><p>{{commandsSection.noScript}}</p>
+          <ul>
+            {{{everydaySummary}}}
+          </ul></noscript
+        >
       </section>
       <section id="files" class="section files-section">
         <div class="wrap files-grid">
@@ -337,8 +362,8 @@
         >agent hub<span class="brand-tag">{{brand.guide}}</span></a
       >
       <p>{{footer.revision}}<br />{{footer.disclaimer}}</p>
-      <a href="docs/">{{nav.docs}} ↗</a>
-      <a href="downloads/agent-hub-source-1fdcb4b.zip" download
+      <a href="{{{docsBase}}}">{{nav.docs}} ↗</a>
+      <a href="{{{downloadsBase}}}agent-hub-source-5438c15.zip" download
         >{{footer.download}} ↗</a
       >
     </footer>

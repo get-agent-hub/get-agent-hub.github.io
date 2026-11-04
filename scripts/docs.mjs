@@ -19,6 +19,7 @@ export const docsGroups = [
         file: 'WORKING_GUIDE.md',
         label: 'workingGuide',
       },
+      { slug: 'cli', file: 'CLI.md', label: 'cli' },
       { slug: 'content', file: 'CONTENT.md', label: 'content' },
       { slug: 'memory', file: 'MEMORY.md', label: 'memory' },
       { slug: 'automation', file: 'AUTOMATION.md', label: 'automation' },
@@ -106,7 +107,12 @@ const buildPager = (locale, base, current) => {
   );
 };
 
-export async function buildDocs(locale) {
+export async function buildDocs(
+  locale,
+  languageSwitcher = () => '',
+  outputRoot = new URL('../dist/', import.meta.url),
+  reference = locale,
+) {
   const template = await readFile(
     new URL('../src/docs.html', import.meta.url),
     'utf8',
@@ -115,9 +121,14 @@ export async function buildDocs(locale) {
   for (const page of docsPages) {
     const base = page.slug === 'overview' ? '../' : '../../';
     const markdown = locale.docs.content[page.label];
-    const { html, headings } = markdownToHtml(markdown, resolveLink(base));
+    const { html, headings } = markdownToHtml(
+      markdown,
+      resolveLink(base),
+      reference.docs.content[page.label],
+    );
     const output = render(template, locale, {
       base,
+      languageSwitcher: languageSwitcher(base, page.slug),
       pageTitle: escapeHtml(locale.docs.pages[page.label]),
       docsNav: buildNav(locale, base, page.slug),
       docsContent: html,
@@ -125,8 +136,8 @@ export async function buildDocs(locale) {
       docsPager: buildPager(locale, base, page.slug),
     });
     const directory = new URL(
-      page.slug === 'overview' ? '../dist/docs/' : `../dist/docs/${page.slug}/`,
-      import.meta.url,
+      page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
+      outputRoot,
     );
     await mkdir(directory, { recursive: true });
     const target = new URL('index.html', directory);

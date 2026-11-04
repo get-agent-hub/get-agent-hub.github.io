@@ -4,19 +4,19 @@ Keep explanations precise, approachable and consistent with the referenced Agent
 
 ## Translation PRs
 
-English is the active and only shipped language for now. All user-facing copy is in `locales/en.json`, including page metadata, navigation, accessibility labels, copy feedback, command details, demo output and the Markdown documentation in `docs.content`. The HTML template and components contain structure and technical identifiers.
+English and Russian are shipped. English is the reference schema in `locales/en.json`; Russian is in `locales/ru.json`. All user-facing copy belongs in the locale files, including page metadata, navigation, accessibility labels, copy feedback, command details, demo output and the Markdown documentation in `docs.content`. The HTML template and components contain structure and technical identifiers.
 
 To propose a language:
 
 1. Copy `locales/en.json` to `locales/<language-tag>.json`, for example `locales/de.json`.
-2. Change the top-level `language` to the matching tag. Use a two-letter code, optionally followed by a region such as `pt-BR`.
-3. Translate every prose string, including documentation bodies in `docs.content`. Documentation values use Markdown; preserve their code blocks and inline code. Keep the existing keys, array order and array lengths. Do not add HTML: translation values are escaped and rendered as text.
-4. Keep command `id`, `name` and `command`, scenario `id` and `command`, quick-start `code`, scope `kind` values and the `{name}` interpolation unchanged. Keep paths, flags, environment names, products and source revisions technically accurate within prose.
-5. Run `npm ci` and `npm run check`. Include the new locale in your PR; leave `site.config.json` on `en` unless activation is part of the agreed change.
+2. Change `language` and `docs.language` to the matching tag, and add its display name under `languages.names` in every locale. Use a two-letter code, optionally followed by a region such as `pt-BR`.
+3. Translate every prose string, including documentation bodies in `docs.content`. Documentation values use Markdown; preserve fenced/indented code blocks, inline code and the sequence and levels of headings. Heading prose is translated; the build derives stable anchor IDs from English. Keep the existing keys, array order and array lengths. Do not add HTML: translation values are escaped and rendered as text.
+4. Keep command `id`, `name`, `command` and `level`, scenario `id` and `command`, quick-start `code`, scope `kind` values and the `{name}` interpolation unchanged. Keep paths, flags, environment names, products and source revisions technically accurate within prose.
+5. Run `npm ci` and `npm run check`. Include the new locale in your PR; leave the default `locale` and active `locales` in `site.config.json` unchanged unless activation is agreed.
 
-To preview a translated page, temporarily set `locale` in `site.config.json` to its tag, then run `npm run dev`. Check wrapping, table scrolling, long command lines, keyboard focus and mobile layouts. Restore the active locale before submitting a translation-only PR.
+The default locale is served at `/`; other active languages are served at `/<tag>/`, including all documentation under `/<tag>/docs/`. English and Russian currently build to `/` and `/ru/`. To preview a contributed language, temporarily add its tag to the config's `locales` array and run `npm run dev`. Check long prose, tables, keyboard focus and a narrow viewport. Restore the active configuration for a translation-only PR.
 
-Every JSON locale is validated against English, even when it is not active. Missing, extra or empty required fields fail with a key path. CLI syntax changes fail independently. The build bundles only the selected locale into `dist/locale.js`, generates the document language and metadata, and renders static content into `dist/index.html`. There is no runtime language menu, remote translation service or silent English fallback.
+Every locale is validated against English, even when inactive. Missing/extra keys, blank required strings, changed technical values or altered executable documentation code fail with a useful path. Documentation heading structure must match so cross-language anchors stay stable. A language switch preserves the current documentation page and fragment. There is no remote translation service, automatic browser-language redirect or silent English fallback. Every active language must have complete landing and documentation content.
 
 ## Content changes
 

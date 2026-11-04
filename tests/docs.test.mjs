@@ -4,16 +4,16 @@ import { readFile, stat } from 'node:fs/promises';
 import { docsPages } from '../scripts/docs.mjs';
 import locale from '../dist/locale.js';
 
-const pagePath = (slug) =>
+const pagePath = (slug, prefix = '') =>
   new URL(
     slug === 'overview'
-      ? '../dist/docs/index.html'
-      : `../dist/docs/${slug}/index.html`,
+      ? `../dist/${prefix}docs/index.html`
+      : `../dist/${prefix}docs/${slug}/index.html`,
     import.meta.url,
   );
 
 test('every documentation page builds with sidebar, content, pager and no placeholders', async () => {
-  assert.equal(docsPages.length, 15);
+  assert.equal(docsPages.length, 16);
   assert.equal(
     new Set(docsPages.map(({ slug }) => slug)).size,
     docsPages.length,
@@ -46,36 +46,43 @@ test('all documentation links and anchors resolve', async () => {
     if (!cache.has(url.href)) cache.set(url.href, await readFile(url, 'utf8'));
     return cache.get(url.href);
   };
-  for (const page of docsPages) {
-    const url = pagePath(page.slug);
-    const html = await load(url);
-    const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
-    assert.equal(new Set(ids).size, ids.length, `${page.slug}: duplicate IDs`);
-    for (const [, target] of html.matchAll(/href="([^"]+)"/g)) {
-      if (/^[a-z][\w+.-]*:/i.test(target)) continue;
-      const [file, fragment] = target.split('#');
-      if (!file) {
-        assert.ok(
-          ids.includes(fragment),
-          `${page.slug}: missing anchor ${target}`,
-        );
-        continue;
-      }
-      let resolved = new URL(file, url);
-      if (file.endsWith('/')) resolved = new URL('index.html', resolved);
-      assert.ok(
-        (await stat(resolved)).isFile(),
-        `${page.slug}: broken link ${target}`,
+  for (const prefix of ['', 'ru/'])
+    for (const page of docsPages) {
+      const url = pagePath(page.slug, prefix);
+      const html = await load(url);
+      const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(
+        (match) => match[1],
       );
-      if (fragment) {
-        const targetHtml = await load(resolved);
+      assert.equal(
+        new Set(ids).size,
+        ids.length,
+        `${page.slug}: duplicate IDs`,
+      );
+      for (const [, target] of html.matchAll(/href="([^"]+)"/g)) {
+        if (/^[a-z][\w+.-]*:/i.test(target)) continue;
+        const [file, fragment] = target.split('#');
+        if (!file) {
+          assert.ok(
+            ids.includes(fragment),
+            `${page.slug}: missing anchor ${target}`,
+          );
+          continue;
+        }
+        let resolved = new URL(file, url);
+        if (file.endsWith('/')) resolved = new URL('index.html', resolved);
         assert.ok(
-          targetHtml.includes(`id="${fragment}"`),
-          `${page.slug}: missing anchor ${target}`,
+          (await stat(resolved)).isFile(),
+          `${page.slug}: broken link ${target}`,
         );
+        if (fragment) {
+          const targetHtml = await load(resolved);
+          assert.ok(
+            targetHtml.includes(`id="${fragment}"`),
+            `${page.slug}: missing anchor ${target}`,
+          );
+        }
       }
     }
-  }
 });
 
 test('documentation renders markdown tables, code blocks and cross-page links', async () => {

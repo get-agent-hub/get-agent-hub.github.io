@@ -8,6 +8,7 @@
     <title>{{{pageTitle}}} · {{docs.titleSuffix}}</title>
     <link rel="icon" href="{{{base}}}favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="{{{base}}}styles.css" />
+    <script type="module" src="{{{base}}}languages.js"></script>
   </head>
   <body class="docs-body">
     <a class="skip" href="#main">{{nav.skip}}</a>
@@ -20,6 +21,7 @@
         <a href="{{{base}}}">{{docs.guideLink}}</a
         ><a href="{{{base}}}docs/" aria-current="page">{{nav.docs}}</a>
       </nav>
+      {{{languageSwitcher}}}
       <a class="nav-cta" href="{{{base}}}#start"
         >{{nav.start}} <span aria-hidden="true">↗</span></a
       >
@@ -28,7 +30,7 @@
       <aside class="docs-sidebar">
         <nav aria-label="{{docs.sidebarLabel}}">{{{docsNav}}}</nav>
       </aside>
-      <article class="docs-content">
+      <article class="docs-content" lang="{{docs.language}}">
         <p class="eyebrow">{{docs.eyebrow}}</p>
         {{{docsContent}}}
         <nav class="docs-pager" aria-label="{{docs.pagerLabel}}">

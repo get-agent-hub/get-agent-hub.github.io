@@ -21,8 +21,8 @@ Runs Prettier, ESLint, content and localization tests, static link and source ar
 
 ## Source map
 
-- `locales/en.json`: all English presentation copy, metadata, accessibility labels, commands and fictional scenarios.
-- `site.config.json`: active locale. English is the only included locale; no language switcher is shown.
+- `locales/en.json` and `locales/ru.json`: English/Russian copy, metadata, accessibility labels, caller/purpose descriptions, fictional scenarios and all documentation.
+- `site.config.json`: English default and both active languages. `/` and `/docs/` are English; `/ru/` and `/ru/docs/` are Russian. The switcher preserves the documentation page and section.
 - `src/index.html`: semantic page structure with translation keys, not page copy.
 - `src/docs.html`: documentation page layout rendered once per entry in `docs/`.
 - `docs/`: reviewable English Markdown snapshots. Operational pages mirror upstream; research pages are historical English editorial notes. Run `npm run docs:sync` after refreshing snapshots.
@@ -34,13 +34,13 @@ Runs Prettier, ESLint, content and localization tests, static link and source ar
 - `scripts/`: locale validation, escaped HTML rendering, Markdown conversion, documentation build and loopback preview.
 - `tests/`: content, translation, rendering and HTTP checks. Browser QA is a separate step.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language does not require component changes. Missing or extra keys, blank required translations and changed CLI syntax fail the build. Only the selected locale is bundled; there are no automatic browser-language changes or silent translation fallbacks.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language does not require component changes. Missing or extra keys, blank required translations and changed CLI syntax fail the build. Each route bundles its own locale; there are no automatic browser-language changes or silent translation fallbacks.
 
 ## Keeping the guide accurate
 
 End-user examples use the globally installed `ahub` executable after `npm run install:global` from the source directory. No public registry installation is advertised. The primary first-run route is **shared Hub setup and optional project connection**, documented in `docs/QUICKSTART.md` and linked from the documentation sidebar. Landing quick start, the command explorer and a fictional first-run scenario describe the same staged workflow. Individual area commands remain available.
 
-Current Agent Hub source: `1fdcb4b7e2b0561083dce3976aa3a134a0c00b02`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+Current Agent Hub source: `5438c15a62896fc83d6b191c57effd1ff3a1fb37`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
 When updating the snapshot, create a `git archive --format=zip --prefix=agent-hub/` of the chosen commit. Update the download filename in the template, `source` in content.js, the revision copy in the locale and this README. Package only tracked source. Never bundle a user's Hub, .env, recovery files, logs or .tmp. Use generic paths and fictional server names in examples.
 
@@ -50,7 +50,7 @@ The site uses no analytics, cookies, accounts, remote APIs or external fonts. Wi
 
 ## Latest local verification
 
-The guide documents shared Hub setup, optional project connection, evidence-based readiness, exact item directions, disconnection and per-workflow undo. The documentation renders 15 English pages from locale-owned Markdown bodies. Automated site checks cover translation shape/code safeguards, source provenance, static assets, navigation, cross-page anchors and HTTP behavior. Main-repository verification passed 194 tests on Node 22.13.0 plus package and standalone global-install checks using temporary profiles. A fresh visual browser pass and the maintainer's real-client usefulness trial remain manual checks. No hosting synchronization or deployment was performed.
+The guide documents shared Hub setup, optional project connection, evidence-based readiness, exact item directions, disconnection and per-workflow undo. The documentation renders 16 pages in each of English and Russian from locale-owned Markdown bodies. Automated site checks cover translation shape/code safeguards, source provenance, static assets, navigation, cross-page anchors and HTTP behavior. Main-repository verification passed 199 tests on Node 22.13.0 plus package and standalone global-install checks using temporary profiles. A fresh visual browser pass and the maintainer's real-client usefulness trial remain manual checks. No hosting synchronization or deployment was performed.
 
 ## Tooling audit
 

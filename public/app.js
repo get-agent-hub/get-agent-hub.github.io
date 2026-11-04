@@ -59,6 +59,7 @@ function showCommand(id) {
   }
   const facts = element('dl', 'command-facts');
   for (const [title, value] of [
+    [messages.audience, command.audience],
     [messages.reads, command.reads],
     [messages.writes, command.writes],
   ]) {
@@ -101,15 +102,25 @@ for (const scenario of scenarios) {
   button.addEventListener('click', () => showScenario(scenario.id));
   document.querySelector('#scenario-tabs').append(button);
 }
-for (const command of commands) {
-  const button = element('button', '', command.name);
-  button.type = 'button';
-  button.dataset.command = command.id;
-  button.setAttribute('aria-controls', 'command-detail');
-  button.append(element('span', '', command.group));
-  button.addEventListener('click', () => showCommand(command.id));
-  document.querySelector('#command-nav').append(button);
+function showCommandLevel(level) {
+  const navigation = document.querySelector('#command-nav');
+  navigation.replaceChildren();
+  const selected = commands.filter((command) => command.level === level);
+  for (const command of selected) {
+    const button = element('button', '', command.name);
+    button.type = 'button';
+    button.dataset.command = command.id;
+    button.setAttribute('aria-controls', 'command-detail');
+    button.append(element('span', '', command.group));
+    button.addEventListener('click', () => showCommand(command.id));
+    navigation.append(button);
+  }
+  showCommand(selected[0].id);
 }
+document
+  .querySelector('#command-level')
+  .addEventListener('change', (event) => showCommandLevel(event.target.value));
+
+showCommandLevel('everyday');
 
 showScenario('quick');
-showCommand('quick');

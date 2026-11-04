@@ -40,7 +40,7 @@ export function validateLocale(reference, candidate, path = '') {
 
 export function validateTechnicalValues(reference, candidate) {
   const groups = [
-    ['commands', ['id', 'name', 'command']],
+    ['commands', ['id', 'name', 'command', 'level']],
     ['scenarios', ['id', 'command']],
   ];
   for (const [group, keys] of groups)
@@ -56,7 +56,23 @@ export function validateTechnicalValues(reference, candidate) {
       throw new Error(`Do not translate code: start.steps[${index}]`);
   });
   for (const [page, markdown] of Object.entries(reference.docs.content)) {
-    const code = (value) => value.match(/```[\s\S]*?```|`[^`\n]+`/g) ?? [];
+    const code = (value) =>
+      value.match(/```[\s\S]*?```|`[^`\n]+`|^(?: {4}|\t).*(?:\n|$)/gm) ?? [];
+    const headings = (value) =>
+      value
+        .replace(/```[\s\S]*?```/g, '')
+        .split('\n')
+        .flatMap((line) => {
+          const match = line.match(/^(#{1,6})\s+/);
+          return match ? [match[1]] : [];
+        });
+    if (
+      JSON.stringify(headings(markdown)) !==
+      JSON.stringify(headings(candidate.docs.content[page]))
+    )
+      throw new Error(
+        `Keep documentation heading structure: docs.content.${page}`,
+      );
     if (
       JSON.stringify(code(markdown)) !==
       JSON.stringify(code(candidate.docs.content[page]))
@@ -69,6 +85,8 @@ export function validateTechnicalValues(reference, candidate) {
     if (row.kind !== candidate.scope.rows[index].kind)
       throw new Error(`Do not translate status keys: scope.rows[${index}]`);
   });
+  if (candidate.docs.language !== candidate.language)
+    throw new Error('Documentation language must match its locale.');
   if (!/^[a-z]{2}(?:-[A-Za-z]{2,8})?$/.test(candidate.language))
     throw new Error('Invalid language tag');
   if (!candidate.ui.copyLabel.includes('{name}'))

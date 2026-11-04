@@ -75,7 +75,20 @@ function parseList(lines, start, resolveLink) {
   return [listHtml, start + consumed];
 }
 
-export function markdownToHtml(source, resolveLink) {
+export function markdownToHtml(source, resolveLink, reference = source) {
+  const stableHeadings = [];
+  let fenced = false;
+  for (const line of reference.split('\n')) {
+    if (isFence(line)) {
+      fenced = !fenced;
+      continue;
+    }
+    if (!fenced) {
+      const heading = line.match(/^(#{1,6})\s+(.*)$/);
+      if (heading) stableHeadings.push(heading[2].trim());
+    }
+  }
+  let headingIndex = 0;
   const lines = source.replace(/\r\n/g, '\n').split('\n');
   const nextSlug = slugger();
   const headings = [];
@@ -130,7 +143,7 @@ export function markdownToHtml(source, resolveLink) {
     if (heading) {
       const level = heading[1].length;
       const content = inline(heading[2].trim(), resolveLink);
-      const id = nextSlug(heading[2].trim());
+      const id = nextSlug(stableHeadings[headingIndex++] ?? heading[2].trim());
       if (level > 1) headings.push({ level, id, text: heading[2].trim() });
       html.push(`<h${level} id="${id}">${content}</h${level}>`);
       index += 1;

@@ -129,6 +129,8 @@ test('all internal navigation, static assets and source download resolve', async
   );
   for (const file of [
     'docs/QUICKSTART.md',
+    'docs/CLI.md',
+    'src/commands/catalog.ts',
     'src/core/quick.ts',
     'scripts/check-global-install.mjs',
     'src/core/recovery-baseline-store.ts',
@@ -164,6 +166,18 @@ test('preview serves assets with correct MIME and rejects unsupported methods an
   const docs = await fetch(`${origin}/docs/`);
   assert.equal(docs.status, 200);
   assert.ok((await docs.text()).includes('docs-sidebar'));
+  for (const route of [
+    '/ru/',
+    '/ru/docs/',
+    '/ru/docs/quickstart/',
+    '/ru/docs/cli/',
+  ]) {
+    const response = await fetch(`${origin}${route}`);
+    assert.equal(response.status, 200, route);
+    assert.ok((await response.text()).includes('<html lang="ru">'), route);
+  }
+  const russianData = await (await fetch(`${origin}/ru/locale.js`)).text();
+  assert.ok(russianData.includes('Ваши агенты.'));
   const docsPage = await fetch(`${origin}/docs/memory/`);
   assert.equal(docsPage.status, 200);
   assert.ok((await docsPage.text()).includes('id="scopes-and-storage"'));
@@ -208,4 +222,29 @@ test('shared Hub and optional project setup have distinct commands and explanati
     ),
   );
   assert.match(locale.docs.content.quickstart, /not the Hub directory/);
+});
+
+test('every command declares a caller and is classified for ordinary users or integrations', () => {
+  for (const command of commands) {
+    assert.ok(command.audience.length > 12, command.id);
+    assert.ok(
+      ['everyday', 'advanced', 'integration'].includes(command.level),
+      command.id,
+    );
+  }
+  assert.deepEqual(
+    commands
+      .filter((command) => command.level === 'everyday')
+      .map((command) => command.id)
+      .sort(),
+    [
+      'doctor',
+      'project-connect',
+      'project-disconnect',
+      'quick',
+      'status',
+      'ui',
+      'undo',
+    ],
+  );
 });
