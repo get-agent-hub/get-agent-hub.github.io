@@ -154,7 +154,10 @@ test('preview serves assets with correct MIME and rejects unsupported methods an
     assert.ok((await response.text()).includes('<html lang="ru">'), route);
   }
   const russianData = await (await fetch(`${origin}/ru/locale.js`)).text();
-  assert.ok(russianData.includes('Ваши агенты.'));
+  const russian = JSON.parse(
+    await readFile(new URL('../locales/ru.json', import.meta.url), 'utf8'),
+  );
+  assert.ok(russianData.includes(russian.hero.title1));
   const docsPage = await fetch(`${origin}/docs/memory/`);
   assert.equal(docsPage.status, 200);
   assert.ok((await docsPage.text()).includes('id="scopes-and-storage"'));

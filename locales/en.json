@@ -504,8 +504,8 @@
   ],
   "language": "en",
   "meta": {
-    "title": "Agent Hub — one home for your AI agents",
-    "description": "One local Hub for AI coding agents: MCP settings, skills, shared instructions and scoped memory. Discover existing notes, review imports and enable recoverable project learning.",
+    "title": "Agent Hub — shared tools and memory for AI clients",
+    "description": "Keep MCP tools, skills, instructions and project notes in one local Hub. Connect Claude Code, Codex CLI and DeepSeek Harness, review changes and sync.",
     "imageAlt": "Agent Hub logo: connected tools and shared context."
   },
   "nav": {
@@ -521,24 +521,24 @@
     "docs": "Docs"
   },
   "hero": {
-    "eyebrow": "Local. Transparent. Under your control.",
-    "title1": "Your agents.",
-    "title2": "Shared tools.",
-    "accent": "One Hub.",
-    "lead": "One shared local Hub for Claude Code, Codex CLI and DeepSeek Harness. Collect existing MCP tools, skills and shared instructions first. Connect individual projects for memory and handoff only when you need them.",
-    "primary": "Create your Hub",
-    "secondary": "Try a dry run",
+    "eyebrow": "Shared tools and memory. Stored locally.",
+    "title1": "One Hub",
+    "title2": "for your",
+    "accent": "AI clients.",
+    "lead": "Keep MCP tools, skills and instructions in one place. Connect Claude Code, Codex CLI and DeepSeek Harness to your local Hub. Add project memory when you need it.",
+    "primary": "Set up your Hub",
+    "secondary": "See an example",
     "step1": "01 / understand",
     "step2": "02 / review",
     "step3": "03 / apply",
     "diagramLabel": "Claude Code, Codex CLI and DeepSeek Harness connect to one local Agent Hub",
     "diagramCaption": "YOUR LOCAL SETUP",
     "profile": "selected DSH profile",
-    "registry": "tools, context and scoped knowledge",
+    "registry": "tools, instructions and memory",
     "definitions": "definitions",
     "secrets": "secret references",
     "recovery": "recovery",
-    "note": "Start with ahub quick from any folder. No project path required.",
+    "note": "Run ahub quick from any folder to get started.",
     "figure": "FIG. 01",
     "local": "LOCAL"
   },
@@ -549,34 +549,34 @@
   },
   "overview": {
     "eyebrow": "01 / THE BIG PICTURE",
-    "title1": "Configure once.",
-    "title2": "Understand every step.",
-    "intro": "The shared Hub lives at ~/.agent-hub by default. It manages global tools, skills and shared instructions. A project directory is a separate Git repository; connecting its memory is optional.",
+    "title1": "Collect your settings.",
+    "title2": "Use them across clients.",
+    "intro": "Hub keeps shared tools, skills and instructions in ~/.agent-hub. Your projects stay where they are. You can connect a project later to share its memory.",
     "steps": [
       {
         "title": "Collect →",
-        "body": "Import: clients → Hub. Collect MCP definitions, complete skill bundles or selected existing Markdown knowledge. MCP credentials stay in a local .env file.",
-        "note": "Client configs stay as they are during import."
+        "body": "Read existing tools and skills from your clients and copy the selected items into Hub. MCP credentials are stored in a local .env file.",
+        "note": "Import leaves the client settings unchanged."
       },
       {
         "title": "Compare →",
-        "body": "Preview: inspect additions, replacements, conflicts, project scope and affected paths before applying a delivery or memory-onboarding plan.",
-        "note": "Quick combines collection and delivery; individual area commands remain available."
+        "body": "See what will be added or changed, which clients are affected and where copies differ.",
+        "note": "Resolve conflicting copies before replacing them."
       },
       {
         "title": "Apply ↗",
-        "body": "Apply: Hub → clients. An explicit revision-guarded command writes changes and a backup. MCP uses the launcher; skills use links; context uses owned instruction blocks.",
-        "note": "Restart affected clients after applying. Project memory and hooks use a separate project connect preview."
+        "body": "Confirm the plan to connect your clients. Skills use links to Hub; MCP settings use its shared launcher. Shared instructions are added without replacing your personal text.",
+        "note": "Hub saves backups. Restart affected clients after applying."
       }
     ],
     "glossaryTitle": "New to MCP? Start here.",
-    "glossary": "MCP is a protocol that lets an AI client connect to external tools and data, such as documentation search or a task board. An MCP server provides those capabilities; Claude, Codex or DSH uses them. Hub manages connection settings and startup. It does not replace models, conversations or external services."
+    "glossary": "MCP lets an AI client use tools such as documentation search or a task board. Hub keeps their connection settings in one place. The tools still run through their own servers and services."
   },
   "lab": {
     "eyebrow": "03 / PREVIEW BEFORE APPLYING",
-    "title1": "No hidden steps.",
-    "accent": "See what happens.",
-    "intro": "Switch between common situations to see how Hub explains the outcome.",
+    "title1": "Preview a sync.",
+    "accent": "See the changes.",
+    "intro": "Choose an example to see a first setup, a conflict or a recovery plan.",
     "disclaimer": "Interactive illustration. All data is fictional. This site does not run commands or access your computer.",
     "label": "Demonstration scenarios",
     "terminalTitle": "agent-hub / demo",
@@ -585,9 +585,9 @@
   },
   "start": {
     "eyebrow": "04 / FIRST RUN",
-    "title1": "One workflow.",
-    "title2": "A working Hub.",
-    "intro": "Install the CLI once, then run ahub quick from any folder. No Git project or workspace is required for the shared Hub. Project memory is a separate optional step. Requires Node.js ≥22.13, npm and a configured client; macOS/Linux are the target platforms.",
+    "title1": "Set up",
+    "title2": "your Hub.",
+    "intro": "Install ahub, then run ahub quick from any folder. You need Node.js ≥22.13, npm and a configured client. macOS and Linux are supported; Windows is experimental.",
     "download": "Get source on GitHub",
     "release": "Beta 0.1.0-beta.1 · source 06c4960. No public npm release yet.",
     "steps": [
@@ -596,40 +596,40 @@
         "title": "Install ahub once",
         "intro": "Open a terminal in the extracted agent-hub directory.",
         "code": "npm ci\nnpm run install:global",
-        "note": "Build and install a standalone package copy with locked production dependencies. The source checkout may be removed afterwards; Node and the installed runtime must stay at stable paths. The public npm package is not available yet."
+        "note": "This installs a standalone CLI with locked dependencies. You can remove the source folder afterwards. Keep Node and the installed package at stable paths; client launchers depend on them."
       },
       {
         "number": "2",
         "title": "Review the shared Hub plan",
-        "intro": "Run from any folder. No path or prior init is needed.",
+        "intro": "Run from any folder. Hub setup does not need a project path.",
         "code": "ahub quick",
         "note": "In a terminal, quick shows the plan and asks before applying. --dry-run, --json and pipes preview without writing. It does not set up project files, import project memory or enable hooks."
       },
       {
         "number": "3",
         "title": "Confirm, then use your clients",
-        "intro": "Confirm the reviewed plan in the terminal, then inspect the result. Scripts can use the exact apply command emitted by a noninteractive preview.",
+        "intro": "Confirm the plan, read the result and restart affected clients.",
         "code": "ahub status\nahub doctor",
-        "note": "Read the per-stage result and restart client sessions; native trust/permissions still apply. Doctor starts real MCP connections without calling tools. Quick does not start an offline service. Existing Hub values stay authoritative; unresolved conflicts are reported while independent stages can finish."
+        "note": "Status shows configuration differences. Doctor starts MCP connections and lists tools without calling them. Conflicts need a decision; unrelated setup stages can still finish. Native client permissions continue to apply."
       },
       {
         "number": "↗",
-        "title": "Prefer an interface?",
-        "intro": "The shared Hub can be configured from any folder.",
+        "title": "Use the local interface",
+        "intro": "Open the same setup in your browser.",
         "code": "ahub ui",
-        "note": "On Overview choose Set up shared Hub → Preview shared Hub setup → Apply shared Hub setup. Optional project memory has its own Connect project action when you start the UI from that Git project."
+        "note": "On Overview, choose Set up shared Hub and review the changes. To connect project memory, start the UI from that Git project and choose Connect project."
       },
       {
         "number": "Optional",
-        "title": "Connect a project when you need memory",
+        "title": "Optional: share a project’s memory",
         "intro": "Do this after shared Hub setup. The path is your Git project, not the Hub directory.",
         "code": "ahub project connect /path/to/project",
-        "note": "Separate preview for project memory, handoff files and project-gated hooks. It does not import or synchronize global tools, skills or shared instructions. From inside a project, omit the path. --no-automation leaves new hook/policy enablement out."
+        "note": "This imports matched Markdown notes and prepares project handoff files and memory hooks. It does not sync global tools or skills. From inside the project, omit the path. Use --no-automation to skip installing new hooks."
       },
       {
         "number": "↶",
         "title": "Undo a setup run",
-        "intro": "Review the pre-run state and confirm in a terminal. Explicit dry runs and scripts remain available.",
+        "intro": "See the state before your last setup run, then confirm the rollback.",
         "code": "ahub undo",
         "note": "Undo covers one recorded quick or project-connect workflow and refuses later changes. Advanced recovery remains available: restore reverses one stage; reset restores the first baseline and archives current data."
       }
@@ -639,12 +639,12 @@
   },
   "commandsSection": {
     "eyebrow": "05 / EVERY CAPABILITY",
-    "title1": "What the command does.",
-    "title2": "What you get back.",
-    "intro": "Start with the everyday commands. Advanced operations and client integrations have a separate view; every entry explains its purpose, caller and effects.",
+    "title1": "Choose a task.",
+    "title2": "Find its command.",
+    "intro": "Start with quick or ui. Open the advanced view when you need a specific import, sync or recovery operation.",
     "label": "Agent Hub commands",
     "noScript": "Command switching requires JavaScript. The workflow, getting started, scope and recovery remain readable below. The source download also includes the full CLI README.",
-    "filterLabel": "Command audience",
+    "filterLabel": "Show commands",
     "levels": {
       "everyday": "Everyday commands",
       "advanced": "Advanced operations",
@@ -665,9 +665,9 @@
   },
   "files": {
     "eyebrow": "06 / ON YOUR DISK",
-    "title1": "Your settings.",
-    "accent": "Ordinary files.",
-    "intro": "Hub lives in ~/.agent-hub. Set AGENT_HUB_HOME to use another directory. Client directories and the DSH profile can also be configured.",
+    "title1": "Stored",
+    "accent": "on your computer.",
+    "intro": "Hub uses ~/.agent-hub by default. AGENT_HUB_HOME selects another folder. Client paths and the DSH profile can also be changed.",
     "secret": "The registry keeps a reference such as ${DOCS_API_TOKEN}. Its value lives in the local .env file and is resolved when MCP starts.",
     "detailTitle": "What does startup look like after sync?",
     "detail": "The client stores a Node → Hub CLI → mcp run name invocation and AGENT_HUB_HOME instead of copied tokens. The launcher reads the registry and .env. STDIO servers start directly; HTTP/SSE uses a transport bridge. Hub and its CLI must remain available at the configured paths. Memory uses a separate project-bound memory serve process over the same local record service. Native note changes enter Hub at a lifecycle event, a manual import or a watcher scan.",
@@ -682,9 +682,9 @@
   },
   "recovery": {
     "eyebrow": "07 / THE WAY BACK",
-    "title1": "You can go back.",
-    "title2": "Choose the destination.",
-    "intro": "Both commands show a plan first. Applying requires an explicit action and a freshness check.",
+    "title1": "Undo changes.",
+    "title2": "Keep your originals.",
+    "intro": "Use ahub undo for a recorded setup run. The advanced restore and reset commands below cover individual operations and the first saved state. Each shows a plan before writing.",
     "restoreLabel": "ONE STEP BACK",
     "restoreTitle": "restore",
     "restoreIntro": "Undo a specific managed sync, content or memory operation using its backup ID.",
@@ -701,8 +701,8 @@
       "If Hub originally did not exist, return its path to absence.",
       "If Hub already existed, restore that checkpoint."
     ],
-    "noteTitle": "“Before the first run” requires an original state that was actually recorded.",
-    "note": "A baseline is captured before the first managed write. If Hub existed before recovery was introduced, its unknown past cannot be reconstructed. Reset refuses to proceed without a baseline; a dry run never creates one retroactively.",
+    "noteTitle": "Recovery needs a saved original.",
+    "note": "Hub records the original state before its first managed write. It cannot recover a state from before those records existed. Reset stops if the baseline is missing.",
     "detailTitle": "External edits, locks and interrupted resets",
     "details": [
       "Manual changes to a client file or its mode block reset. Preview with --archive-changes offers to archive the current file, then restore the original file in full. This is not a merge. A repointed symlink remains a blocker.",
@@ -713,11 +713,11 @@
   },
   "scope": {
     "eyebrow": "08 / CURRENT SCOPE",
-    "title1": "Clear about today.",
-    "title2": "Honest about tomorrow.",
-    "intro": "Agent Hub is evolving. This page describes a specific source snapshot rather than a wishlist.",
+    "title1": "Available now.",
+    "title2": "Still planned.",
+    "intro": "These are the capabilities in the source version shown below.",
     "caption": "Agent Hub capability status",
-    "headers": ["Area", "Today", "Implementation boundary"],
+    "headers": ["Area", "Today", "What it supports"],
     "rows": [
       {
         "name": "MCP",
@@ -783,9 +783,9 @@
   },
   "faq": {
     "eyebrow": "09 / A FEW MORE ANSWERS",
-    "title1": "Make the details",
-    "title2": "make sense.",
-    "intro": "Plain explanations for beginners. Boundaries and failure behavior for experienced users.",
+    "title1": "Common",
+    "title2": "questions.",
+    "intro": "Setup, shared data, conflicts and recovery.",
     "items": [
       {
         "question": "What is the fastest way to get a usable Hub?",
@@ -793,27 +793,27 @@
       },
       {
         "question": "Do I need a workspace to create a Hub?",
-        "answer": "No. ahub quick prepares the shared Hub without a project or Git repository. The Hub normally lives at ~/.agent-hub. A project directory is only needed for the separate ahub project connect operation, which keeps project knowledge scoped and prepares handoff files. It never means the Hub storage path."
+        "answer": "No. Run ahub quick from any folder. Hub normally lives at ~/.agent-hub. A Git project path is only needed when you connect that project’s memory with ahub project connect."
       },
       {
         "question": "Does this replace Claude, Codex or DSH?",
-        "answer": "No. Keep using your existing clients. Hub manages their MCP settings and helps expose differences. It does not supply a model, subscription or conversation transfer."
+        "answer": "No. Keep using your clients and subscriptions. Hub manages shared settings, skills and notes. It does not provide a model or transfer conversations."
       },
       {
         "question": "Is this website the local interface?",
-        "answer": "This website is a guide with a fictional demonstration. It does not read your files. The ui command starts a separate local application with real data and operations on your computer."
+        "answer": "This site explains the product using fictional examples. Run ahub ui to open the separate local interface, which reads and manages your real Hub."
       },
       {
         "question": "What happens to my manual settings?",
-        "answer": "Sync preserves unrelated MCP entries, other settings and Codex tool policies. Conflicting definitions need a decision. Deleting an entry from the registry only removes an unchanged client entry that Hub previously owned. Review the entire plan. Skills preserve unrelated entries and back up equivalent-copy migrations. Shared context updates only its owned block; project setup preserves existing notes."
+        "answer": "Hub preserves unrelated settings and personal text. Different copies need your decision before replacement. It removes a client entry only if Hub managed that entry and it has not changed locally. Review the plan before applying."
       },
       {
         "question": "Why can doctor pass while a tool still fails?",
-        "answer": "A successful MCP handshake means initialization and tool discovery worked. Doctor does not call tools/call. A backend, operation-specific authorization or data can still be unavailable. Optional readiness checks separate some of these cases but do not replace functional API checks."
+        "answer": "Doctor checks that an MCP server starts, connects and lists tools. It does not run the tools. The backend, credentials for a particular operation or requested data can still be unavailable."
       },
       {
         "question": "What stops an old plan from being applied?",
-        "answer": "The revision in --expect checks inputs before writing. A changed file requires a new preview. In the local UI, plans are also single-use and expire after five minutes. Locks and atomic replacement of individual files reduce races; they are not a transaction across your entire computer."
+        "answer": "Hub checks that the files still match the preview before writing. Changed inputs require a new plan. UI previews also expire after five minutes and can be used once. These checks do not make a multi-file update power-loss-safe."
       },
       {
         "question": "Do credentials have to go to the cloud?",
@@ -825,7 +825,7 @@
       },
       {
         "question": "Is there automatic sync or a cloud account?",
-        "answer": "Memory can run automatically after project setup: native imports at SessionStart/Stop and one semantic checkpoint through the active agent. A foreground watcher can scan between sessions. MCP, skills and instruction delivery still use explicit reviewed plans. There is no installed OS service or background cloud sync."
+        "answer": "Project memory can import native notes at session events and ask the active agent to save useful facts. A foreground watcher can check note files between sessions. Shared tools, skills and instructions still need a reviewed sync. There is no installed background service or cloud account."
       },
       {
         "question": "Does existing client memory import into Hub?",
@@ -833,11 +833,11 @@
       },
       {
         "question": "What if Claude and DSH change the same fact?",
-        "answer": "Hub retains source bindings and compares record revisions. An unchanged owned record can update; a divergent duplicate source or a manually edited/deleted Hub record becomes a queued conflict. Inspect both versions, preview keeping Hub or taking the queued incoming value, then apply the exact plan. Incoming history remains available."
+        "answer": "If a source and its Hub record have both changed, Hub keeps both versions for review. Choose the incoming version or keep Hub’s version, then confirm the plan. It also detects deleted records and duplicate sources."
       },
       {
         "question": "Do I need another model or memory database?",
-        "answer": "No extra model is started for this feature. Markdown records in Hub are the authoritative store and its Memory MCP server exposes the same service. A Stop hook asks the agent already serving your conversation to select evidenced durable knowledge; that can add a model continuation and still follows native tool permissions. It does not reconstruct context the agent has already lost."
+        "answer": "No. Hub stores Markdown notes, and its optional Memory MCP server gives clients access to them. Enabled hooks ask the agent in your current conversation to select useful facts. That may add a model continuation; it cannot recover context the agent has already lost."
       },
       {
         "question": "Why is following a source different from enabling hooks?",
@@ -846,10 +846,10 @@
     ]
   },
   "closing": {
-    "eyebrow": "THE NEXT STEP IS JUST A LOOK",
-    "title1": "Clarity first.",
-    "accent": "Changes second.",
-    "action": "Go to the first run"
+    "eyebrow": "GET STARTED",
+    "title1": "Start with",
+    "accent": "a preview.",
+    "action": "Set up your Hub"
   },
   "footer": {
     "revision": "English field guide · beta 0.1.0-beta.1 · source 06c4960",
@@ -862,21 +862,21 @@
   },
   "memory": {
     "eyebrow": "02 / MEMORY ACROSS CLIENTS",
-    "title1": "Knowledge survives",
-    "title2": "the client switch.",
-    "intro": "Claude, Codex and DSH can read the same project facts from Hub through MCP or CLI. Shared knowledge is a separate, explicitly enabled scope. Native notes remain at their original paths.",
+    "title1": "Project notes",
+    "title2": "across clients.",
+    "intro": "Claude, Codex and DSH can read the same project notes from Hub through MCP or CLI. Existing native notes stay in place. Knowledge shared across projects is enabled separately.",
     "steps": [
       {
-        "title": "Find what already exists",
-        "body": "Discover client memory directories and their project evidence. Review the selected import; MEMORY.md inline facts are included, while pure local navigation links are omitted. Unresolved sources need an explicit project choice."
+        "title": "Import existing notes",
+        "body": "Find Markdown notes, check which project they belong to and choose what to import. Hub keeps facts from MEMORY.md and skips links used only for local navigation."
       },
       {
-        "title": "Read one current collection",
-        "body": "Clients query the same Hub records. A write through Hub is visible on the next read by another client. An existing conversation does not silently refresh knowledge already in its context."
+        "title": "Read from Hub",
+        "body": "Each client reads the same Hub records. Changes appear on its next read; notes already loaded into an open conversation are not refreshed automatically."
       },
       {
-        "title": "Learn at the end of a task",
-        "body": "An enabled lifecycle hook asks the active agent for one evidenced checkpoint, or an empty acknowledgement. It uses the current agent and can add a model continuation; saving still follows client permissions."
+        "title": "Save useful knowledge",
+        "body": "With project hooks enabled, the active agent is asked to save supported facts or report that there is nothing to save. This can add a model continuation and still requires the client’s permissions."
       }
     ],
     "automaticTitle": "What happens automatically?",
@@ -885,14 +885,14 @@
       "Stop imports native changes again, then requests one semantic checkpoint. A one-use session token prevents repeat extraction loops.",
       "An optional foreground watcher imports native file changes between sessions. It is not an installed OS service."
     ],
-    "reviewTitle": "What still needs a reviewed operation?",
+    "reviewTitle": "What needs confirmation?",
     "review": [
-      "Use ahub quick for shared MCP, skills and instruction delivery. Project memory is connected separately.",
-      "ahub project connect reviews a project’s memory, handoff and hooks. The individual memory onboard --follow command only attaches sources; memory auto enable installs hooks separately.",
-      "Manual memory writes and conflict resolution use preview/apply. Incompatible source or Hub edits stay visible as conflicts."
+      "Run ahub quick to review shared tools, skills and instructions. Connect project memory separately.",
+      "ahub project connect reviews project notes, handoff files and hooks. Advanced commands let you import notes or install hooks separately.",
+      "Manual note edits and conflict resolutions show a plan before writing."
     ],
-    "boundaryTitle": "Supported sources and clear limits",
-    "boundary": "Markdown source discovery and import are available. Native SQLite stores are reported but not imported, and external graph-memory interchange and archived-conversation ingestion remain unimplemented. Hub does not mirror records back into every native store. Model-selected facts need a real working trial; protocol tests do not establish their usefulness."
+    "boundaryTitle": "Supported formats and limits",
+    "boundary": "Markdown notes can be imported. Native SQLite and graph stores cannot. Chat import and history sharing are not implemented yet. Hub does not copy knowledge back into every native memory store. A real-client trial is still needed to assess whether the saved facts are useful."
   },
   "docs": {
     "metaDescription": "Complete Agent Hub documentation: design, working guides for content, memory and automation, operations and recovery, plus research notes.",
