@@ -2,6 +2,10 @@
 
 The implemented import → sync → doctor → restore flow was exercised through the live UI and production CLI on macOS. Client writes used temporary configurations. Production client configurations were not synchronized.
 
+## Beta.2 preparation — 2026-11-06
+
+The beta.2 candidate passes 339 core tests and coverage (93.76% lines, 85.80% branches, 91.90% functions). Temporary-prefix tests pass fresh install, reinstall and uninstall. A published beta.1-to-beta.2 upgrade preserves Hub, recovery, memory, skills and native settings, with new archive/handoff/background operations checked. Production audit reports zero vulnerabilities; the full audit reports ten moderate development-package entries in the ESLint/typescript-eslint minimatch chain. No incompatible force fix was applied. A 70-second real-interface demo uses fictional data and an actual context download. The real Codex and DeepSeek Harness usefulness/conflict/recovery trial remains pending maintainer evidence; actual OS sign-in is a separate manual check.
+
 ## Current archive and context checks — 2026-11-06
 
 The current core passed 339 tests. Coverage: 93.53% lines, 85.68% branches and 91.90% functions. Architecture checks covered 197 modules and 961 imports. Package and isolated global-install checks passed. Temporary-home tests cover background selection, startup plans and revision-pinned context packets; browser checks cover archive controls and narrow layouts. Screenshots use six fictional conversations from three clients. A real sign-out/sign-in startup trial remains to be performed on macOS and Linux.

@@ -11,6 +11,7 @@ const mime = {
   '.svg': 'image/svg+xml',
   '.zip': 'application/zip',
   '.png': 'image/png',
+  '.mp4': 'video/mp4',
   '.xml': 'application/xml; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
 };

@@ -183,6 +183,15 @@ test('preview serves assets with correct MIME and rejects unsupported methods an
     (await fetch(`${origin}/social-card.png`)).headers.get('content-type'),
     /image\/png/,
   );
+  const video = await fetch(`${origin}/videos/hub-demo.mp4`);
+  assert.equal(video.status, 200);
+  assert.match(video.headers.get('content-type'), /video\/mp4/);
+  assert.equal(
+    Buffer.from(await video.arrayBuffer())
+      .subarray(4, 8)
+      .toString(),
+    'ftyp',
+  );
   assert.equal((await fetch(origin, { method: 'POST' })).status, 405);
   assert.equal((await fetch(`${origin}/%E0%A4%A`)).status, 400);
   assert.equal((await fetch(`${origin}/..%2Fpackage.json`)).status, 403);

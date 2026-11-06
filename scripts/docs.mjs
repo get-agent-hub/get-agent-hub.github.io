@@ -12,6 +12,18 @@ export const docsGroups = [
     ],
   },
   {
+    id: 'tasks',
+    pages: [
+      { slug: 'search-chats', file: 'SEARCH_CHATS.md', label: 'searchChats' },
+      { slug: 'share-mcp', file: 'SHARE_MCP.md', label: 'shareMcp' },
+      {
+        slug: 'continue-in-another-client',
+        file: 'CONTINUE_CHAT.md',
+        label: 'continueChat',
+      },
+    ],
+  },
+  {
     id: 'guides',
     pages: [
       {
@@ -133,9 +145,13 @@ export async function buildDocs(
       base,
       languageSwitcher: languageSwitcher(base, page.slug),
       pageTitle: escapeHtml(locale.docs.pages[page.label]),
+      pageDescription: escapeHtml(
+        locale.docs.descriptions?.[page.label] ?? locale.docs.metaDescription,
+      ),
       pageMetadata: metadata(
         page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
         `${locale.docs.pages[page.label]} · ${locale.brand.name}`,
+        locale.docs.descriptions?.[page.label] ?? locale.docs.metaDescription,
       ),
       docsNav: buildNav(locale, base, page.slug),
       docsContent: html,

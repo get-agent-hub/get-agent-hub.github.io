@@ -1801,3 +1801,30 @@ html[lang='ru'] .hero h1 {
 .not-found section {
   margin-block: 40px;
 }
+
+.task-guides {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin-top: 24px;
+}
+
+.demo-preview {
+  margin-bottom: 32px;
+}
+.demo-preview figure {
+  margin: 20px 0;
+}
+.demo-preview video {
+  display: block;
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.demo-preview figcaption {
+  margin: 14px 0;
+  color: var(--muted);
+  font-size: 14px;
+}

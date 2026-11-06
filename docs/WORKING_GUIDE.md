@@ -6,11 +6,23 @@ Mark each case PASS, FAIL or SKIPPED and record its evidence. A skipped case is 
 
 ## Get a working Hub first
 
-For the short route, follow [QUICKSTART.md](QUICKSTART.md): preview `ahub quick`, apply its emitted command and restart clients. This prepares shared tools, skills and instructions without a project. Optional `ahub project connect /path/to/project` separately sets up that Git project's memory, handoff and hooks. The local UI has separate **Review Hub setup** and **Connect project memory** actions.
+For the short route, follow [QUICKSTART.md](QUICKSTART.md): preview `ahub quick`, apply its emitted command and restart clients. This prepares shared tools, skills and instructions without a project. Optional `ahub project connect /path/to/project` separately sets up that Git project's memory, handoff and hooks. The local UI has separate **Review Hub setup** and **Connect project memory & handoff** actions.
 
 The numbered route below deliberately exercises individual commands and explicit project IDs. Choose it for a detailed manual trial. If project connect already registered your checkout, inspect `memory project ls` and reuse its binding instead of assigning another example ID. Keep intentional failures inside the isolated laboratory.
 
 ## 0. Set up the working terminal
+
+### Discover projects and try the archive (beta.2 candidate)
+
+Start `ahub ui` from any folder. Metadata discovery starts automatically over known supported Claude Code, Codex and DSH stores. Open **Projects** and expand **Find more projects & inspect source coverage** to inspect or repeat it. Check a known Git project, an ordinary folder and a missing historical location. Repeating an unchanged scan should keep stable counts. Check progress and Stop, retry, then reload while the server remains running; partial retries retain previous observations with their age. Finding a project does not register memory or grant another client access.
+
+In **All data → Chats**, expand **Sources & automatic updates**, select supported stores and choose **Save chats to Hub** or **Update archive now**. This explicitly copies supported history into Hub; native files stay in place. Read a saved conversation, search for a phrase from a message or tool result and filter by project/client. Check versions, original events and attachment coverage. A missing attachment reference does not mean its messages are missing. Discovery alone is not a full archive.
+
+For a real continuity trial, finish a small task step in one native client, enable selected-source background updates and verify its new message appears in Hub. Open the saved chat, choose **Continue in…**, select a second client and review the original excerpts and next step. Copy the context into a new native conversation. Check that the receiving agent identifies the right project, verifies current files and can complete the intended next step. Record the outcome separately from automated fixtures; preparing or copying a packet alone is not a successful two-client task. Active sessions remain client-owned, and target archive access needs a separate scoped connection if it is required.
+
+Background updates continue after the UI server closes. Test optional login startup separately only if you choose to install its reviewed files. An actual sign-out/sign-in trial is distinct from a direct worker test. Stop background updates before the reset laboratory below. See [Chats and projects](HISTORY.md) for source selection, startup limits and recovery boundaries.
+
+### Prepare the trial environment
 
 Install the CLI using [Quick start](QUICKSTART.md) first. Use the installed `ahub` executable throughout the working trial; no shell wrapper or source-directory cwd is needed. Capture its resolved runtime path only for the explicit Memory MCP launch definition below.
 

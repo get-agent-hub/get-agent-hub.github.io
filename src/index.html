@@ -44,7 +44,7 @@
           <div class="actions">
             <a class="button dark" href="#start"
               >{{hero.primary}} <span aria-hidden="true">↓</span></a
-            ><a class="text-link" href="#lab"
+            ><a class="text-link" href="#screenshots"
               >{{hero.secondary}} <span aria-hidden="true">↗</span></a
             >
           </div>
@@ -98,6 +98,33 @@
           <h2>{{screenshots.title}}</h2>
           <p>{{screenshots.intro}}</p>
         </div>
+        <details class="demo-preview">
+          <summary>{{screenshots.demoSummary}}</summary>
+          <figure>
+            <video
+              controls
+              playsinline
+              preload="none"
+              width="1360"
+              height="1064"
+              poster="{{{assetBase}}}images/hub-overview.png"
+              aria-label="{{screenshots.demoLabel}}"
+            >
+              <source
+                src="{{{assetBase}}}videos/hub-demo.mp4"
+                type="video/mp4"
+              />
+              {{screenshots.demoFallback}}
+            </video>
+            <figcaption>{{screenshots.demoCaption}}</figcaption>
+            <a
+              class="text-link"
+              href="{{{assetBase}}}videos/hub-demo.mp4"
+              download
+              >{{screenshots.demoDownload}}</a
+            >
+          </figure>
+        </details>
         <div class="screenshots-grid">
           <figure>
             <a href="{{{assetBase}}}images/hub-overview.png">
@@ -263,6 +290,17 @@
         <a class="button dark" href="{{{docsBase}}}quickstart/"
           >{{start.fullGuide}}</a
         >
+        <p class="task-guides">
+          <a class="text-link" href="{{{docsBase}}}search-chats/"
+            >{{start.searchGuide}}</a
+          >
+          <a class="text-link" href="{{{docsBase}}}share-mcp/"
+            >{{start.mcpGuide}}</a
+          >
+          <a class="text-link" href="{{{docsBase}}}continue-in-another-client/"
+            >{{start.continueGuide}}</a
+          >
+        </p>
       </section>
       <section id="commands" class="section wrap commands-section">
         <div class="horizontal-heading">

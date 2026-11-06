@@ -78,7 +78,7 @@ for (const tag of active) {
       ),
     output,
     reference,
-    (path, title) =>
+    (path, title, description) =>
       pageMetadata({
         origin,
         locale,
@@ -86,7 +86,7 @@ for (const tag of active) {
         languages: active,
         path,
         title,
-        description: locale.docs.metaDescription,
+        description,
       }),
   );
 }

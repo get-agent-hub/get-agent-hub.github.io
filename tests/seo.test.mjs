@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { docsPages } from '../scripts/docs.mjs';
 import { pageUrl, siteOrigin } from '../scripts/seo.mjs';
+import { escapeHtml } from '../scripts/render.mjs';
 
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url), 'utf8'),
@@ -14,6 +15,49 @@ const paths = [
     page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
   ),
 ];
+
+test('practical guides have localized task-specific descriptions and discoverable routes', async () => {
+  const tasks = docsPages.filter((page) => page.group === 'tasks');
+  assert.equal(tasks.length, 3);
+  for (const language of config.locales) {
+    const locale = JSON.parse(
+      await readFile(
+        new URL(`../locales/${language}.json`, import.meta.url),
+        'utf8',
+      ),
+    );
+    const prefix = language === config.locale ? '' : `${language}/`;
+    const landing = await readFile(
+      new URL(`../dist/${prefix}index.html`, import.meta.url),
+      'utf8',
+    );
+    const descriptions = new Set();
+    for (const page of tasks) {
+      const description = locale.docs.descriptions[page.label];
+      assert.ok(description && description !== locale.docs.metaDescription);
+      descriptions.add(description);
+      const html = await readFile(
+        new URL(
+          `../dist/${prefix}docs/${page.slug}/index.html`,
+          import.meta.url,
+        ),
+        'utf8',
+      );
+      assert.ok(
+        html.includes(
+          `name="description" content="${escapeHtml(description)}"`,
+        ),
+      );
+      assert.ok(
+        html.includes(
+          `property="og:description" content="${escapeHtml(description)}"`,
+        ),
+      );
+      assert.ok(landing.includes(`href="docs/${page.slug}/"`));
+    }
+    assert.equal(descriptions.size, tasks.length);
+  }
+});
 
 test('every landing and documentation page has its own canonical and complete language alternatives', async () => {
   for (const language of config.locales) {
