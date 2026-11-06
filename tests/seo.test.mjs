@@ -18,7 +18,7 @@ const paths = [
 
 test('practical guides have localized task-specific descriptions and discoverable routes', async () => {
   const tasks = docsPages.filter((page) => page.group === 'tasks');
-  assert.equal(tasks.length, 3);
+  assert.equal(tasks.length, 6);
   for (const language of config.locales) {
     const locale = JSON.parse(
       await readFile(

@@ -21,6 +21,21 @@ export const docsGroups = [
         file: 'CONTINUE_CHAT.md',
         label: 'continueChat',
       },
+      {
+        slug: 'preserve-chat-history',
+        file: 'PRESERVE_HISTORY.md',
+        label: 'preserveHistory',
+      },
+      {
+        slug: 'share-skills-and-instructions',
+        file: 'SHARE_SKILLS.md',
+        label: 'shareSkills',
+      },
+      {
+        slug: 'agent-hub-vs-hansard',
+        file: 'HANSARD.md',
+        label: 'hansard',
+      },
     ],
   },
   {

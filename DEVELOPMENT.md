@@ -21,6 +21,8 @@ Requires Node.js 22.13+ and npm. Run `npm ci`, then `npm run dev` for a loopback
 - `scripts/`: locale validation, escaped HTML rendering, Markdown conversion, documentation build and loopback preview.
 - `tests/`: content, translation, rendering and HTTP checks. Browser QA is a separate step.
 
+The six practical guides in `scripts/docs.mjs` each need a unique localized description, a link from the landing page and links to the relevant reference pages. Keep these task guides distinct: finding history, preserving history, carrying context, sharing MCP, sharing skills/instructions and choosing between tools. The Hansard comparison is maintainer-written, dated and linked to its official source; recheck claims before updating it. Do not add unsupported keyword variants or claim search traffic without evidence.
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language does not require component changes. Missing or extra keys, blank required translations and changed CLI syntax fail the build. Each route bundles its own locale; there are no automatic browser-language changes or silent translation fallbacks.
 
 ## Keeping the guide accurate

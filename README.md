@@ -33,7 +33,7 @@ All rendered copy belongs in `locales/`. English and Russian build to `/` and `/
 
 [Watch the 70-second real interface demo](public/videos/hub-demo.mp4). Fictional chats, English captions, no model call or simulated receiving-client response.
 
-Practical guides: [search saved chats](docs/SEARCH_CHATS.md), [share MCP settings](docs/SHARE_MCP.md) and [continue in another client](docs/CONTINUE_CHAT.md). Each ships in English and Russian with a task-specific description and stable route.
+Practical guides: [search saved chats](docs/SEARCH_CHATS.md), [share MCP settings](docs/SHARE_MCP.md), [continue in another client](docs/CONTINUE_CHAT.md), [preserve history](docs/PRESERVE_HISTORY.md), [share skills and instructions](docs/SHARE_SKILLS.md) and [compare with Hansard](docs/HANSARD.md). Each ships in English and Russian with a task-specific description and stable route.
 
 Screenshots show the real interface with fictional sample data. They are stored in `public/images/`; the landing uses the same images in both languages with localized captions and alternative text.
 
