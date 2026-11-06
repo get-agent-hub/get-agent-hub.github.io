@@ -27,7 +27,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language do
 
 End-user examples use the globally installed `ahub` executable after `npm run install:global` from the source directory. No public registry installation is advertised. The primary first-run route is **shared Hub setup and optional project connection**, documented in `docs/QUICKSTART.md` and linked from the documentation sidebar. Landing quick start, the command explorer and a fictional first-run scenario describe the same staged workflow. Individual area commands remain available.
 
-Current Agent Hub source: `06c4960def1b6b055454f22b72b8664c22636c58`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+Current Agent Hub source: `b028c6b3e596926da3956bb0a7d0ce6118cdbe04`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
 When updating the guide, refresh the English operational snapshots and both locale bodies from the reviewed core commit. Update the version/revision in `public/source.js`, the locale release/footer copy and this guide. Source code, installable packages and checksums are downloaded from GitHub; the website does not bundle a ZIP. Never include a user's Hub, .env, recovery files, logs, .tmp or private hosting bindings in public source. Use generic paths and fictional server names in examples.
 

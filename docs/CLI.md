@@ -21,6 +21,8 @@ In a terminal, quick and project connection show their plan and ask before apply
 
 | Command                             | Who uses it                                                                    | Purpose                                                                                               |
 | ----------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| `ahub history watch`                | Users keeping selected archive sources current.                                | Run a foreground/background watcher or preview user-login startup for the saved selection.            |
+| `ahub history handoff`              | Users preparing a new conversation in another client.                          | Review a read-only context packet with original excerpts and preserved revision references.           |
 | `ahub init`                         | Maintainers adopting a Hub layout or configuring its local Git history.        | Prepare Hub files and optional Git history without collecting or delivering client settings.          |
 | `ahub import`                       | Terminal users and scripts choosing exact client sources.                      | Preview collecting selected MCP definitions or complete skill bundles into Hub.                       |
 | `ahub sync`                         | Terminal users and scripts delivering a specific area or item.                 | Preview delivery from Hub to clients: MCP by default, or explicit skills/context areas.               |

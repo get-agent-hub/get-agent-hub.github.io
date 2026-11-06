@@ -6,11 +6,19 @@ Run `ahub ui` to open Hub on your computer. Reading a page does not apply config
 
 **Overview** shows your inventory and recent saved conversations. **All data** contains Chats, Skills, MCP servers, Instructions and Memory. **Projects** groups conversations by recorded working folder; nested locations are expandable. Ordinary folders and unavailable historical paths are shown separately.
 
-In **All data → Chats**, choose **Manage history sources**, select stores and **Capture selected history**. Read messages, search tool data, filter by project/client and choose newest/oldest first-record dates. **All events** retains technical context; conversation details hold versions, coverage and source downloads. See [Chats and projects](HISTORY.md) for storage, updates and scoped client access.
+In **All data → Chats**, open **Sources & automatic updates**, select stores and choose **Save chats to Hub** or **Update archive now**. Read messages, search tool data and filter by project/client or first-record date. **All events** retains technical context; details contain versions, coverage and original downloads. See [Chats and projects](HISTORY.md).
 
 Use **Sources & settings** for shared setup. Connect project memory separately; discovering a project does not grant it memory or archive access. Knowledge scope controls shared/project memory and expires old previews when changed.
 
 For an MCP item, **Settings differ** means launch settings differ, not that the service is down. Choose the Hub or client copy only when the settings really need replacing. A recognized connection to this Hub shows **Uses Hub settings**, even if another installed Hub or Node version generated its launcher. It needs no conflict resolution. **Test the connection** checks availability separately. Each actual change opens a preview for that server and destination.
+
+## Archive controls
+
+**Your local archive** shows saved conversation and event counts, captured source bytes, background status and the last complete update. Captured data is not exact disk usage. Attachment warnings describe references whose files were not saved, separately from message coverage. Expand **Sources & automatic updates** for client status, folder details and update controls; **Storage & troubleshooting** contains index rebuilding.
+
+## Continue in another client
+
+Open a saved chat and choose **Continue in…**. Pick a target, optionally describe the next step, then prepare and review the original excerpts. Copy or download the context and paste it into a new conversation. Source links point to the preserved revision. This makes no model call, launches no client and grants no archive access. The full saved chat remains available; the compact packet reports omitted content.
 
 ## API
 
@@ -34,11 +42,11 @@ The UI supports import, dry-run sync, guarded client MCP writes, filtering and d
 
 ## Next
 
-Run the personal workflow in [WORKING_GUIDE.md](WORKING_GUIDE.md), then complete release validation. Shared context delivery and repository templates are implemented; [CONTENT.md](CONTENT.md) defines their exact scope. Sync and restore are implemented in `src/core/sync.ts`, `config-edit.ts` and `restore.ts`; CLI and UI share the sync planner. Codex STDIO fields and local tool policies follow the [official OpenAI documentation](https://learn.chatgpt.com/docs/extend/mcp?surface=cli).
+Run the personal workflow in [WORKING_GUIDE.md](WORKING_GUIDE.md), then complete release validation. Shared context delivery and repository templates are implemented; [CONTENT.md](CONTENT.md) defines their exact scope. Sync and restore are implemented in `src/core/mcp/sync.ts`, `src/core/mcp/config-edit.ts` and `src/core/recovery/restore.ts`; CLI and UI share the sync planner. Codex STDIO fields and local tool policies follow the [official OpenAI documentation](https://learn.chatgpt.com/docs/extend/mcp?surface=cli).
 
 ## Doctor jobs
 
-`src/core/doctor.ts` schedules bounded probes and saves the last report. Each isolated worker uses the official SDK to connect through `ahub mcp run`, then lists tools without invoking any. The parent enforces an overall deadline and stops the process group on macOS/Linux, including descendants that ignore graceful termination. Errors are classified into fixed messages; raw logs never cross the worker boundary into reports.
+`src/core/diagnostics/doctor.ts` schedules bounded probes and saves the last report. Each isolated worker uses the official SDK to connect through `ahub mcp run`, then lists tools without invoking any. The parent enforces an overall deadline and stops the process group on macOS/Linux, including descendants that ignore graceful termination. Errors are classified into fixed messages; raw logs never cross the worker boundary into reports.
 
 HTTP jobs return immediately and can be polled; only one doctor job runs at a time in each UI server. Closing the server cancels its jobs and waits for cleanup. Jobs are bounded in memory. CLI and UI reports share `state/doctor.json`; a registry/credential revision marks old results stale. Check timestamps are always visible. This is connection/tool discovery evidence, separate from configuration drift and upstream API health.
 

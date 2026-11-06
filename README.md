@@ -29,6 +29,8 @@ All rendered copy belongs in `locales/`. English and Russian build to `/` and `/
 
 ![Agent Hub local interface with a saved archive and shared resources](public/images/hub-overview.png)
 
+[Archive and automatic updates](public/images/hub-archive.png) · [Continue in another client](public/images/hub-handoff.png) · [Saved conversation](public/images/hub-chat.png)
+
 Screenshots show the real interface with fictional sample data. They are stored in `public/images/`; the landing uses the same images in both languages with localized captions and alternative text.
 
 ## Publish

@@ -2,6 +2,10 @@
 
 The implemented import → sync → doctor → restore flow was exercised through the live UI and production CLI on macOS. Client writes used temporary configurations. Production client configurations were not synchronized.
 
+## Current archive and context checks — 2026-11-06
+
+The current core passed 339 tests. Coverage: 93.53% lines, 85.68% branches and 91.90% functions. Architecture checks covered 197 modules and 961 imports. Package and isolated global-install checks passed. Temporary-home tests cover background selection, startup plans and revision-pinned context packets; browser checks cover archive controls and narrow layouts. Screenshots use six fictional conversations from three clients. A real sign-out/sign-in startup trial remains to be performed on macOS and Linux.
+
 ## Earlier MCP snapshot — 2026-11-02
 
 All **43 tests passed**, and JavaScript syntax and `git diff --check` passed.

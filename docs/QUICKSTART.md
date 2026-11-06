@@ -1,6 +1,6 @@
 # Quick start: one shared Hub
 
-This guide describes source 81ca3ab, including changes after the published 0.1.0-beta.1 archive. Use the current source checkout for the chat and interface features described here.
+This guide describes source b028c6b, including changes after the published 0.1.0-beta.1 archive. Use the current source checkout for the chat and interface features described here.
 
 Agent Hub manages shared MCP tools, skills and instructions for Claude Code, Codex CLI and DeepSeek Harness. Start with one shared Hub; no project path or Git repository is required. Project memory and handoff are optional, separate setup.
 
