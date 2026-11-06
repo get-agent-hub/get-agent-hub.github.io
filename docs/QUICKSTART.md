@@ -91,9 +91,9 @@ In a terminal these public workflows show the plan and ask before applying. Use 
 ahub ui
 ```
 
-**Set up shared Hub** works from any folder, even before Hub initialization. It previews global tools, skills and shared instructions only.
+**Review Hub setup** works from any folder, even before Hub initialization. It previews global tools, skills and shared instructions only.
 
-For optional project setup, start `ahub ui` from that Git project, then choose **Connect project memory** on Overview or **Connect project memory & handoff** on Repos & tasks. This is a separate preview with a visible project path and an explicit hook option. Use the header to switch among verified projects already registered in this Hub, the startup folder or shared knowledge. Requests cannot choose an arbitrary path. Switching expires all setup/content/memory previews. Preview IDs expire after five minutes and apply once.
+For optional project setup, start `ahub ui` from that Git project, open **Projects → Current folder context**, then choose **Connect project memory & handoff**. This is a separate preview with a visible project path and an explicit hook option. Use the header to switch among verified projects already registered in this Hub, the startup folder or shared knowledge. Requests cannot choose an arbitrary path. Switching expires all setup/content/memory previews. Preview IDs expire after five minutes and apply once.
 
 ## Conflicts, repeat runs and automation boundaries
 

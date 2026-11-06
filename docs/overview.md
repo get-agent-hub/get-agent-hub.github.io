@@ -22,20 +22,19 @@ See [CHANGELOG.md](CHANGELOG.md) for the beta scope, [RELEASE.md](docs/RELEASE.m
 
 Project memory is optional and separate. After the Hub is ready, use `ahub project connect /path/to/project` to preview one Git project's memory, handoff files and hooks. That path selects the project; Hub storage remains `~/.agent-hub` unless `AGENT_HUB_HOME` selects another location. Project connection does not synchronize global tools or skills.
 
-For a graphical start, run `ahub ui` and choose **Set up shared Hub**. From a Git project, **Connect project memory** is a separate action after Hub setup. See [QUICKSTART.md](docs/QUICKSTART.md) for scopes, repeat runs and recovery. Both workflows are staged and record guarded per-run undo snapshots. `ahub undo` previews the latest run; `reset` returns to the first baseline.
+For a graphical start, run `ahub ui` and choose **Review Hub setup**. From a Git project, **Connect project memory** is a separate action after Hub setup. See [QUICKSTART.md](docs/QUICKSTART.md) for scopes, repeat runs and recovery. Both workflows are staged and record guarded per-run undo snapshots. `ahub undo` previews the latest run; `reset` returns to the first baseline.
 
 The UI opens at **http://127.0.0.1:3082**. Stop the server with Ctrl+C. Use `--port 3083` to choose another port, or `--no-open` to open the page yourself. Start it from a repository to view that repository's project context.
 
-The UI keeps the visual style of the [original HTML mockups](ui/mockups/README.md), with live data:
+The interface has three main destinations:
 
-- **Overview:** separate shared Hub setup and optional project connection, per-stage outcomes, detected clients, configuration differences and actual Hub counts.
-- **Skills:** inspect the client matrix and SKILL.md, preview imports, choose source preference and deliver complete skill bundles through individual client links with backups.
-- **MCP servers:** compare definitions, inspect a credential-safe hub configuration, preview imports and dry-run synchronization. Choose a source preference for conflicts; existing definitions are skipped unless replacement is explicitly selected. Apply uses one hub lock and guarded writes for credentials, registry and import provenance, rolling back earlier writes if a later write fails. It never stages or commits unrelated hub files. It does not write client configurations. A plan expires after five minutes and must be reviewed again if its inputs change.
-- **Instructions and memory:** deliver shared rules/index through owned client instruction blocks. Discover existing client memory, review its project scope and import selected Markdown knowledge through CLI or UI. Manage the same scoped records through CLI, UI or an optional MCP server. Project automation imports selected native notes and requests semantic checkpoints from the active agent under a one-time enabled policy, with conflict protection and recovery. Personal text and native sources are preserved.
-- **Repos & tasks:** inspect the current repository and preview guarded init-repo setup of AGENTS.md, PROJECT.md, NOW.md and the Claude import. Existing notes are preserved. Repository scanning and agent launching remain future work.
-- **Chats:** capture supported local conversations, read messages, search the archive and browse related projects. See [Chats and projects](HISTORY.md).
+- **Overview:** inventory counts, saved conversations and detected clients.
+- **All data:** Chats, Skills, MCP servers, Instructions and Memory. Search applies to the selected category; Chats searches saved messages and tool data.
+- **Projects:** projects grouped from captured conversations, with related folders in details and separate groups for ordinary or unavailable locations. Open a project's chats or manage its client access.
 
-Search filters skills, MCP servers and memory; ⌘K / Ctrl+K focuses it. The theme follows your system until you choose a theme in the UI. Refresh rereads files from disk.
+**Sources & settings** contains reviewed shared setup and connection checks. For project notes and memory setup, open **Projects → Current folder context**. Each write uses a preview; finding a project does not connect memory or grant archive access. See [the interface guide](UI.md) and [Chats and projects](HISTORY.md).
+
+Use ⌘K / Ctrl+K to focus search. The theme follows your system until changed. Refresh rereads the current view.
 
 ## Skills, shared context and repository handoff
 
