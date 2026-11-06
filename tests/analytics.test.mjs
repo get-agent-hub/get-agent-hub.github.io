@@ -200,7 +200,7 @@ test('traffic-source categories never mistake lookalike domains for search engin
   }
 });
 
-test('all 60 localized routes have localized settings and only a reviewed page group', async () => {
+test('all localized routes have localized settings and only a reviewed page group', async () => {
   const paths = [
     '',
     ...useCases.map((page) => page.slug + '/'),

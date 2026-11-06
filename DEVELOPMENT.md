@@ -20,6 +20,7 @@ Requires Node.js 22.13+ and npm. Run `npm ci`, then `npm run dev` for a loopback
 - `public/app.js`: accessible controls and command copying. Content enters the DOM through textContent.
 - `public/styles.css`: responsive layout, focus styles and reduced-motion support.
 - `scripts/`: locale validation, escaped HTML rendering, Markdown conversion, documentation build and loopback preview.
+- `SEO.md`: the 15-topic route catalog, metadata/discovery-file decisions and account-level indexing follow-up. Manifests, sitemap and robots are generated; PNG/ICO assets are committed and can be regenerated with `npm run icons` and optional ImageMagick.
 - `tests/`: content, translation, rendering and HTTP checks. Browser QA is a separate step.
 
 The six practical guides in `scripts/docs.mjs` each need a unique localized description, a link from the landing page and links to the relevant reference pages. Keep these task guides distinct: finding history, preserving history, carrying context, sharing MCP, sharing skills/instructions and choosing between tools. The Hansard comparison is maintainer-written, dated and linked to its official source; recheck claims before updating it. Do not add unsupported keyword variants or claim search traffic without evidence.
@@ -43,3 +44,5 @@ The site has default-on basic PostHog analytics through the first-party metrics 
 The initial npm audit reported five moderate entries in the ESLint → minimatch development-tool chain (GHSA-g3hv-75wg-m249). These tools are excluded from the static deployment. No incompatible downgrade or unexplained override was applied; recheck compatible upstream updates before a release.
 
 The header GitHub mark links to the source repository; download links go to GitHub Releases. The local Octicons SVG and its MIT license are included in public assets. Release archives/checksums are built by the core repository's release workflow, not by the website.
+
+The home shows five featured topic cards and ten more in a native disclosure. Each task page links to three related workflows. New topics reuse reviewed coarse analytics groups; no relay schema change or raw page-path collection is implied. Page JSON-LD must agree with visible titles, descriptions and breadcrumbs. Browser manifests use display=browser and preserve language; no offline behavior is advertised.

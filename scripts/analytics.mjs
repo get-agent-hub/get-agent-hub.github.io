@@ -9,13 +9,14 @@ export async function addAnalytics(
   origin,
   rootBase = '',
 ) {
+  const entry = useCases.find((item) => path === item.slug + '/');
   const page = !path
     ? 'home'
     : path === 'docs/quickstart/'
       ? 'quickstart'
       : path.startsWith('docs/')
         ? 'docs'
-        : useCases.find((item) => path === item.slug + '/')?.key;
+        : (entry?.analyticsPage ?? entry?.key);
   if (!page) throw new Error('Unreviewed analytics page group.');
   const copy = locale.analytics;
   const assetBase =

@@ -161,6 +161,18 @@ test('preview serves assets with correct MIME and rejects unsupported methods an
   const docsPage = await fetch(`${origin}/docs/memory/`);
   assert.equal(docsPage.status, 200);
   assert.ok((await docsPage.text()).includes('id="scopes-and-storage"'));
+  for (const route of ['/site.webmanifest', '/ru/site.webmanifest']) {
+    const response = await fetch(`${origin}${route}`);
+    assert.equal(response.status, 200);
+    assert.match(
+      response.headers.get('content-type'),
+      /application\/manifest\+json/,
+    );
+    assert.equal(
+      (await response.json()).lang,
+      route.startsWith('/ru/') ? 'ru' : 'en',
+    );
+  }
   assert.match(
     (await fetch(`${origin}/app.js`)).headers.get('content-type'),
     /javascript/,

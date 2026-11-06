@@ -6,6 +6,8 @@ The English/Russian landing page and documentation for [Agent Hub](https://githu
 
 Standalone landing pages: [chat history](https://getahub.dev/claude-code-codex-chat-history/), [context handoff](https://getahub.dev/continue-claude-code-in-codex/), [shared MCP](https://getahub.dev/share-mcp-config/), [shared skills](https://getahub.dev/share-agent-skills/) and [Agent Hub vs Hansard](https://getahub.dev/agent-hub-vs-hansard/). Each also ships under `/ru/` and links to its detailed guide.
 
+Ten additional workflows cover backups, exports, tool results, project grouping, shared/imported memory, instructions, MCP conflicts, recovery and background updates. See [the SEO route and metadata guide](SEO.md) for all 15 topic pages, 80 localized routes, generated discovery files and search-console follow-up.
+
 ## Run locally
 
 Requires **Node.js 22.13+** and npm.

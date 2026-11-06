@@ -1301,8 +1301,550 @@
         ],
         "nextTitle": "Read the comparison before choosing.",
         "nextBody": "The dated guide links to Hansard’s official site, credits its scope and describes Agent Hub’s limits. Both products can change after that review."
+      },
+      "backup": {
+        "title": "Local AI chat backup for Claude Code, Codex and DSH · Agent Hub",
+        "description": "Preserve supported local AI coding chats with source versions and coverage checks. Understand what a Hub archive saves and what still needs a device backup.",
+        "eyebrow": "Keep a local chat backup",
+        "heading": "Keep a copy of the conversations behind your work.",
+        "lead": "A useful answer can disappear from view when you switch clients or clean up old sessions. Save supported local conversations into Hub so you can inspect the copy and its original events later.",
+        "note": "The archive stays on this computer. Native history files stay in place.",
+        "cardTitle": "Keep a local chat backup",
+        "cardBody": "Preserve source versions and understand the limits of a same-device archive.",
+        "imageAlt": "Agent Hub archive controls with fictional source data",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Know what you have actually saved.",
+        "benefits": [
+          {
+            "title": "Preserved source bytes",
+            "body": "Hub keeps the supported source it read, alongside a searchable projection. You can inspect native events instead of relying only on a title or summary."
+          },
+          {
+            "title": "Earlier captured versions",
+            "body": "Later captures can retain earlier revisions. A missing original does not automatically erase a conversation already saved in Hub."
+          },
+          {
+            "title": "Visible coverage",
+            "body": "Review source-read results and attachment warnings separately. Complete event coverage does not mean every referenced image or document was copied."
+          }
+        ],
+        "stepsTitle": "Start with one source you can check.",
+        "steps": [
+          {
+            "title": "Select a local history store",
+            "body": "Open All data → Chats → Sources & automatic updates. Choose a supported Claude Code, Codex or DeepSeek Harness store."
+          },
+          {
+            "title": "Save and inspect",
+            "body": "Save chats to Hub, open a familiar conversation and compare a message with its original event. Check the source status and preserved version."
+          },
+          {
+            "title": "Protect the archive itself",
+            "body": "Include Hub and its private recovery data in your normal device backup. A second copy on the same disk does not protect against disk failure."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Can Hub recover chats already deleted from the client?",
+            "answer": "Only data available to a successful capture can be preserved. Hub cannot reconstruct a conversation it never read."
+          },
+          {
+            "question": "Is the archive encrypted or uploaded?",
+            "answer": "Archive data is stored locally with restricted permissions, without archive encryption. Basic usage events are on by default and can be disabled; they exclude chat text. Use your own private backup for device recovery."
+          }
+        ],
+        "nextTitle": "Check one saved conversation before relying on the archive.",
+        "nextBody": "The preservation guide explains source coverage, attachments, versions and the difference between a local archive and a computer backup."
+      },
+      "export": {
+        "title": "Export preserved AI chat history and source versions · Agent Hub",
+        "description": "Download a preserved native chat source from Agent Hub, inspect its version, or prepare bounded context excerpts for a new conversation in another client.",
+        "eyebrow": "Export a saved conversation",
+        "heading": "Take the saved source, or just the context you need.",
+        "lead": "Sometimes you need the original session record. Sometimes you only need enough context to continue a task. Hub offers preserved-source downloads and a separate reviewed context packet, with different limits.",
+        "note": "A source download and a context packet are different outputs. Review private content before sharing either.",
+        "cardTitle": "Export a saved conversation",
+        "cardBody": "Choose original source bytes or a smaller reviewed context packet.",
+        "imageAlt": "A preserved fictional conversation in Agent Hub",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Choose an output that fits the job.",
+        "benefits": [
+          {
+            "title": "Native source download",
+            "body": "Download the source bytes for a selected preserved version. Keep native fields and tool events available for inspection in their original format."
+          },
+          {
+            "title": "Readable context excerpts",
+            "body": "Use Continue in… to prepare bounded original-message excerpts for a new client. The packet includes source references and explains omissions."
+          },
+          {
+            "title": "Exact version selection",
+            "body": "Inspect Conversation details & preserved versions before downloading. A later capture may contain different messages from the version you originally checked."
+          }
+        ],
+        "stepsTitle": "Export from a conversation you have inspected.",
+        "steps": [
+          {
+            "title": "Find and open the chat",
+            "body": "Search the saved archive, confirm the client and project, and read the surrounding messages. Check the conversation’s preserved versions."
+          },
+          {
+            "title": "Choose the output",
+            "body": "For native bytes, select Download preserved source. For a new conversation, use Continue in… and inspect the context preview."
+          },
+          {
+            "title": "Keep the file in its intended scope",
+            "body": "Store a source download privately. Paste a context packet only into the intended client and ask it to verify current files before continuing."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Does this create a Markdown export of every event?",
+            "answer": "No. The preserved-source download returns native source bytes. The context packet is readable text, but it is deliberately bounded and may omit messages and tool output."
+          },
+          {
+            "question": "Can another client resume the source file directly?",
+            "answer": "Do not assume native session formats are interchangeable. Start a new chat with reviewed context; provider state, live processes and native permissions stay with their original client."
+          }
+        ],
+        "nextTitle": "Pick the preserved version before downloading.",
+        "nextBody": "The search guide shows where source downloads live and how to inspect original events and coverage."
+      },
+      "toolSearch": {
+        "title": "Search AI coding tool results and original events · Agent Hub",
+        "description": "Find errors, test output and tool results in preserved Claude Code, Codex and DSH histories. Read the original event and surrounding messages before reusing it.",
+        "eyebrow": "Search tool results",
+        "heading": "Find the test output behind an old answer.",
+        "lead": "You remember a failing test, command output or an unusual error. It may be hidden inside tool details rather than the final answer. Search the preserved events and open the evidence around the result.",
+        "note": "Text search over available preserved data. Hidden, deleted or unsupported content cannot be invented.",
+        "cardTitle": "Search tool results",
+        "cardBody": "Find an error or test result inside saved native events.",
+        "imageAlt": "A preserved fictional conversation in Agent Hub",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Read the result in its original context.",
+        "benefits": [
+          {
+            "title": "Search beyond titles",
+            "body": "Try a distinctive error string, test name or path fragment. You do not need to know which client produced the output."
+          },
+          {
+            "title": "Expand technical details",
+            "body": "Conversation view keeps tool and runtime details quieter. Open All events or Read original event when the readable message view is not enough."
+          },
+          {
+            "title": "Check what succeeded",
+            "body": "A proposed command is not a completed action. Read the recorded result and surrounding replies before treating an old suggestion as a verified fix."
+          }
+        ],
+        "stepsTitle": "Start with a specific fragment.",
+        "steps": [
+          {
+            "title": "Check capture coverage",
+            "body": "Save the selected history stores and inspect incomplete or unsupported event warnings. An index can only search the data available to it."
+          },
+          {
+            "title": "Search and narrow",
+            "body": "Search an exact error fragment, then filter by client or project. Open a result and read the nearby messages, not just the matching line."
+          },
+          {
+            "title": "Verify against current work",
+            "body": "Check the preserved version, project and native date. Re-run the relevant check in your current workspace before relying on the earlier result."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Is search a semantic answer engine?",
+            "answer": "No. It retrieves text from preserved data. It does not make a new model call or certify that an old answer is still correct."
+          },
+          {
+            "question": "Will every attachment be searchable?",
+            "answer": "No. A reference to an image, file or external page does not mean its contents were preserved or indexed. Review attachment coverage separately."
+          }
+        ],
+        "nextTitle": "Try a test name you remember.",
+        "nextBody": "The search guide covers saved event search, original-event access, filters and preserved-source downloads."
+      },
+      "projects": {
+        "title": "Organize AI coding projects from local chat history · Agent Hub",
+        "description": "Browse projects and recorded working folders found in captured AI chats. Understand repository grouping, worktrees and the difference between discovery and client access.",
+        "eyebrow": "Organize coding projects",
+        "heading": "See which projects your conversations belong to.",
+        "lead": "Chats started from a repository, a worktree and a nested folder can look like unrelated work. Hub groups recorded working locations so you can browse conversations by project and inspect the paths behind a match.",
+        "note": "Recorded folders are evidence of where a chat ran. They do not automatically grant access to that project.",
+        "cardTitle": "Organize coding projects",
+        "cardBody": "Browse project groups from captured chat metadata without granting client access.",
+        "imageAlt": "Agent Hub resource inventory with fictional projects and resources",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Keep discovery and permission separate.",
+        "benefits": [
+          {
+            "title": "One visible project root",
+            "body": "Project cards show a recorded root and conversation count. Related folders stay available in details instead of filling the main list."
+          },
+          {
+            "title": "Repository relationships",
+            "body": "Hub can group verified repository and worktree relationships. Ordinary and missing historical folders remain identifiable rather than being silently discarded."
+          },
+          {
+            "title": "Project-scoped browsing",
+            "body": "Use a project to narrow the archive. Connecting project memory or granting a client archive access is a separate reviewed action."
+          }
+        ],
+        "stepsTitle": "Go from a folder name to its recorded work.",
+        "steps": [
+          {
+            "title": "Capture supported history",
+            "body": "Select the native stores you want to save. Project associations come from source metadata available in the captured chats."
+          },
+          {
+            "title": "Inspect a project group",
+            "body": "Open Projects, check the displayed root and expand related locations. A familiar name alone is not proof that two folders are the same project."
+          },
+          {
+            "title": "Choose the next action",
+            "body": "Read the associated chats, or review project memory and access settings if needed. Browsing does not silently install project hooks."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Does project discovery read every file in my repositories?",
+            "answer": "It uses supported client and chat metadata plus checked repository relationships. It is not a recursive content index of every project file."
+          },
+          {
+            "question": "What happens if a working folder no longer exists?",
+            "answer": "Historical locations can still be shown with an unavailable status. Hub does not fabricate a current checkout or grant access based on an old path."
+          }
+        ],
+        "nextTitle": "Open a project and check its related folders.",
+        "nextBody": "The chats and projects guide explains source associations, worktrees, archive access and the boundaries of discovery."
+      },
+      "memory": {
+        "title": "Share project memory across Claude Code, Codex and DSH · Agent Hub",
+        "description": "Keep scoped project notes in Agent Hub and let supported clients read the same records. Understand memory connections, permissions and what an open chat will refresh.",
+        "eyebrow": "Share project memory",
+        "heading": "Let the next client read the same project notes.",
+        "lead": "An API rule or a decision should not need to be copied into every new conversation. Store selected knowledge as scoped Hub records and connect the clients that should read that project’s memory.",
+        "note": "Shared records are reference material. Project connections and native permissions still control the workflow.",
+        "cardTitle": "Share project memory",
+        "cardBody": "Give selected clients access to the same scoped knowledge records.",
+        "imageAlt": "Agent Hub resource inventory with fictional projects and resources",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Separate lasting knowledge from a long transcript.",
+        "benefits": [
+          {
+            "title": "Project scope",
+            "body": "Keep notes attached to a registered project. Cross-project shared knowledge is a separate choice, so a useful fact need not become global context."
+          },
+          {
+            "title": "One record service",
+            "body": "Supported clients can read the same records through scoped MCP or CLI access. The local interface lets you inspect what is actually stored."
+          },
+          {
+            "title": "Guarded changes",
+            "body": "Manual changes use previews and revisions. Enabled automatic capture uses its project policy, source bindings and recovery; conflicting knowledge needs review."
+          }
+        ],
+        "stepsTitle": "Connect one project with a small useful fact.",
+        "steps": [
+          {
+            "title": "Review the project connection",
+            "body": "After shared setup, preview ahub project connect for your project folder. Check matched native notes, handoff files and optional automation hooks."
+          },
+          {
+            "title": "Choose how clients read",
+            "body": "Review the appropriate project-bound memory connection or CLI workflow. A project connection does not silently install every standalone MCP server."
+          },
+          {
+            "title": "Verify a read in another client",
+            "body": "Save a supported project fact, then ask a second client to retrieve it. Check the scope and actual tool result rather than assuming a configured connection is active."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Will notes already loaded in an open chat change immediately?",
+            "answer": "No. Updated records are available on a later read. Text already loaded into a conversation is not automatically replaced inside that client’s context."
+          },
+          {
+            "question": "Is archived chat history the same as memory?",
+            "answer": "No. History preserves recorded conversations and tool events. Memory contains selected knowledge records. Saving a chat does not certify every message as a durable fact."
+          }
+        ],
+        "nextTitle": "Share one fact you can verify.",
+        "nextBody": "The memory guide covers scopes, project bindings, MCP access, record changes and recovery."
+      },
+      "nativeMemory": {
+        "title": "Import existing agent memory into a project Hub · Agent Hub",
+        "description": "Find supported Markdown memory from Claude Code, Codex and DSH, review its project association and import selected knowledge while retaining original client notes.",
+        "eyebrow": "Import existing memory",
+        "heading": "Start with the notes your clients already have.",
+        "lead": "Creating a shared memory store should not mean starting from an empty page. Find existing native Markdown notes, check which project they belong to and import the knowledge you choose into Hub.",
+        "note": "Discovery is read-only. Import needs a registered project and a reviewed plan.",
+        "cardTitle": "Import existing memory",
+        "cardBody": "Review native Markdown sources and bring selected project knowledge into Hub.",
+        "imageAlt": "Agent Hub resource inventory with fictional projects and resources",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Inspect the source before giving it a new scope.",
+        "benefits": [
+          {
+            "title": "Source discovery",
+            "body": "Inspect supported memory locations, physical paths and available checkout evidence. Ambiguous sources remain unresolved until you make an explicit choice."
+          },
+          {
+            "title": "Selected knowledge",
+            "body": "Import supported Markdown collections, including knowledge inside MEMORY.md. Local navigation links do not automatically become durable facts."
+          },
+          {
+            "title": "Source preservation",
+            "body": "Original client notes remain in place. Hub records source bindings so an unchanged repeat import need not create duplicate records."
+          }
+        ],
+        "stepsTitle": "Discover, associate, then import.",
+        "steps": [
+          {
+            "title": "Select the project",
+            "body": "Open the registered project’s memory view. Use Find existing client memory to inspect candidates and their supported formats."
+          },
+          {
+            "title": "Check each source",
+            "body": "Confirm the physical folder and project association. Keep a collection containing several unrelated projects out of a single project’s memory."
+          },
+          {
+            "title": "Review the import",
+            "body": "Read the preview before applying. Choose one-time import or reviewed follow-up policy deliberately; later native changes need active hooks, a watcher or another scan."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Can Hub read a native SQLite memory database?",
+            "answer": "Discovery can report unsupported databases, but import does not silently convert SQLite or graph formats. Export the knowledge you choose to supported Markdown first."
+          },
+          {
+            "question": "Does following a source install automation hooks?",
+            "answer": "No. Following adds a source to the enabled project policy. Lifecycle hooks and their native permissions are separate; a one-time import does not promise continuous updates."
+          }
+        ],
+        "nextTitle": "Import one small source with a clear project match.",
+        "nextBody": "The memory guide explains discovery, ambiguous associations, supported formats and follow-up policies."
+      },
+      "instructions": {
+        "title": "Sync shared AI agent instructions without replacing personal notes · Agent Hub",
+        "description": "Deliver common instructions to Claude Code, Codex and DSH through reviewed managed blocks. Keep personal text and understand when copied instructions need another sync.",
+        "eyebrow": "Sync common instructions",
+        "heading": "Share the common rules. Keep your personal notes.",
+        "lead": "Maintaining the same coding rules in several client files invites small differences. Keep the common part in Hub and review its delivery into the supported instruction surfaces of your native clients.",
+        "note": "Shared instructions, linked skills and project memory have different delivery rules.",
+        "cardTitle": "Sync common instructions",
+        "cardBody": "Deliver shared rules while retaining text outside Hub’s managed blocks.",
+        "imageAlt": "Agent Hub resource inventory with fictional projects and resources",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Know which text Hub owns.",
+        "benefits": [
+          {
+            "title": "A bounded common section",
+            "body": "Hub updates its managed instruction block. Personal text outside that block is retained rather than being treated as replaceable shared content."
+          },
+          {
+            "title": "Client-specific delivery",
+            "body": "Native formats differ. Hub uses the supported instruction mechanism for each client instead of linking entire incompatible configuration files together."
+          },
+          {
+            "title": "Fresh previews after edits",
+            "body": "Copied instruction blocks need another reviewed context sync after shared rules change. A skill symlink and an instruction copy do not refresh in the same way."
+          }
+        ],
+        "stepsTitle": "Deliver one short rule you can recognize.",
+        "steps": [
+          {
+            "title": "Choose shared rules",
+            "body": "Inspect the common instruction text in Hub. Keep project-specific knowledge scoped to its project rather than placing every note in global client instructions."
+          },
+          {
+            "title": "Review context delivery",
+            "body": "Preview shared context delivery or the broader ahub quick workflow. Check the intended client files, owned block and any conflicts before applying."
+          },
+          {
+            "title": "Check the receiving client",
+            "body": "Restart or reload the affected client as required, then inspect its loaded instructions. A file change alone does not prove that an existing conversation reloaded it."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Can I keep my own CLAUDE.md or AGENTS.md text?",
+            "answer": "Managed delivery is designed to retain personal text outside Hub’s owned block. Edited or conflicting managed content can require review; inspect the actual preview before applying."
+          },
+          {
+            "question": "Will shared instructions turn every skill into a usable tool?",
+            "answer": "No. Skill discovery, client support, trust and tool permissions remain separate. Instructions can refer to shared resources but do not grant capabilities or prove invocation."
+          }
+        ],
+        "nextTitle": "Start with one common convention.",
+        "nextBody": "The skills and instructions guide explains managed blocks, source conflicts, separate sync areas and recorded recovery."
+      },
+      "mcpConflicts": {
+        "title": "Resolve MCP configuration conflicts across AI clients · Agent Hub",
+        "description": "Understand different MCP settings, recognize existing Hub launchers and review one server’s import or delivery without overwriting unrelated client configuration.",
+        "eyebrow": "Resolve MCP conflicts",
+        "heading": "Resolve one MCP difference at a time.",
+        "lead": "The same server name can hide different commands, credentials or scopes. Start by identifying which copy is trusted and which direction should change. A client launcher already pointing at this Hub may need no replacement.",
+        "note": "Import updates Hub. Delivery updates the named client. Matching names alone do not make settings equivalent.",
+        "cardTitle": "Resolve MCP conflicts",
+        "cardBody": "Choose a trusted copy and review a single server’s change in the right direction.",
+        "imageAlt": "Agent Hub resource inventory with fictional projects and resources",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Make the direction of the change clear.",
+        "benefits": [
+          {
+            "title": "Recognize Hub connections",
+            "body": "A launcher that already targets this Hub is a connection to the shared definition. A different Node or package path alone is not a reason to import that launcher as an original server."
+          },
+          {
+            "title": "Compare real differences",
+            "body": "Review program, arguments, environment and scope. Private values are hidden; do not assume hidden credentials are identical simply because the visible text looks similar."
+          },
+          {
+            "title": "Keep intentional differences",
+            "body": "A client may need its own settings. You can retain that difference rather than forcing unrelated scopes or credentials into one canonical copy."
+          }
+        ],
+        "stepsTitle": "Choose the source, then the destination.",
+        "steps": [
+          {
+            "title": "Inspect one server",
+            "body": "Open All data → MCP servers and select the item. Check the Hub copy, each client copy and whether the entry already uses this Hub."
+          },
+          {
+            "title": "Preview the intended direction",
+            "body": "Choose a trusted client copy for Hub, or use Hub settings in the named client. Read that single server’s preview before confirming."
+          },
+          {
+            "title": "Verify connection separately",
+            "body": "Restart the affected client and test the connection. Successful tool discovery does not prove every backend permission or operation works."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Can Hub automatically pick the newest configuration?",
+            "answer": "A timestamp or equal server name is not enough to decide scope or trust. Real differences need a deliberate choice; automatic bidirectional reconciliation of every MCP edit is not provided."
+          },
+          {
+            "question": "Can I apply an old preview after changing the config?",
+            "answer": "No. Rebuild the preview after edits. Reviewed revisions protect against applying a plan to inputs that have changed since inspection."
+          }
+        ],
+        "nextTitle": "Start with the one server causing confusion.",
+        "nextBody": "The MCP sharing guide explains per-server directions, existing launchers, connection testing and recovery."
+      },
+      "recovery": {
+        "title": "Restore AI agent settings after a shared setup · Agent Hub",
+        "description": "Choose workflow undo, stage restore or first-baseline reset in Agent Hub. Preview affected files and understand how later edits, archives and uninstall differ.",
+        "eyebrow": "Restore agent settings",
+        "heading": "Review the way back before changing your setup.",
+        "lead": "Trying a shared Hub should come with a clear recovery path. Hub records managed originals and write history, then checks current files before undoing changes. Choose the recovery scope that matches what you want to reverse.",
+        "note": "Recovery depends on saved originals. Multi-file rollback is compensating, not power-loss-safe.",
+        "cardTitle": "Restore agent settings",
+        "cardBody": "Choose one workflow, one stage or the first recorded state, with a preview.",
+        "imageAlt": "Agent Hub resource inventory with fictional projects and resources",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "Pick the right recovery scope.",
+        "benefits": [
+          {
+            "title": "Undo one setup workflow",
+            "body": "ahub undo previews a recorded quick or project-connect run. It can handle completed stages of a partially failed workflow, while protecting later edits."
+          },
+          {
+            "title": "Restore one stage",
+            "body": "A recorded backup ID can restore one managed sync or content operation. Check its preview when later unrelated work needs to stay in place."
+          },
+          {
+            "title": "Reset to the first baseline",
+            "body": "ahub reset --dry-run shows the return to the first recorded state. That is an existing-Hub checkpoint or absence before Hub creation, not an unknown earlier past."
+          }
+        ],
+        "stepsTitle": "Inspect, preserve, then confirm.",
+        "steps": [
+          {
+            "title": "Keep recovery storage",
+            "body": "Retain the private sibling recovery directory. It contains originals, write records and archives needed for guarded recovery and may contain credentials."
+          },
+          {
+            "title": "Review the scope and current files",
+            "body": "Choose undo, restore or reset and read the preview. Later edits, invalid ownership or missing baseline data can block an unsafe rollback."
+          },
+          {
+            "title": "Apply and check native clients",
+            "body": "Use the fresh reviewed confirmation or emitted command. Inspect the outcome and restart affected clients. Keep archived current data until you are satisfied."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Does uninstalling the CLI restore client settings?",
+            "answer": "No. Uninstall removes the package binaries. It does not automatically restore native configurations, remove every launcher or delete the saved archive."
+          },
+          {
+            "question": "Does reset erase all work since setup?",
+            "answer": "Reset archives current managed state before restoration, but its scope can include the whole Hub. Read the complete plan and preserve recovery storage; a missing baseline cannot be recreated as the original."
+          }
+        ],
+        "nextTitle": "Preview the way back while the setup is still small.",
+        "nextBody": "The recovery guide covers later edits, interrupted writes, baseline scopes, archives and the difference between restore and uninstall."
+      },
+      "background": {
+        "title": "Automatic local chat history updates for AI coding clients · Agent Hub",
+        "description": "Keep selected Claude Code, Codex and DSH histories updated in a local Hub archive. Understand background capture, source status and optional login startup.",
+        "eyebrow": "Keep chat history updated",
+        "heading": "Keep selected chat history current after closing Hub.",
+        "lead": "A manual save is useful, but new replies arrive later. Enable one background updater for the native stores you choose, then check when each source was last read successfully.",
+        "note": "Background capture runs locally. Starting at sign-in is a separate reviewed setting.",
+        "cardTitle": "Keep chat history updated",
+        "cardBody": "Update selected sources in the background and review optional login startup.",
+        "imageAlt": "Agent Hub archive controls with fictional source data",
+        "caption": "Real Hub interface with fictional data. The guide explains the workflow and its limits.",
+        "benefitsTitle": "See what runs and when it last worked.",
+        "benefits": [
+          {
+            "title": "A saved source selection",
+            "body": "The worker reads the supported stores you enabled. It does not silently broaden that selection to every account, project or client directory."
+          },
+          {
+            "title": "Updates after the interface closes",
+            "body": "Background capture checks the saved selection every 30 seconds and can continue after the page and Hub UI server close. This is separate from a foreground memory watcher."
+          },
+          {
+            "title": "Visible failures and retries",
+            "body": "Inspect last checked and last complete reads. An unavailable source can be retried while its previously preserved chats remain available."
+          }
+        ],
+        "stepsTitle": "Enable updates, then verify a later message.",
+        "steps": [
+          {
+            "title": "Choose and capture sources",
+            "body": "Open Chats → Sources & automatic updates. Select supported stores, save their history and review coverage before enabling continued capture."
+          },
+          {
+            "title": "Enable background updates",
+            "body": "Turn on Update selected sources in the background. Add a later message in a selected native client, then check that a subsequent successful capture includes it."
+          },
+          {
+            "title": "Decide about sign-in startup",
+            "body": "Review Resume selected updates when I sign in if you want that behavior. It installs a user-level startup definition on supported macOS or Linux systems; check actual activation after sign-in."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Does closing the browser stop background capture?",
+            "answer": "The detached background updater can continue after the browser and UI server close. A normal foreground watcher has a different lifecycle; inspect which mode is enabled."
+          },
+          {
+            "question": "Does it run through shutdown or guarantee instant saves?",
+            "answer": "No. The machine must be running, new events wait for a successful scan, and login startup is separately configured. Configuration presence alone is not proof that the next OS sign-in started it."
+          }
+        ],
+        "nextTitle": "Verify one update after the interface closes.",
+        "nextBody": "The preservation guide explains the selected-source worker, login startup, stop controls and storage coverage."
       }
-    }
+    },
+    "more": "More workflows",
+    "breadcrumb": "Breadcrumbs"
   },
   "analytics": {
     "title": "Usage statistics",

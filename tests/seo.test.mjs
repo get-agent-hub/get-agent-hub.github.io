@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { docsPages } from '../scripts/docs.mjs';
-import { pageUrl, siteOrigin } from '../scripts/seo.mjs';
+import { pageMetadata, pageUrl, siteOrigin } from '../scripts/seo.mjs';
 import { escapeHtml } from '../scripts/render.mjs';
 import { useCases } from '../scripts/use-cases.mjs';
 import { source } from '../public/source.js';
@@ -77,6 +77,30 @@ test('every landing and documentation page has its own canonical and complete la
         import.meta.url,
       );
       const html = await readFile(file, 'utf8');
+      const data = JSON.parse(
+        html.match(
+          /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+        )[1],
+      );
+      assert.equal(data['@context'], 'https://schema.org');
+      const website = data['@graph'].find(
+        (item) => item['@type'] === 'WebSite',
+      );
+      const webpage = data['@graph'].find(
+        (item) => item['@type'] === 'WebPage',
+      );
+      assert.equal(website.url, `${origin}/`);
+      assert.equal(webpage.url, url);
+      assert.equal(webpage.inLanguage, language);
+      assert.equal(webpage.isPartOf['@id'], website['@id']);
+      assert.ok(
+        html.includes(`<title>${escapeHtml(webpage.name)}</title>`),
+        url,
+      );
+      assert.ok(
+        html.includes(`content="${escapeHtml(webpage.description)}"`),
+        url,
+      );
       const repositoryLink = html.match(
         /<a class="github-link"[^>]*>[\s\S]*?<\/a>/,
       )?.[0];
@@ -152,6 +176,8 @@ test('sitemap indexes exactly the shipped language routes and robots advertises 
     paths.map((path) => pageUrl(origin, tag, config.locale, path)),
   );
   assert.deepEqual(urls.sort(), expected.sort());
+  assert.equal(urls.length, 80);
+  assert.equal([...xml.matchAll(/hreflang="x-default"/g)].length, urls.length);
   assert.equal(new Set(urls).size, urls.length);
   assert.ok(!urls.some((url) => url.includes('404')));
   for (const url of urls) {
@@ -169,6 +195,72 @@ test('sitemap indexes exactly the shipped language routes and robots advertises 
     `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`,
   );
   await stat(new URL('../dist/.nojekyll', import.meta.url));
+});
+
+test('localized browser manifests and bookmark icons resolve to real square assets', async () => {
+  for (const language of config.locales) {
+    const prefix = language === config.locale ? '' : `${language}/`;
+    const manifest = JSON.parse(
+      await readFile(
+        new URL(`../dist/${prefix}site.webmanifest`, import.meta.url),
+        'utf8',
+      ),
+    );
+    assert.equal(manifest.lang, language);
+    assert.equal(manifest.start_url, `/${prefix}`);
+    assert.equal(manifest.scope, `/${prefix}`);
+    assert.equal(manifest.display, 'browser');
+    assert.deepEqual(
+      manifest.icons.map((icon) => icon.sizes),
+      ['192x192', '512x512'],
+    );
+    for (const icon of manifest.icons) {
+      const png = await readFile(
+        new URL(`../dist${icon.src}`, import.meta.url),
+      );
+      assert.equal(png.subarray(1, 4).toString(), 'PNG');
+      assert.equal(
+        `${png.readUInt32BE(16)}x${png.readUInt32BE(20)}`,
+        icon.sizes,
+      );
+    }
+  }
+  for (const [name, size] of [
+    ['favicon.png', 96],
+    ['apple-touch-icon.png', 180],
+  ]) {
+    const png = await readFile(new URL(`../dist/${name}`, import.meta.url));
+    assert.equal(png.readUInt32BE(16), size);
+    assert.equal(png.readUInt32BE(20), size);
+  }
+});
+
+test('structured data cannot close its script through translated page copy', () => {
+  const locale = {
+    language: 'en',
+    brand: { name: 'Agent Hub' },
+    meta: { imageAlt: 'Preview' },
+  };
+  const unsafe = '</script><script>unexpected()</script>';
+  const html = pageMetadata({
+    origin,
+    locale,
+    defaultLanguage: 'en',
+    languages: ['en', 'ru'],
+    title: unsafe,
+    description: unsafe,
+    breadcrumb: unsafe,
+    path: 'example/',
+  });
+  const scripts = [
+    ...html.matchAll(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g,
+    ),
+  ];
+  assert.equal(scripts.length, 1);
+  assert.ok(!scripts[0][1].includes('<'));
+  const graph = JSON.parse(scripts[0][1])['@graph'];
+  assert.equal(graph.find((item) => item['@type'] === 'WebPage').name, unsafe);
 });
 
 test('404 works from unknown nested routes and the social image is a real raster asset', async () => {

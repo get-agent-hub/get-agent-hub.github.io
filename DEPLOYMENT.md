@@ -37,6 +37,7 @@ Official reference: https://docs.github.com/en/pages/configuring-a-custom-domain
 - Check /, /ru/, /docs/, /ru/docs/, a nested documentation page, language/fragment switching, robots.txt, sitemap.xml, social-card.png and an unknown path returning the custom 404.
 - Canonical, alternate-language and social URLs use the configured production origin. The sitemap contains only actual language routes and excludes the error page.
 - No CLI release or npm publication is triggered by this site workflow. Its GitHub links point at the separate core repository and Releases page.
+- Check `/site.webmanifest`, `/ru/site.webmanifest`, PNG/ICO favicons, the Apple touch icon and both manifest icons. Manifests should parse as JSON and keep the chosen language. See [SEO.md](SEO.md) for the complete 80-route catalog and account-level sitemap submission steps; deployment alone does not verify search-console ownership.
 
 ## Rollback and pause
 

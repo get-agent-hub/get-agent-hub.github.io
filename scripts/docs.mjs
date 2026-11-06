@@ -165,7 +165,7 @@ export async function buildDocs(
       ),
       pageMetadata: metadata(
         page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
-        `${locale.docs.pages[page.label]} · ${locale.brand.name}`,
+        `${locale.docs.pages[page.label]} · ${locale.docs.titleSuffix}`,
         locale.docs.descriptions?.[page.label] ?? locale.docs.metaDescription,
       ),
       docsNav: buildNav(locale, base, page.slug),

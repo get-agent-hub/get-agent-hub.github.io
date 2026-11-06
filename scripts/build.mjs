@@ -4,7 +4,7 @@ import { buildDocs, docsPages } from './docs.mjs';
 import { readLocales } from './locales.mjs';
 import { escapeHtml, render } from './render.mjs';
 import { source } from '../public/source.js';
-import { pageMetadata, siteOrigin, sitemap } from './seo.mjs';
+import { pageMetadata, siteOrigin, sitemap, webManifest } from './seo.mjs';
 import { buildUseCases, useCaseLinks, useCases } from './use-cases.mjs';
 
 const config = JSON.parse(
@@ -35,6 +35,10 @@ for (const tag of active) {
   const output = new URL(prefix || './', target);
   const base = prefix ? '../' : '';
   await mkdir(output, { recursive: true });
+  await writeFile(
+    new URL('site.webmanifest', output),
+    webManifest(locale, config.locale),
+  );
   if (prefix) {
     for (const file of [
       'app.js',
@@ -55,7 +59,18 @@ for (const tag of active) {
     sourceRepository: source.repository,
     sourceReleases: source.releases,
     languageSwitcher: switcher(locale, base),
-    useCaseCards: useCaseLinks(locale),
+    useCaseCards: useCaseLinks(
+      locale,
+      '',
+      undefined,
+      useCases.filter((page) => page.featured),
+    ),
+    moreUseCaseCards: useCaseLinks(
+      locale,
+      '',
+      undefined,
+      useCases.filter((page) => !page.featured),
+    ),
     pageMetadata: pageMetadata({
       origin,
       locale,
@@ -96,7 +111,7 @@ for (const tag of active) {
     locale,
     output,
     (path) => switcher(locale, `${base}../`, path),
-    (path, title, description) =>
+    (path, title, description, breadcrumb) =>
       pageMetadata({
         origin,
         locale,
@@ -105,6 +120,7 @@ for (const tag of active) {
         path,
         title,
         description,
+        breadcrumb,
       }),
     `${base}../`,
   );

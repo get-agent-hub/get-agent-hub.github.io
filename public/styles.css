@@ -1832,6 +1832,33 @@ html[lang='ru'] .hero h1 {
 .use-case-main {
   padding-block: 64px 80px;
 }
+.breadcrumbs {
+  color: var(--muted);
+  font-size: 13px;
+}
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+}
+.breadcrumbs li + li::before {
+  content: '/';
+  margin-inline-end: 8px;
+}
+.use-case-more {
+  margin-top: 20px;
+}
+.use-case-more summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding-block: 12px;
+}
+.use-case-more .use-case-cards {
+  margin-top: 16px;
+}
 .use-case-hero {
   display: grid;
   grid-template-columns: 1fr 1fr;

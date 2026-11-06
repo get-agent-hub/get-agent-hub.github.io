@@ -5,6 +5,8 @@ import { useCases } from '../scripts/use-cases.mjs';
 import { escapeHtml } from '../scripts/render.mjs';
 
 test('standalone landing pages are localized, distinct from guides and reachable without JavaScript', async () => {
+  assert.equal(useCases.length, 15);
+  assert.equal(new Set(useCases.map((page) => page.slug)).size, 15);
   for (const language of ['en', 'ru']) {
     const locale = JSON.parse(
       await readFile(new URL(`../locales/${language}.json`, import.meta.url)),
@@ -27,6 +29,25 @@ test('standalone landing pages are localized, distinct from guides and reachable
       assert.ok(html.includes(escapeHtml(copy.heading)));
       assert.ok(html.includes(`<title>${escapeHtml(copy.title)}</title>`));
       assert.ok(html.includes(escapeHtml(copy.lead)));
+      assert.ok(html.includes('class="breadcrumbs"'));
+      const graph = JSON.parse(
+        html.match(
+          /<script type="application\/ld\+json">([\s\S]*?)<\/script>/,
+        )[1],
+      )['@graph'];
+      const trail = graph.find((item) => item['@type'] === 'BreadcrumbList');
+      assert.equal(trail.itemListElement.length, 2);
+      assert.equal(trail.itemListElement[1].name, copy.cardTitle);
+      assert.ok(
+        trail.itemListElement[1].item.endsWith(`/${prefix}${page.slug}/`),
+      );
+      assert.equal(page.related.length, 3);
+      for (const key of page.related) {
+        const related = useCases.find((candidate) => candidate.key === key);
+        assert.ok(related, key);
+        assert.notEqual(related.key, page.key);
+        assert.ok(html.includes(`href="../${related.slug}/"`));
+      }
       assert.ok(!html.includes('docs-sidebar'));
       assert.ok(!html.includes('{{'));
       assert.ok(html.includes(`href="../docs/${page.guide}/"`));
