@@ -1,5 +1,7 @@
 # Quick start: one shared Hub
 
+This guide describes source 81ca3ab, including changes after the published 0.1.0-beta.1 archive. Use the current source checkout for the chat and interface features described here.
+
 Agent Hub manages shared MCP tools, skills and instructions for Claude Code, Codex CLI and DeepSeek Harness. Start with one shared Hub; no project path or Git repository is required. Project memory and handoff are optional, separate setup.
 
 ## Install the CLI once
@@ -143,3 +145,7 @@ Undo restores the state immediately before a recorded quick/project-connect run,
 ## Help without overload
 
 Run `ahub` for six everyday groups and two starting routes: quick or ui. Use `ahub --advanced --help` for specialized operations, and `ahub --advanced quick --help` for technical flags used by generated script commands. Hidden help entries remain callable. [The command reference](CLI.md) explains who uses each command and why; runtime launchers and callbacks are separate from ordinary setup.
+
+## Read your chats
+
+Open **All data → Chats**, choose **Manage history sources**, select supported stores and **Capture selected history**. Hub saves a local archive; native files stay in place. Browse projects inferred from those chats without connecting project memory. Enable **Keep updated** for checks every 30 seconds while Chats or Projects stays open. For storage, search, versions, client access and the foreground watcher, see [Chats and projects](HISTORY.md).

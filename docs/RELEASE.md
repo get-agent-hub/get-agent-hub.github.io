@@ -68,3 +68,5 @@ git push origin v0.1.0-beta.1
 To retry, open Actions → Prepare GitHub release → Run workflow and enter the existing version tag. A rerun may refresh assets and notes on the draft; it refuses to modify an already published release. Downloaded artifacts are checksum-verified and their manifest commit is compared to the tag again before upload. No tag or release is created by local preparation.
 
 After the real-client and browser gates pass, review the draft and publish it manually in GitHub. The website links to the GitHub repository and Releases page; it does not host its own source ZIP. GitHub visibility, private vulnerability reporting and the first source push remain explicit maintainer steps.
+
+The current Quality workflow runs tests once per macOS/Linux and Node 22.13/24 combination. Formatting, lint, architecture, coverage and production audit run once; package/install checks cover both operating systems. Version-tag releases reuse that validation matrix. Ordinary branch validation does not create release archives.

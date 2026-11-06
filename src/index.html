@@ -76,7 +76,7 @@
             </div>
           </div>
           <div class="diagram-line" aria-hidden="true">
-            <span>import ↔ sync</span>
+            <span>{{hero.connector}}</span>
           </div>
           <div class="hub-node">
             <span class="hub-mark" aria-hidden="true">✳</span>
@@ -91,6 +91,44 @@
             <span aria-hidden="true">↳</span>{{hero.note}}
           </div>
         </div>
+      </section>
+      <section id="screenshots" class="section wrap screenshots-section">
+        <div class="section-heading">
+          <p class="eyebrow">{{screenshots.eyebrow}}</p>
+          <h2>{{screenshots.title}}</h2>
+          <p>{{screenshots.intro}}</p>
+        </div>
+        <div class="screenshots-grid">
+          <figure>
+            <a href="{{{assetBase}}}images/hub-overview.png">
+              <img
+                src="{{{assetBase}}}images/hub-overview.png"
+                alt="{{screenshots.overviewAlt}}"
+                width="1360"
+                height="960"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <figcaption>{{screenshots.overviewCaption}}</figcaption>
+          </figure>
+          <figure>
+            <a href="{{{assetBase}}}images/hub-chat.png">
+              <img
+                src="{{{assetBase}}}images/hub-chat.png"
+                alt="{{screenshots.chatAlt}}"
+                width="1360"
+                height="960"
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <figcaption>{{screenshots.chatCaption}}</figcaption>
+          </figure>
+        </div>
+        <a class="text-link" href="{{{docsBase}}}history/"
+          >{{screenshots.guide}}</a
+        >
       </section>
       <div class="compat-band">
         <div class="wrap">

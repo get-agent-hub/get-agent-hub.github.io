@@ -1766,6 +1766,38 @@ html[lang='ru'] .hero h1 {
   padding-block: 64px;
 }
 
+.screenshots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+.screenshots-grid figure {
+  margin: 0 0 24px;
+  min-width: 0;
+}
+.screenshots-grid a {
+  display: block;
+}
+.screenshots-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px #2326200a;
+}
+.screenshots-grid figcaption {
+  padding-top: 14px;
+  color: var(--muted);
+  font-size: 14px;
+}
+@media (max-width: 760px) {
+  .screenshots-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
 .not-found section {
   margin-block: 40px;
 }

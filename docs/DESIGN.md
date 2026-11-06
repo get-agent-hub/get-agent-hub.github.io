@@ -46,7 +46,7 @@ hub.recovery/
 | Shared memory   | memory/MEMORY.md and fact files    | Index and directory reference in the instruction block                |
 | Project handoff | Hub templates or built-in defaults | AGENTS.md, PROJECT.md, NOW.md and Claude import in one Git repository |
 
-Project-matched native Markdown notes can be imported into Hub; original stores remain in place. Archived conversation ingestion and native SQLite interchange are not implemented. Shared facts are read on demand. Custom DSH profiles can disable their instruction/skill plugins; delivery does not change plugin activation.
+Project-matched native Markdown notes can be imported into Hub; original stores remain in place. Conversation capture and scoped retrieval are described in [HISTORY.md](HISTORY.md). Native SQLite memory interchange is not implemented. Shared facts are read on demand. Custom DSH profiles can disable their instruction/skill plugins; delivery does not change plugin activation.
 
 ## Quick workflow
 
@@ -127,7 +127,7 @@ Reference implementations: the [MCP memory server](https://github.com/modelconte
 - MCP registry add/remove commands; these are still explicit stubs.
 - Profiles/tags for work and personal scopes.
 - OS credential stores instead of .env.
-- Session indexing/search and history-assisted handoff.
+- History-assisted handoff into a new conversation; archive indexing and search are already available.
 - OS-managed background services and bulk archived-session extraction.
 - Additional client adapters and independent distribution of public skills/templates.
 

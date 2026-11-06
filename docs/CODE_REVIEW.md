@@ -41,7 +41,7 @@ The production dependency audit reported **zero vulnerabilities**. The full deve
 - The dependency audit covers the lockfile, not user-configured executables or packages downloaded by external launchers.
 - Readiness probes are optional unauthenticated HTTP checks. They do not execute tools or establish provider API permissions, and an ingress may obscure the actual service state.
 - Interactive terminal prompts and desktop browser-opening behavior are not fully automated by the unit suite. Source-level browser helpers and HTTP boundaries are tested; this pass does not claim a full automated browser matrix.
-- Instruction delivery and repository initialization are implemented. Archived-session indexing remains unimplemented.
+- Instruction delivery and repository initialization are implemented. Chat capture and indexing are now available; see [HISTORY.md](HISTORY.md). Native session transfer remains separate.
 - The candidate version is 0.1.0-beta.1, distributed as reviewed archives. Public npm registry publication remains deferred; this review did not publish a package.
 
 ## Follow-up: original-state recovery

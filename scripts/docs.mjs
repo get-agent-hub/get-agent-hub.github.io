@@ -24,6 +24,7 @@ export const docsGroups = [
       { slug: 'memory', file: 'MEMORY.md', label: 'memory' },
       { slug: 'automation', file: 'AUTOMATION.md', label: 'automation' },
       { slug: 'ui', file: 'UI.md', label: 'ui' },
+      { slug: 'history', file: 'HISTORY.md', label: 'history' },
     ],
   },
   {

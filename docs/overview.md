@@ -1,8 +1,10 @@
 # Agent Hub
 
+This guide describes source 81ca3ab, including changes after the published 0.1.0-beta.1 archive. Use the current source checkout for the chat and interface features described here.
+
 [Website and documentation](https://getahub.dev) · [Source](https://github.com/get-agent-hub/agent-hub) · [Releases](https://github.com/get-agent-hub/agent-hub/releases)
 
-A local source of truth for the skills, MCP tools and shared context used by Claude Code, Codex and DeepSeek Harness.
+One local Hub for chats, projects, skills, MCP tools and shared context across Claude Code, Codex and DeepSeek Harness. Current source includes chat features added after the published beta.
 
 Requires Node.js **22.13 or newer** and npm. macOS and Linux are the supported release targets; Windows remains experimental. Beta **0.1.0-beta.1** uses reviewed source and package archives. The npm package remains private to prevent accidental registry publication.
 
@@ -31,7 +33,7 @@ The UI keeps the visual style of the [original HTML mockups](ui/mockups/README.m
 - **MCP servers:** compare definitions, inspect a credential-safe hub configuration, preview imports and dry-run synchronization. Choose a source preference for conflicts; existing definitions are skipped unless replacement is explicitly selected. Apply uses one hub lock and guarded writes for credentials, registry and import provenance, rolling back earlier writes if a later write fails. It never stages or commits unrelated hub files. It does not write client configurations. A plan expires after five minutes and must be reviewed again if its inputs change.
 - **Instructions and memory:** deliver shared rules/index through owned client instruction blocks. Discover existing client memory, review its project scope and import selected Markdown knowledge through CLI or UI. Manage the same scoped records through CLI, UI or an optional MCP server. Project automation imports selected native notes and requests semantic checkpoints from the active agent under a one-time enabled policy, with conflict protection and recovery. Personal text and native sources are preserved.
 - **Repos & tasks:** inspect the current repository and preview guarded init-repo setup of AGENTS.md, PROJECT.md, NOW.md and the Claude import. Existing notes are preserved. Repository scanning and agent launching remain future work.
-- **Sessions:** shows the planned work; no session index is created.
+- **Chats:** capture supported local conversations, read messages, search the archive and browse related projects. See [Chats and projects](HISTORY.md).
 
 Search filters skills, MCP servers and memory; ⌘K / Ctrl+K focuses it. The theme follows your system until you choose a theme in the UI. Refresh rereads files from disk.
 
@@ -49,7 +51,7 @@ These new commands default to preview and require the exact `--apply --expect` c
 
 Skills are copied with scripts/assets and then linked into selected client roots. Context delivery preserves personal text and delivers common rules plus the shared memory index; it does not relocate native automatic memory. Init-repo prepares normal project files and never stages or commits Git work. Content backups work with `restore`, and `reset` includes first-touch originals of managed files, directories and links.
 
-See [CONTENT.md](docs/CONTENT.md) for delivery contracts, [MEMORY.md](docs/MEMORY.md) for scoped records and MCP setup, [AUTOMATION.md](docs/AUTOMATION.md) for native-note sync and automatic checkpoints, and [WORKING_GUIDE.md](docs/WORKING_GUIDE.md) for a first personal run. `mcp add/rm`, graph-memory interchange and archived session indexing remain unimplemented.
+See [CONTENT.md](docs/CONTENT.md) for delivery contracts, [MEMORY.md](docs/MEMORY.md) for scoped records and MCP setup, [AUTOMATION.md](docs/AUTOMATION.md) for native-note sync and automatic checkpoints, and [WORKING_GUIDE.md](docs/WORKING_GUIDE.md) for a first personal run. `mcp add/rm` and graph-memory interchange remain unimplemented. Chat capture, search and scoped MCP retrieval are available in the current source.
 
 ## MCP sync: dry run and an exact command
 

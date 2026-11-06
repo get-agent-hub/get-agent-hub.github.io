@@ -1,14 +1,16 @@
-# Live local UI
+# Local interface
 
-The live application is in `ui/app/`, served by `src/ui/server.ts` through `ahub ui`. The original `ui/mockups/` remains available as a visual reference; both use `ui/app/base.css`. Live assets are self-contained.
-
-The server calls the existing status collector and the shared `src/core/import-plan.ts` service. The CLI import command uses the same planner and writer. Internal plans contain secret values; only the explicit public plan projection is sent to the browser.
+Run `ahub ui` to open Hub on your computer. Reading a page does not apply configuration changes.
 
 ## Guided first run
 
-Overview separates **Set up shared Hub** from optional **Connect project memory**. Hub setup works from any folder and previews global MCP, skill and shared instruction/index collection/delivery. The header selects a verified registered project, the startup folder or shared knowledge. Switching expires every preview. Project connection is available for the selected Git project and previews its memory, handoff and hooks. The scope and storage/project paths are labeled separately. Both results show completed, unchanged, skipped and blocked stages, restore previews, per-run undo and the separate first-baseline reset command. See [QUICKSTART.md](QUICKSTART.md).
+**Overview** shows your inventory and recent saved conversations. **All data** contains Chats, Skills, MCP servers, Instructions and Memory. **Projects** groups conversations by recorded working folder; nested locations are expandable. Ordinary folders and unavailable historical paths are shown separately.
 
-`POST /api/quick/preview` accepts only `clients` and `prefer`. `POST /api/project/connect/preview` accepts only `clients` and `automation`; its project directory is the verified server-side selection or startup folder. The corresponding `/apply` routes consume private single-use `previewId` plus `revision`. A Hub preview cannot be applied through a project route. Unknown or cross-scope options are rejected. IDs expire after five minutes; writes share the UI operation guard and each stage's filesystem lock. No source-bearing internal plan enters the response. Each workflow is staged rather than one transaction.
+In **All data → Chats**, choose **Manage history sources**, select stores and **Capture selected history**. Read messages, search tool data, filter by project/client and choose newest/oldest first-record dates. **All events** retains technical context; conversation details hold versions, coverage and source downloads. See [Chats and projects](HISTORY.md) for storage, updates and scoped client access.
+
+Use **Sources & settings** for shared setup. Connect project memory separately; discovering a project does not grant it memory or archive access. Knowledge scope controls shared/project memory and expires old previews when changed.
+
+For an MCP item, **Settings differ** means launch settings differ, not that the service is down. Choose the Hub or client copy only when the settings really need replacing. A recognized connection to this Hub shows **Uses Hub settings**, even if another installed Hub or Node version generated its launcher. It needs no conflict resolution. **Test the connection** checks availability separately. Each actual change opens a preview for that server and destination.
 
 ## API
 
@@ -28,7 +30,7 @@ POST requests require JSON and `X-Agent-Hub-Token`, obtained from `/api/state`. 
 
 Preview IDs expire after five minutes, are single-use and are bounded in memory. Import and sync writes share a lock within a UI server process. Import, sync, restore and initialization share one filesystem lock across CLI/UI processes. Doctor report merging uses that lock too. The input revision includes client definitions, registry, environment values and import options. Imports detect changes between preview and apply. Import records private hashes of reviewed client variants and the selected hub definition; sync may replace those exact variants after a source choice, while later edits remain conflicts. No credential values are stored in this provenance. Sync additionally checks each file immediately before atomic replacement. External clients do not honor the hub lock; a client write in the narrow interval between the final check and rename is still a limitation.
 
-The UI supports import, dry-run sync, guarded client MCP writes, filtering and document inspection. Connection checks use background jobs with progress, cancellation and a shared, credential-safe cached report. Skills import/delivery, shared instruction/index delivery and repository setup use guarded content previews. Document editing, agent launch and session indexing are not implemented. Unavailable features have explanatory states instead of working-looking controls with sample results.
+The UI supports import, dry-run sync, guarded client MCP writes, filtering and document inspection. Connection checks use background jobs with progress, cancellation and a shared, credential-safe cached report. Skills import/delivery, shared instruction/index delivery and repository setup use guarded content previews. Document editing and agent launch are not implemented. Chat capture, search and scoped archive access are available. Unavailable features have explanatory states instead of working-looking controls with sample results.
 
 ## Next
 

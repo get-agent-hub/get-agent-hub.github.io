@@ -27,6 +27,10 @@ Open http://127.0.0.1:3084. After source edits, run `npm run build` and reload. 
 
 All rendered copy belongs in `locales/`. English and Russian build to `/` and `/ru/`, with documentation under each language's `/docs/`. Translation PRs preserve executable syntax and stable anchors.
 
+![Agent Hub local interface with a saved archive and shared resources](public/images/hub-overview.png)
+
+Screenshots show the real interface with fictional sample data. They are stored in `public/images/`; the landing uses the same images in both languages with localized captions and alternative text.
+
 ## Publish
 
 GitHub Pages publishes `dist/` from **master** after validation and the history secret scan. The repository variable `PAGES_ENABLED=true` enables deployment. See the [deployment guide](DEPLOYMENT.md) for setup and recovery.

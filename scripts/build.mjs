@@ -48,6 +48,7 @@ for (const tag of active) {
       );
   }
   const html = render(template, locale, {
+    assetBase: base,
     docsBase: 'docs/',
     sourceRepository: source.repository,
     sourceReleases: source.releases,

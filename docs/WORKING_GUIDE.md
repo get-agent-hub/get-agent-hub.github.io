@@ -305,7 +305,7 @@ Open the printed local URL. Verify:
 - Doctor completes/cancels; cancelled is not displayed as success.
 - Narrow windows and long paths remain usable.
 
-A used preview cannot be applied twice. Restarting the UI discards server-local previews. Sessions and MCP add/rm remain unimplemented. Stop UI before recovery.
+A used preview cannot be applied twice. Restarting the UI discards server-local previews. Chat capture and search are available; MCP add/rm remains unimplemented. Stop UI before recovery.
 
 ## 13. Roll back a disposable operation
 
@@ -469,7 +469,7 @@ The real working trial passes when selected clients discover the intended skill/
 
 The lab must demonstrate stale-plan rejection, malformed-source diagnostics, ownership/binding protection, deletion retention, token one-use/recovery invalidation and reset with archives. Run automated tests for concurrency, clock expiry, crash recovery and injected write failures.
 
-Not implemented: graph-memory interchange, archived-session indexing, MCP add/rm, automatic task-state extraction or an installed background service. Remote CI, npm release identity/version and website deployment are later work.
+Not implemented: graph-memory interchange, native cross-client session continuation, MCP add/rm, automatic task-state extraction or an installed background service. CI and release validation run in GitHub Actions; public npm publication remains separate.
 
 References: [MEMORY.md](MEMORY.md), [AUTOMATION.md](AUTOMATION.md), [CONTENT.md](CONTENT.md), [RECOVERY.md](RECOVERY.md), [QA.md](QA.md).
 
