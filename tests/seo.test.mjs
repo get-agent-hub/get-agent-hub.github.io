@@ -4,6 +4,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { docsPages } from '../scripts/docs.mjs';
 import { pageUrl, siteOrigin } from '../scripts/seo.mjs';
 import { escapeHtml } from '../scripts/render.mjs';
+import { useCases } from '../scripts/use-cases.mjs';
 
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url), 'utf8'),
@@ -11,6 +12,7 @@ const config = JSON.parse(
 const origin = siteOrigin(config.url);
 const paths = [
   '',
+  ...useCases.map((page) => `${page.slug}/`),
   ...docsPages.map((page) =>
     page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
   ),

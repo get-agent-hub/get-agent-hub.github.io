@@ -12,6 +12,7 @@ Requires Node.js 22.13+ and npm. Run `npm ci`, then `npm run dev` for a loopback
 - `site.config.json`: English default and both active languages. `/` and `/docs/` are English; `/ru/` and `/ru/docs/` are Russian. The switcher preserves the documentation page and section.
 - `src/index.html`: semantic page structure with translation keys, not page copy.
 - `src/docs.html`: documentation page layout rendered once per entry in `docs/`.
+- `src/use-case.html` and `scripts/use-cases.mjs`: standalone task landing pages outside `/docs/`, with real product screenshots, concise workflows and links to detailed guides. Their copy lives under `useCases` in each locale. The route registry feeds both the landing cards and sitemap; preserve existing URLs.
 - `docs/`: reviewable English Markdown snapshots. Operational reference pages mirror upstream; the overview is a standalone product guide, not a copy of the short repository README; research pages are historical English editorial notes. Run `npm run docs:sync` after refreshing snapshots.
 - `locales/en.json` → `docs.content`: the documentation bodies rendered by the build. Translation PRs translate these alongside the site copy; code blocks and inline code are protected.
 - `public/source.js`: reviewed core version/revision and canonical GitHub repository/Releases links.

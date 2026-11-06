@@ -4,6 +4,7 @@ import { readLocales } from './locales.mjs';
 import { escapeHtml, render } from './render.mjs';
 import { source } from '../public/source.js';
 import { pageMetadata, siteOrigin, sitemap } from './seo.mjs';
+import { buildUseCases, useCaseLinks, useCases } from './use-cases.mjs';
 
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url), 'utf8'),
@@ -53,6 +54,7 @@ for (const tag of active) {
     sourceRepository: source.repository,
     sourceReleases: source.releases,
     languageSwitcher: switcher(locale, base),
+    useCaseCards: useCaseLinks(locale),
     pageMetadata: pageMetadata({
       origin,
       locale,
@@ -89,6 +91,22 @@ for (const tag of active) {
         description,
       }),
   );
+  await buildUseCases(
+    locale,
+    output,
+    (path) => switcher(locale, `${base}../`, path),
+    (path, title, description) =>
+      pageMetadata({
+        origin,
+        locale,
+        defaultLanguage: config.locale,
+        languages: active,
+        path,
+        title,
+        description,
+      }),
+    `${base}../`,
+  );
 }
 const notFoundTemplate = await readFile(
   new URL('../src/404.html', import.meta.url),
@@ -108,6 +126,7 @@ await writeFile(
 );
 const paths = [
   '',
+  ...useCases.map((page) => `${page.slug}/`),
   ...docsPages.map((page) =>
     page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
   ),

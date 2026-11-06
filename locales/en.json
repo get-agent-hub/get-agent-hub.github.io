@@ -1020,5 +1020,287 @@
     "demoCaption": "Real interface with fictional data and a previously captured archive. Silent video with English captions. The demo downloads context; it does not run the receiving client.",
     "demoDownload": "Download the demo (MP4)",
     "demoFallback": "Download the MP4 below if your browser cannot play it."
+  },
+  "useCases": {
+    "eyebrow": "WAYS TO USE AGENT HUB",
+    "title": "Start with a task.",
+    "intro": "Find a past answer, carry context or share your setup. Choose the job you need today.",
+    "navigation": "Use cases",
+    "start": "Set up Agent Hub",
+    "guide": "See the steps",
+    "questions": "Before you start",
+    "related": "Other things you can do",
+    "pages": {
+      "history": {
+        "title": "Claude Code & Codex chat history in one local archive · Agent Hub",
+        "description": "Find saved Claude Code, Codex and DeepSeek Harness conversations in one local archive. Search original messages, inspect versions and export preserved sources.",
+        "eyebrow": "LOCAL CHAT HISTORY",
+        "heading": "Find the answer you already worked out.",
+        "lead": "You remember solving it. You cannot remember which client you used. Search saved Claude Code, Codex and DeepSeek Harness messages in one place, then open the original conversation.",
+        "note": "Local storage. Selected sources. Original files stay with their clients.",
+        "cardTitle": "Find an old chat",
+        "cardBody": "Search saved messages across clients and read the original answer.",
+        "imageAlt": "Agent Hub displaying a saved Sample API conversation",
+        "caption": "Real Hub interface with fictional chats. No personal conversation data.",
+        "benefitsTitle": "Keep the evidence with the answer.",
+        "benefits": [
+          {
+            "title": "Search the messages",
+            "body": "Find a phrase from a problem, a decision or tool output. You do not need to remember a chat title."
+          },
+          {
+            "title": "Check the original",
+            "body": "Read surrounding messages and native events. Preserved versions let you inspect the record you actually saved."
+          },
+          {
+            "title": "Keep selected sources current",
+            "body": "Optional background updates check your selection every 30 seconds, even after the Hub interface closes."
+          }
+        ],
+        "stepsTitle": "From scattered history to a saved answer.",
+        "steps": [
+          {
+            "title": "Choose the stores",
+            "body": "After setup, open Chats and select the supported local history stores you want Hub to read."
+          },
+          {
+            "title": "Save and check coverage",
+            "body": "Save chats to Hub. Check source results and warnings about unsupported events or missing attachments."
+          },
+          {
+            "title": "Find and reuse",
+            "body": "Search an error or decision. Open the chat, download preserved source or prepare context for another client."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Does it import every chat account?",
+            "answer": "No. Hub reads supported local Claude Code, Codex and DeepSeek Harness formats. It does not recover deleted files or import every cloud account."
+          },
+          {
+            "question": "Is this a complete computer backup?",
+            "answer": "No. The archive stays on this computer by default. Referenced attachments may be missing. Use your normal private backup to protect against device failure."
+          }
+        ],
+        "nextTitle": "Try one conversation you remember.",
+        "nextBody": "Save one selected source and find an earlier answer. The guide covers capture, search, export and coverage checks."
+      },
+      "handoff": {
+        "title": "Continue a Claude Code task in Codex with reviewed context · Agent Hub",
+        "description": "Carry inspected excerpts from a saved Claude Code conversation into a new Codex chat. Prepare context locally with original event and revision references.",
+        "eyebrow": "CONTEXT BETWEEN CLIENTS",
+        "heading": "Change clients. Keep the thread of the task.",
+        "lead": "Moving from Claude Code to Codex should not mean retelling every decision. Prepare original excerpts from a saved conversation, review them and paste the context into a new chat.",
+        "note": "Also works with DeepSeek Harness. Preparing context makes no model call.",
+        "cardTitle": "Continue in another client",
+        "cardBody": "Carry reviewed excerpts and source references into a new native chat.",
+        "imageAlt": "Agent Hub preparing context for a new client from a fictional conversation",
+        "caption": "Real context preview with fictional source messages. The receiving client is not simulated.",
+        "benefitsTitle": "A starting point you can inspect.",
+        "benefits": [
+          {
+            "title": "Original excerpts",
+            "body": "The packet uses saved message text, with preserved revision and event references. You can open the source before sharing it."
+          },
+          {
+            "title": "Your next action",
+            "body": "Add what should happen next. Ask the receiving agent to check current files, unfinished work and tests."
+          },
+          {
+            "title": "Your choice of client",
+            "body": "Choose Claude Code, Codex or DeepSeek Harness. You decide what to paste and where to send it."
+          }
+        ],
+        "stepsTitle": "Pick up a task in three steps.",
+        "steps": [
+          {
+            "title": "Open the saved chat",
+            "body": "Find the relevant conversation in Hub and check its messages and preserved version."
+          },
+          {
+            "title": "Review the context",
+            "body": "Choose Continue in…, select the next client and prepare the packet. Check shortened excerpts and private information."
+          },
+          {
+            "title": "Start the next conversation",
+            "body": "Copy or download the context, open the project in your target client and paste it into a new chat."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Does it move a running agent session?",
+            "answer": "No. Live processes, hidden context and native permissions remain with the original client. This starts a new conversation with reviewed reference material."
+          },
+          {
+            "question": "Will it include the whole conversation?",
+            "answer": "No. The compact packet uses bounded text excerpts and reports omissions. Tool output and runtime records remain in the full archive. Inspect the source when more detail is needed."
+          }
+        ],
+        "nextTitle": "Continue one small, unfinished task.",
+        "nextBody": "Choose a conversation with a clear next step. Check whether the receiving agent can continue from the evidence without a full retelling."
+      },
+      "mcp": {
+        "title": "Share MCP configuration between Claude Code and Codex · Agent Hub",
+        "description": "Keep a selected MCP definition in one local Hub. Review imports and delivery to Claude Code, Codex and DeepSeek Harness while preserving unrelated settings.",
+        "eyebrow": "SHARED MCP CONFIGURATION",
+        "heading": "One MCP definition. The clients you choose.",
+        "lead": "Stop maintaining the same server definition in several client configs. Collect the copy you trust into Hub, then review its delivery to Claude Code, Codex or DeepSeek Harness.",
+        "note": "Reviewed changes, per-server choices and recorded recovery. Client permissions still apply.",
+        "cardTitle": "Share MCP settings",
+        "cardBody": "Choose a trusted definition and review delivery to your native clients.",
+        "imageAlt": "Agent Hub inventory showing shared resources and supported clients",
+        "caption": "Real Hub overview with fictional resources. No credentials or personal settings.",
+        "benefitsTitle": "Know which copy each client uses.",
+        "benefits": [
+          {
+            "title": "Compare before replacing",
+            "body": "A matching server name does not prove its credentials or arguments match. Inspect differences and choose the intended source."
+          },
+          {
+            "title": "Keep unrelated settings",
+            "body": "Per-server delivery changes the selected entry. Existing Hub launchers are recognized instead of appearing as false configuration conflicts."
+          },
+          {
+            "title": "Test a real connection",
+            "body": "Run a separate connection check to discover tools. A matching configuration alone does not prove the backend is available."
+          }
+        ],
+        "stepsTitle": "Share one server first.",
+        "steps": [
+          {
+            "title": "Inspect the existing copies",
+            "body": "Open MCP servers in Hub and compare the trusted Hub and client definitions."
+          },
+          {
+            "title": "Review the direction",
+            "body": "Import a client copy into Hub, or deliver Hub settings to one client. Each action opens its own preview."
+          },
+          {
+            "title": "Apply and verify",
+            "body": "Apply the reviewed change, restart the affected client and test the connection when ready."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Does every client share one running server?",
+            "answer": "Not necessarily. Hub shares configuration and client-specific launchers. It does not combine provider subscriptions or guarantee a single shared process."
+          },
+          {
+            "question": "What if a client copy is intentionally different?",
+            "answer": "Keep that client’s settings. Hub does not silently pick a winner for real differences. Recovery is recorded, but later edits can block an unsafe rollback."
+          }
+        ],
+        "nextTitle": "Use one harmless server as your first check.",
+        "nextBody": "The guide explains import, delivery, connection testing and recovery before you change the rest of your setup."
+      },
+      "skills": {
+        "title": "Share agent skills and instructions across Claude Code and Codex · Agent Hub",
+        "description": "Reuse local skill bundles and common instructions in Claude Code, Codex and DeepSeek Harness. Inspect imports, deliver links and preserve personal client notes.",
+        "eyebrow": "SHARED SKILLS & INSTRUCTIONS",
+        "heading": "Keep useful skills in one place.",
+        "lead": "A skill you improve for one client should be easy to reuse in another. Collect local skill bundles in Hub, link selected clients to them and deliver a small set of common instructions.",
+        "note": "Local bundles only. Import and delivery do not execute skill scripts.",
+        "cardTitle": "Reuse skills and instructions",
+        "cardBody": "Share complete skill bundles while keeping personal client notes.",
+        "imageAlt": "Agent Hub showing its local resource inventory",
+        "caption": "Real Hub interface with a fictional inventory. Skill behavior still depends on each client.",
+        "benefitsTitle": "Share the files that belong together.",
+        "benefits": [
+          {
+            "title": "Complete bundles",
+            "body": "Keep references and assets with the skill. Import copies the local bundle instead of extracting only its main text."
+          },
+          {
+            "title": "Individual skill links",
+            "body": "Delivery links selected Hub bundles into supported user roots. Unrelated skills and client-owned plugin scopes remain in place."
+          },
+          {
+            "title": "Common rules, personal notes",
+            "body": "Instruction delivery updates its managed block. Your personal text outside that block is preserved."
+          }
+        ],
+        "stepsTitle": "Collect, deliver, check.",
+        "steps": [
+          {
+            "title": "Preview an import",
+            "body": "Review supported local skills or add your own local bundle. Resolve different copies with the same name explicitly."
+          },
+          {
+            "title": "Review delivery",
+            "body": "Check the clients and physical directories affected. Skills and common instructions have separate delivery previews."
+          },
+          {
+            "title": "Check the client catalog",
+            "body": "Restart the affected client and confirm it sees the skill. A link alone does not prove the agent has invoked it."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Do shared instructions update like linked skills?",
+            "answer": "Not in every client. Skill links point at Hub bundles. Copied instruction blocks need another reviewed context sync after the shared rules change."
+          },
+          {
+            "question": "Does this merge every client’s memory?",
+            "answer": "No. Shared instructions and the existing shared memory index have a specific scope. Project memory and chat capture are separate workflows."
+          }
+        ],
+        "nextTitle": "Share one skill you already trust.",
+        "nextBody": "Start with a small local bundle. The guide covers source conflicts, client roots, metadata and recovery."
+      },
+      "comparison": {
+        "title": "Agent Hub vs Hansard: which fits your agent workflow?",
+        "description": "Choosing between Agent Hub and Hansard? Compare your real chat-search, context-handoff and shared-setup tasks, then check the dated detailed comparison.",
+        "eyebrow": "CHOOSING AN AGENT HUB",
+        "heading": "Agent Hub or Hansard? Start with your daily work.",
+        "lead": "Choose around a task you repeat: finding a decision, continuing it in another client or maintaining shared tools. Our comparison explains where Agent Hub fits and where you should look further.",
+        "note": "Written by the Agent Hub project. Detailed comparison checked on 6 November 2026; not an independent benchmark.",
+        "cardTitle": "Compare with Hansard",
+        "cardBody": "Choose around your workflow, supported clients and practical limits.",
+        "imageAlt": "Agent Hub local archive with source and update controls",
+        "caption": "Agent Hub’s real archive controls with fictional data. This is not a Hansard screenshot.",
+        "benefitsTitle": "Three questions before you install.",
+        "benefits": [
+          {
+            "title": "Can it read your sources?",
+            "body": "Agent Hub reads supported local Claude Code, Codex and DeepSeek Harness formats. Check your actual clients and storage before choosing."
+          },
+          {
+            "title": "Where do you want to work?",
+            "body": "Hub keeps active sessions in native clients. Its interface helps inspect saved data, prepare context and review shared settings."
+          },
+          {
+            "title": "What will save repeat work?",
+            "body": "Try a previous answer and one shared setting. A working search result and a useful next conversation matter more than a feature count."
+          }
+        ],
+        "stepsTitle": "Compare using the same small task.",
+        "steps": [
+          {
+            "title": "Pick a real decision",
+            "body": "Choose something you remember discussing but cannot locate quickly. Use the same question in each tool."
+          },
+          {
+            "title": "Inspect the evidence",
+            "body": "Find the original messages, check the project and date, then identify what remains true in the current code."
+          },
+          {
+            "title": "Continue and decide",
+            "body": "Continue a small task in another client. Keep the workflow that saves you a repeated manual step."
+          }
+        ],
+        "questions": [
+          {
+            "question": "Is Agent Hub a drop-in replacement for Hansard?",
+            "answer": "Do not assume that. Read the detailed comparison and check current source, platform and workflow support. The tools overlap, but their scope is different."
+          },
+          {
+            "question": "Do I need either tool for one client?",
+            "answer": "Maybe not. If native search and a short project note already work for you, start there. Try a shared hub when those steps become repeated work."
+          }
+        ],
+        "nextTitle": "Read the comparison before choosing.",
+        "nextBody": "The dated guide links to Hansard’s official site, credits its scope and describes Agent Hub’s limits. Both products can change after that review."
+      }
+    }
   }
 }
