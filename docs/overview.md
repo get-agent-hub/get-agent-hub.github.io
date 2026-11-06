@@ -1,12 +1,12 @@
 # Agent Hub
 
-This guide covers Agent Hub 0.1.0-beta.4. Download the installable package or source ZIP and checksums from [GitHub Releases](https://github.com/get-agent-hub/agent-hub/releases).
+This guide covers Agent Hub 0.1.0-beta.5. Download the installable package or source ZIP and checksums from [GitHub Releases](https://github.com/get-agent-hub/agent-hub/releases).
 
 [Website and documentation](https://getahub.dev) · [Source](https://github.com/get-agent-hub/agent-hub) · [Releases](https://github.com/get-agent-hub/agent-hub/releases)
 
 One local Hub for chats, projects, skills, MCP tools and shared context across Claude Code, Codex and DeepSeek Harness.
 
-Requires Node.js **22.13 or newer** and npm. macOS and Linux are the supported release targets; Windows remains experimental. Beta **0.1.0-beta.4** uses reviewed source and package archives. The npm package remains private to prevent accidental registry publication.
+Requires Node.js **22.13 or newer** and npm. macOS and Linux are the supported release targets; Windows remains experimental. Beta **0.1.0-beta.5** uses reviewed source and package archives. The npm package remains private to prevent accidental registry publication.
 
 ```sh
 npm ci

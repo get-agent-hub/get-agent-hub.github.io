@@ -15,7 +15,7 @@ The site ships 15 task landing pages in English and Russian, plus its existing h
 | Choose workflow undo, stage restore or first-baseline reset   | `/restore-ai-agent-settings/`       | Recovery                |
 | Keep selected chat sources updated and review sign-in startup | `/automatic-chat-history-backup/`   | Preserve history        |
 
-Copy, descriptions and accessibility labels live in both locale files. Home keeps five featured cards and a native disclosure containing the ten additional workflows. Each task page has three relevant cross-links, a visible breadcrumb and a detailed-guide link. Its content and links work without JavaScript. The site still documents the published beta.4 revision; unreleased core changes are not advertised as available in that archive.
+Copy, descriptions and accessibility labels live in both locale files. Home keeps five featured cards and a native disclosure containing the ten additional workflows. Each task page has three relevant cross-links, a visible breadcrumb and a detailed-guide link. Its content and links work without JavaScript. The site documents beta.5; commands and capability claims are checked against the source revision shown in the guide.
 
 ## Files and markup
 
