@@ -1,6 +1,6 @@
 export const source = {
-  version: '0.1.0-beta.2',
-  revision: '7e386c1754aeb9b0655e74068387c6d6e10529ed',
+  version: '0.1.0-beta.3',
+  revision: '40687b99c9e2dc39973ef6f9024aedb461f28095',
   repository: 'https://github.com/get-agent-hub/agent-hub',
   releases: 'https://github.com/get-agent-hub/agent-hub/releases',
   minimumNode: '22.13',

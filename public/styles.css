@@ -1975,3 +1975,22 @@ html[lang='ru'] .hero h1 {
     letter-spacing: -1.4px;
   }
 }
+
+.analytics-settings {
+  padding-block: 16px 32px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.analytics-settings summary {
+  cursor: pointer;
+  width: fit-content;
+}
+.analytics-settings p {
+  max-width: 720px;
+  margin-block: 12px;
+  line-height: 1.6;
+}
+.analytics-settings input {
+  margin-inline-end: 6px;
+  accent-color: var(--green);
+}

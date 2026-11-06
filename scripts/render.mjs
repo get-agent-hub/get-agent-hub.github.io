@@ -36,7 +36,7 @@ export function render(template, locale, extraSlots = {}) {
     quickstart: locale.start.steps
       .map(
         (step) =>
-          `<article><span class="quick-num">${text(step.number)}</span><div><h3>${text(step.title)}</h3>${step.intro ? `<p>${text(step.intro)}</p>` : ''}<pre><code>${text(step.code)}</code></pre><small>${text(step.note)}</small></div></article>`,
+          `<article><span class="quick-num">${text(step.number)}</span><div><h3>${text(step.title)}</h3>${step.intro ? `<p>${text(step.intro)}</p>` : ''}<pre><code>${text(step.code)}</code></pre>${step.code.includes('npm run install:global') ? `<button class="copy-button" type="button" data-install-copy>${text(locale.ui.copy)}</button>` : ''}<small>${text(step.note)}</small></div></article>`,
       )
       .join(''),
     restorePoints: list(locale.recovery.restorePoints),

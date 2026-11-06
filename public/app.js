@@ -34,6 +34,8 @@ async function copyCommand(command) {
   try {
     await navigator.clipboard.writeText(command);
     status.textContent = messages.copied;
+    if (command.includes('npm run install:global'))
+      document.dispatchEvent(new Event('ahub-install-command-copied'));
   } catch {
     status.textContent = messages.copyFallback;
   }
@@ -124,3 +126,11 @@ document
 showCommandLevel('everyday');
 
 showScenario('quick');
+
+for (const button of document.querySelectorAll('[data-install-copy]')) {
+  button.addEventListener('click', () => {
+    const command =
+      button.previousElementSibling.querySelector('code').textContent;
+    void copyCommand(command);
+  });
+}

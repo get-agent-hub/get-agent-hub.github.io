@@ -1,6 +1,6 @@
 # Quick start: one shared Hub
 
-This guide describes source 7e386c1, including changes after the published 0.1.0-beta.1 archive. Use the current source checkout for the chat and interface features described here.
+Basic usage statistics is on by default. To disable it before setup, set `DO_NOT_TRACK=1`, or run `ahub telemetry off` after installation. The same switch is available in Sources & settings. Chat text, queries, project names and paths are not sent.
 
 Agent Hub manages shared MCP tools, skills and instructions for Claude Code, Codex CLI and DeepSeek Harness. Start with one shared Hub; no project path or Git repository is required. Project memory and handoff are optional, separate setup.
 
@@ -154,6 +154,6 @@ Undo restores the state immediately before a recorded quick/project-connect run,
 
 Run `ahub` for six everyday groups and two starting routes: quick or ui. Use `ahub --advanced --help` for specialized operations, and `ahub --advanced quick --help` for technical flags used by generated script commands. Hidden help entries remain callable. [The command reference](CLI.md) explains who uses each command and why; runtime launchers and callbacks are separate from ordinary setup.
 
-## Read your chats
+## Preserve and search conversations
 
 Open `ahub ui` → **All data → Chats** → **Sources & automatic updates**, select supported stores and choose **Save chats to Hub** or **Update archive now**. The CLI alternative is `ahub history scan`. Projects are found automatically from known local metadata. Capture preserves supported native events and source bytes; it does not replace active client session files. Enable background updates for the selected sources when wanted. Open a saved chat and choose **Continue in…** to review and copy context into a new conversation in another client. Use a saved project's **Connect clients…** action for separately reviewed scoped MCP access. See [Chats and projects](HISTORY.md) for coverage, background/login startup, attachments and removal.

@@ -1,3 +1,4 @@
+import { addAnalytics } from './analytics.mjs';
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { buildDocs, docsPages } from './docs.mjs';
 import { readLocales } from './locales.mjs';
@@ -131,6 +132,17 @@ const paths = [
     page.slug === 'overview' ? 'docs/' : `docs/${page.slug}/`,
   ),
 ];
+for (const tag of active) {
+  const output = new URL(directory(tag) || './', target);
+  for (const path of paths)
+    await addAnalytics(
+      output,
+      locales.get(tag),
+      path,
+      origin,
+      directory(tag) ? '../' : '',
+    );
+}
 await writeFile(
   new URL('sitemap.xml', target),
   sitemap(origin, active, config.locale, paths),
