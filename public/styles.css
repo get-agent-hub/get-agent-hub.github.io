@@ -1994,3 +1994,44 @@ html[lang='ru'] .hero h1 {
   margin-inline-end: 6px;
   accent-color: var(--green);
 }
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 6px;
+}
+.github-link svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+.github-link:hover {
+  color: var(--green);
+  background: var(--line);
+}
+@media (max-width: 760px) {
+  .header {
+    column-gap: 6px;
+  }
+  .header .brand {
+    font-size: 17px;
+    gap: 8px;
+  }
+  .header .language-switcher {
+    gap: 2px;
+  }
+  .header .language-switcher a {
+    padding-inline: 3px;
+  }
+  .header .nav-cta {
+    gap: 6px;
+  }
+  .github-link {
+    width: 28px;
+    flex-basis: 28px;
+  }
+}

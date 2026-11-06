@@ -5,6 +5,7 @@ import { docsPages } from '../scripts/docs.mjs';
 import { pageUrl, siteOrigin } from '../scripts/seo.mjs';
 import { escapeHtml } from '../scripts/render.mjs';
 import { useCases } from '../scripts/use-cases.mjs';
+import { source } from '../public/source.js';
 
 const config = JSON.parse(
   await readFile(new URL('../site.config.json', import.meta.url), 'utf8'),
@@ -63,6 +64,12 @@ test('practical guides have localized task-specific descriptions and discoverabl
 
 test('every landing and documentation page has its own canonical and complete language alternatives', async () => {
   for (const language of config.locales) {
+    const locale = JSON.parse(
+      await readFile(
+        new URL(`../locales/${language}.json`, import.meta.url),
+        'utf8',
+      ),
+    );
     for (const path of paths) {
       const url = pageUrl(origin, language, config.locale, path);
       const file = new URL(
@@ -70,6 +77,38 @@ test('every landing and documentation page has its own canonical and complete la
         import.meta.url,
       );
       const html = await readFile(file, 'utf8');
+      const repositoryLink = html.match(
+        /<a class="github-link"[^>]*>[\s\S]*?<\/a>/,
+      )?.[0];
+      assert.ok(repositoryLink, `${url}: missing header repository link`);
+      assert.ok(repositoryLink.includes(`href="${source.repository}"`), url);
+      assert.ok(
+        repositoryLink.includes(
+          `aria-label="${escapeHtml(locale.nav.github)}"`,
+        ),
+        url,
+      );
+      assert.ok(repositoryLink.includes('aria-hidden="true"'), url);
+      if (path === '') {
+        for (const label of [
+          locale.start.download,
+          locale.start.releases,
+          locale.footer.download,
+        ]) {
+          assert.ok(
+            [
+              ...html.matchAll(
+                /<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a\s*>/g,
+              ),
+            ].some(
+              ([, href, body]) =>
+                href === source.releases &&
+                body.trim().startsWith(escapeHtml(label)),
+            ),
+            `${url}: ${label} must open releases`,
+          );
+        }
+      }
       assert.equal([...html.matchAll(/rel="canonical"/g)].length, 1, url);
       assert.ok(html.includes(`rel="canonical" href="${url}"`), url);
       for (const alternate of config.locales) {

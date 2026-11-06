@@ -30,7 +30,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for translation PRs. Adding a language do
 
 End-user examples use the globally installed `ahub` executable after `npm run install:global` from the source directory. No public registry installation is advertised. The primary first-run route is **shared Hub setup and optional project connection**, documented in `docs/QUICKSTART.md` and linked from the documentation sidebar. Landing quick start, the command explorer and a fictional first-run scenario describe the same staged workflow. Individual area commands remain available.
 
-Current Agent Hub source: `40687b99c9e2dc39973ef6f9024aedb461f28095`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
+Current Agent Hub source: `3786d65bfc475eb615de5894a363bacb3871510a`. Check the CLI, README and docs/MEMORY.md, docs/AUTOMATION.md, docs/WORKING_GUIDE.md and docs/RECOVERY.md in the main repository before changing claims. Each command needs its reads, side effects, output and limitations.
 
 When updating the guide, refresh the English operational snapshots and both locale bodies from the reviewed core commit. Update the version/revision in `public/source.js`, the locale release/footer copy and this guide. Source code, installable packages and checksums are downloaded from GitHub; the website does not bundle a ZIP. Never include a user's Hub, .env, recovery files, logs, .tmp or private hosting bindings in public source. Use generic paths and fictional server names in examples.
 
@@ -41,3 +41,5 @@ The site has default-on basic PostHog analytics through the first-party metrics 
 ## Tooling advisories
 
 The initial npm audit reported five moderate entries in the ESLint → minimatch development-tool chain (GHSA-g3hv-75wg-m249). These tools are excluded from the static deployment. No incompatible downgrade or unexplained override was applied; recheck compatible upstream updates before a release.
+
+The header GitHub mark links to the source repository; download links go to GitHub Releases. The local Octicons SVG and its MIT license are included in public assets. Release archives/checksums are built by the core repository's release workflow, not by the website.

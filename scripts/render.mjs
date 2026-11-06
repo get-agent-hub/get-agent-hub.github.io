@@ -1,3 +1,12 @@
+import { readFileSync } from 'node:fs';
+import { source } from '../public/source.js';
+
+// GitHub Octicons mark; license is distributed as public/octicons-LICENSE.txt.
+const githubMark = readFileSync(
+  new URL('../public/github.svg', import.meta.url),
+  'utf8',
+).replace(/<svg\b/, '<svg aria-hidden="true" focusable="false"');
+
 export const escapeHtml = (value) =>
   String(value).replace(
     /[&<>"']/g,
@@ -12,6 +21,7 @@ export function render(template, locale, extraSlots = {}) {
   const list = (values) =>
     values.map((value) => `<li>${text(value)}</li>`).join('');
   const slots = {
+    repositoryLink: `<a class="github-link" href="${text(source.repository)}" aria-label="${text(locale.nav.github)}" title="${text(locale.nav.github)}">${githubMark}</a>`,
     everydaySummary: locale.commands
       .filter((command) => command.level === 'everyday')
       .map(
